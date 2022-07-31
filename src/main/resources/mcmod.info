@@ -1,14 +1,14 @@
 [
 {
-  "modid": "examplemod",
-  "name": "Example Mod",
-  "description": "Example placeholder mod.",
+  "modid": "tweakedpetroleum",
+  "name": "Tweaked Petroleum",
+  "description": "Tweaking IP's reservoirs and pumpjack.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authorList": ["CleanroomMC"],
-  "credits": "Authors of this project",
+  "authorList": ["Srki_2K"],
+  "credits": "Flaxbeard and TwistedGate for ImmersivePetroleum, and BluSunrize for ImmersiveEngineering",
   "logoFile": "",
   "screenshots": [],
   "dependencies": []

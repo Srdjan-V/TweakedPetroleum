@@ -60,9 +60,27 @@ repositories {
     maven {
         url = 'https://repo.spongepowered.org/maven'
     }
+	maven {
+		url 'https://cursemaven.com'
+	}
+	maven {
+		name 'jared maven'
+		url 'http://blamejared.com/maven'
+	}
+    maven {
+        url 'https://jitpack.io'
+    }
+
 }
 
 dependencies {
+
+	deobfCompile 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.9.289'
+	deobfCompile 'curse.maven:ImmersiveEngineering-231951:2974106'
+	deobfCompile 'curse.maven:ImmersivePetroleum-268250:3382321'
+
+    //mods
+	runtime  'curse.maven:had-enough-items-557549:3862733'
 
 	if (project.use_assetmover.toBoolean()) {
 		deobfCompile 'com.cleanroommc:assetmover:0.2'

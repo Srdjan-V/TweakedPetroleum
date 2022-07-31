@@ -1,0 +1,12 @@
+{
+  "minVersion": "0.8",
+  "package": "srki2k.tweakedpetroleum.common.mixin",
+  "refmap": "mixins.tweakedpetroleum.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinConfig",
+    "MixinTileEntityPumpjack"
+  ],
+  "client": [],
+  "server": []
+}
