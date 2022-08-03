@@ -1,35 +1,38 @@
 buildscript {
     repositories {
-        maven { 
-			url = 'https://maven.cleanroommc.com' 
-		}
-		maven { 
-			url = 'https://repo.spongepowered.org/maven' 
-		}
+        maven {
+            name 'ForgeGradle 5'
+            url 'https://maven.minecraftforge.net'
+        }
+        maven {
+            name 'MixinGradle'
+            url 'https://repo.spongepowered.org/repository/maven-public'
+        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-		if (project.use_mixins.toBoolean()) {
-			classpath 'org.spongepowered:mixingradle:0.6-SNAPSHOT'
-		}
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
+        if (project.use_mixins.toBoolean()) {
+            classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        }
     }
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+plugins {
+    id 'wtf.gofancy.fancygradle' version '1.+'
+}
+
+apply plugin: 'net.minecraftforge.gradle'
 
 if (project.use_mixins.toBoolean()) {
-	apply plugin: 'org.spongepowered.mixin'
+    apply plugin: 'org.spongepowered.mixin'
 }
 
 version = project.mod_version
+mcversion = project.mcversion
 group = project.maven_group
 archivesBaseName = project.archives_base_name
 
-sourceCompatibility = targetCompatibility = '1.8'
-
-compileJava {
-    sourceCompatibility = targetCompatibility = '1.8'
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 configurations {
     embed
@@ -37,59 +40,109 @@ configurations {
 }
 
 minecraft {
-    version = '1.12.2-14.23.5.2847'
-    runDir = 'run'
-    mappings = 'stable_39'
-	def args = []
-	if (project.use_coremod.toBoolean()) {
-		args << '-Dfml.coreMods.load=' + coremod_plugin_class_name
-	}
-	if (project.use_mixins.toBoolean()) {
-		args << '-Dmixin.hotSwap=true'
-		args << '-Dmixin.checks.interfaces=true'
-		args << '-Dmixin.debug.export=true'
-	}
-	clientJvmArgs.addAll(args)
-	serverJvmArgs.addAll(args)
+
+    mappings channel: 'stable', version: '39-1.12'
+
+    if (project.has_access_transformer.toBoolean()) {
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
+    runs {
+        client {
+            workingDirectory project.file('run/client')
+            if (project.use_coremod.toBoolean()) {
+                jvmArg '-Dfml.coreMods.load=' + coremod_plugin_class_name
+            }
+            if (project.use_mixins.toBoolean()) {
+                jvmArg '-Dmixin.hotSwap=true'
+                jvmArg '-Dmixin.checks.interfaces=true'
+                jvmArg '-Dmixin.debug=true'
+            }
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            if (project.use_coremod.toBoolean()) {
+                jvmArg '-Dfml.coreMods.load=' + coremod_plugin_class_name
+            }
+            if (project.use_mixins.toBoolean()) {
+                jvmArg '-Dmixin.hotSwap=true'
+                jvmArg '-Dmixin.checks.interfaces=true'
+            }
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            mods {
+                '${archives_base_name}' {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
+}
+
+
 repositories {
-	maven { 
-		url = 'https://maven.cleanroommc.com' 
-	}
+    maven {
+        url = 'https://maven.cleanroommc.com'
+    }
     maven {
         url = 'https://repo.spongepowered.org/maven'
     }
-	maven {
-		url 'https://cursemaven.com'
-	}
-	maven {
-		name 'jared maven'
-		url 'http://blamejared.com/maven'
-	}
     maven {
-        url 'https://jitpack.io'
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    }
+    maven {
+        name 'jared maven'
+        url 'https://maven.blamejared.com/'
+    }
+    maven {
+        // location of the maven that hosts JEI files
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
     }
 
 }
 
 dependencies {
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-	deobfCompile 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.9.289'
-	deobfCompile 'curse.maven:ImmersiveEngineering-231951:2974106'
-	deobfCompile 'curse.maven:ImmersivePetroleum-268250:3382321'
+    implementation fg.deobf('CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.9.289')
+    implementation fg.deobf('CraftTweaker2:CraftTweaker2-API:1.12-4.1.9.6')
+    implementation fg.deobf('CraftTweaker2:ZenScript:1.12-4.1.9.6')
+
+    implementation fg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
+    implementation fg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
+
+    //Will switch to hei once its in the CR maven
+    compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
+    runtimeOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
+
 
     //mods
-	runtime  'curse.maven:had-enough-items-557549:3862733'
+    //runtime		'curse.maven:had-enough-items-557549:3862733'
 
-	if (project.use_assetmover.toBoolean()) {
-		deobfCompile 'com.cleanroommc:assetmover:0.2'
-	}
-	if (project.use_mixins.toBoolean()) {
-		deobfCompile 'zone.rong:mixinbooter:5.0'
-    }
-	
+    compileOnly fg.deobf('zone.rong:mixinbooter:5.0')
+    runtimeOnly('zone.rong:mixinbooter:5.0')
+
 }
+
+
+fancyGradle {
+    patches {
+        resources
+        coremods
+        asm
+    }
+}
+
 
 sourceSets {
 
@@ -99,36 +152,59 @@ sourceSets {
 
 }
 
-processResources {
-    // this will ensure that this task is redone when the versions change.
-    inputs.property 'version', project.version
-    inputs.property 'mcversion', project.minecraft.version
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-    // copy everything else except the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-	rename '(.+_at.cfg)', 'META-INF/$1' // Access Transformers
-}
 
 jar {
     manifest {
-		def attribute_map = [:]
-		if (project.use_coremod.toBoolean()) {
-			attribute_map['FMLCorePlugin'] = project.coremod_plugin_class_name
-			if (project.include_mod.toBoolean()) {
-				attribute_map['FMLCorePluginContainsFMLMod'] = true
-				attribute_map['ForceLoadAsMod'] = project.gradle.startParameter.taskNames[0] == "build"
-			}
-		}
-		if (project.use_mixins.toBoolean()) {
-			attribute_map['TweakClass'] = 'org.spongepowered.asm.launch.MixinTweaker'
-		}
+        // noinspection GroovyAssignabilityCheck
+        def attribute_map = [:]
+        if (project.use_coremod.toBoolean()) {
+            attribute_map['FMLCorePlugin'] = project.coremod_plugin_class_name
+            if (project.include_mod.toBoolean()) {
+                attribute_map['FMLCorePluginContainsFMLMod'] = true
+                attribute_map['ForceLoadAsMod'] = project.gradle.startParameter.taskNames[0] == 'build'
+            }
+        }
+        if (project.use_mixins.toBoolean()) {
+            attribute_map['TweakClass'] = 'org.spongepowered.asm.launch.MixinTweaker'
+        }
         attributes(attribute_map)
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
+
+import org.apache.tools.ant.filters.ReplaceTokens
+
+task filterTokens(type: Sync) {
+
+    inputs.property 'version', version
+
+    from sourceSets.main.java
+    filter(ReplaceTokens, tokens: [VERSION: version.toString()])
+    into "$buildDir/src/$sourceSets.main.name/$sourceSets.main.java.name"
+}
+
+compileJava.source = filterTokens.outputs
+
+processResources {
+    // required to allow file expansion later
+    duplicatesStrategy = 'include'
+
+    // this will ensure that this task is redone when the versions change.
+    inputs.property 'version', version
+    inputs.property 'mcversion', mcversion
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+
+        // replace version and mcversion
+        expand 'version': version, 'mcversion': mcversion
+    }
+
+    // copy everything else except the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
     }
 }
