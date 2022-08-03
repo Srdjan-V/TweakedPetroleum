@@ -21,7 +21,11 @@ plugins {
     id 'wtf.gofancy.fancygradle' version '1.+'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+apply {
+    plugin 'net.minecraftforge.gradle'
+    plugin 'java'
+    plugin 'idea'
+}
 
 if (project.use_mixins.toBoolean()) {
     apply plugin: 'org.spongepowered.mixin'
@@ -33,6 +37,13 @@ group = project.maven_group
 archivesBaseName = project.archives_base_name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 configurations {
     embed
@@ -102,6 +113,9 @@ repositories {
     maven {
         name 'jared maven'
         url 'https://maven.blamejared.com/'
+        content {
+            includeGroup "CraftTweaker2"
+        }
     }
     maven {
         // location of the maven that hosts JEI files
@@ -129,8 +143,8 @@ dependencies {
     //mods
     //runtime		'curse.maven:had-enough-items-557549:3862733'
 
-    compileOnly fg.deobf('zone.rong:mixinbooter:5.0')
-    runtimeOnly('zone.rong:mixinbooter:5.0')
+    compileOnly ('zone.rong:mixinbooter:5.0')
+    runtimeOnly ('zone.rong:mixinbooter:5.0')
 
 }
 
