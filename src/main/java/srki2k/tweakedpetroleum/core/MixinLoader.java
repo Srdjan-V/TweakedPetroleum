@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum;
+package srki2k.tweakedpetroleum.core;
 
 import zone.rong.mixinbooter.ILateMixinLoader;
 
