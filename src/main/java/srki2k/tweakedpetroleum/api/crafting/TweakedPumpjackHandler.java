@@ -65,7 +65,7 @@ public class TweakedPumpjackHandler {
      * Adds a tweaked reservoir type to the pool of valid reservoirs
      *
      * @param name          The name of the reservoir type
-     * @param fluid         The String fluidid of the fluid for this reservoir
+     * @param fluid         The String fluid of the fluid for this reservoir
      * @param minSize       The minimum reservoir size, in mB
      * @param maxSize       The maximum reservoir size, in mB
      * @param replenishRate The rate at which fluid can be drained from this reservoir when empty, in mB/tick

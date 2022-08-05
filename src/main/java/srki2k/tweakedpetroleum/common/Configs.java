@@ -26,6 +26,11 @@ public class Configs {
         }
 
 
+
+        @Config.Comment({"This will not allow you to load MC if it detects errors with the scripts, default=true"})
+        @Config.Name("Do not load mc with errors in scripts")
+        public static boolean doNotLoadMinecraftIfWithErrorInScripts = true;
+
     }
 
 }
