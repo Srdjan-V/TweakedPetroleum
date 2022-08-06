@@ -6,6 +6,7 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.util.Translator;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 
@@ -18,52 +19,104 @@ import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTie
 
 @SuppressWarnings("NullableProblems")
 public class PumpjackWrapper implements IRecipeWrapper {
-
-    public TweakedPumpjackHandler.TweakedReservoirType reservoir;
     public static NumberFormat numberFormat = new DecimalFormat("#,###,###,###.#");
+    private final TweakedPumpjackHandler.TweakedReservoirType reservoir;
+    private final Fluid reservoirFluid;
 
     public PumpjackWrapper(TweakedPumpjackHandler.TweakedReservoirType reservoir) {
         this.reservoir = reservoir;
+        reservoirFluid = reservoir.getFluid();
     }
 
-    public List<FluidStack> getFluidOutputs() {
-        return Lists.newArrayList(new FluidStack(reservoir.getFluid(), reservoir.maxSize));
+
+    public Fluid getReservoirFluid() {
+        return reservoirFluid;
+    }
+
+    public FluidStack getAverageFluid() {
+        return new FluidStack(reservoirFluid, (reservoir.maxSize + reservoir.minSize) / 2);
+    }
+
+    public OptionalInt getOptionalMaxFluidReplenishRate() {
+        return reservoirList.keySet().
+                stream().
+                filter(reservoirType -> reservoirType.getFluid().equals(reservoirFluid)).
+                mapToInt(value -> value.replenishRate).
+                max();
+    }
+
+    public OptionalInt getOptionalMaxAverageFluid() {
+        return reservoirList.keySet().
+                stream().
+                filter(reservoirType -> reservoirType.getFluid().equals(reservoirFluid)).
+                mapToInt(value -> (value.maxSize + value.minSize) / 2).
+                max();
+    }
+
+    public Optional<PumpjackHandler.ReservoirType> getReservoirWeight() {
+        return reservoirList.keySet().
+                stream().
+                filter(reservoirType -> reservoirType.name.equals(reservoir.name)).
+                findFirst();
+    }
+
+    public TweakedPumpjackHandler.TweakedReservoirType getReservoir() {
+        return reservoir;
     }
 
     @Override
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setOutputs(VanillaTypes.FLUID, getFluidOutputs());
+        ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
     }
 
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         List<String> list = new ArrayList<>();
 
-        list.add(Character.toUpperCase(reservoir.name.charAt(0)) + reservoir.name.substring(1));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.maxSize)));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.minSize)));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", numberFormat.format(reservoir.replenishRate)));
+        if (mouseX > 14 && mouseX < 25 && mouseY > 60 && mouseY < 74) {
 
-        Optional<PumpjackHandler.ReservoirType> res = reservoirList.keySet().stream().
-                filter(reservoirType -> reservoirType.name.equals(reservoir.name)).
-                findFirst();
-        res.ifPresent(reservoirType -> list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get(reservoirType))));
+            list.add(Character.toUpperCase(reservoir.name.charAt(0)) + reservoir.name.substring(1));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.maxSize)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.minSize)));
 
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.speed", numberFormat.format(reservoir.pumpSpeed)));
+            return list;
+        }
 
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biomes"));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.biomeWhitelist)));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_blacklist", Arrays.toString(reservoir.biomeBlacklist)));
+        if (mouseX > 37 && mouseX < 50 && mouseY > 60 && mouseY < 74) {
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", numberFormat.format(reservoir.replenishRate)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.speed", numberFormat.format(reservoir.pumpSpeed)));
 
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", Arrays.toString(reservoir.dimensionWhitelist)));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", Arrays.toString(reservoir.dimensionBlacklist)));
+            return list;
+        }
 
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_tier", reservoir.powerTier));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_capacity", numberFormat.format(rftTier.get(reservoir.powerTier).capacity)));
-        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_usage", numberFormat.format(rftTier.get(reservoir.powerTier).rft)));
+        if (mouseX > 61 && mouseX < 74 && mouseY > 60 && mouseY < 74) {
 
-        return list;
+            getReservoirWeight().
+                    ifPresent(reservoirType -> {
+                        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get(reservoirType)));
+                        list.add("");
+                    });
+
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biomes"));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.biomeWhitelist)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_blacklist", Arrays.toString(reservoir.biomeBlacklist)));
+
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", Arrays.toString(reservoir.dimensionWhitelist)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", Arrays.toString(reservoir.dimensionBlacklist)));
+
+            return list;
+        }
+
+        if (mouseX > 61 && mouseX < 73 && mouseY > 44 && mouseY < 57) {
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_tier", reservoir.powerTier));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_capacity", numberFormat.format(rftTier.get(reservoir.powerTier).capacity)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_usage", numberFormat.format(rftTier.get(reservoir.powerTier).rft)));
+
+            return list;
+        }
+
+        return null;
     }
 
 }

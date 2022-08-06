@@ -2,8 +2,8 @@ jei.pumpjack.reservoir.max_size= Reservoir Max Size: %d mb
 jei.pumpjack.reservoir.min_size= Reservoir Min Size: %d mb
 jei.pumpjack.reservoir.replenishRate= Reservoir Replenish Rate %d mb/t
 jei.pumpjack.reservoir.speed= Reservoir Pump Speed %d mb/t
-jei.pumpjack.reservoir.weight= Reservoir Spawn Weight %d
 
+jei.pumpjack.reservoir.weight=Reservoir Spawn Weight %d
 
 jei.pumpjack.reservoir.biomes=Biomes
 jei.pumpjack.reservoir.biome_whitelist= Biome Whitelist: %d
@@ -14,5 +14,5 @@ jei.pumpjack.reservoir.dimension_whitelist= Dimension Whitelist: %d
 jei.pumpjack.reservoir.dimension_blacklist= Dimension Blacklist: %d
 
 jei.pumpjack.reservoir.power_tier=Reservoir Power Tier: %d
-jei.pumpjack.reservoir.power_capacity= Reservoir power capacity: %d
+jei.pumpjack.reservoir.power_capacity= Reservoir power capacity: %d RF
 jei.pumpjack.reservoir.power_usage= Reservoir power usage: %d RF/t
