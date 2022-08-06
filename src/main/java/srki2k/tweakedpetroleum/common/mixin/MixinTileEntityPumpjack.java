@@ -4,6 +4,7 @@ import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import blusunrize.immersiveengineering.common.util.Utils;
+import org.spongepowered.asm.mixin.Unique;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
 import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
@@ -61,6 +62,24 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         super(mutliblockInstance, structureDimensions, energyCapacity, redstoneControl);
     }
 
+    @Unique
+    public void initEnergyStorage() {
+        TweakedPumpjackHandler.PowerTier powerTier =
+                TweakedPumpjackHandler.getPowerTier(
+                        this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
+
+        energyStorage.setCapacity(powerTier.capacity);
+        energyStorage.setLimitReceive(powerTier.rft * 2);
+        energyStorage.setMaxExtract(powerTier.rft);
+    }
+
+    @Unique
+    public int[] getReplenishRateAndPumpSpeed() {
+        return TweakedPumpjackHandler.getReplenishRateAndPumpSpeed(
+                this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
+
+    }
+
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onConstructed(CallbackInfo ci) {
         energyStorage.setCapacity(Integer.MAX_VALUE);
@@ -73,16 +92,8 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
      */
     @Overwrite(remap = false)
     public void update(boolean consumePower) {
-        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
-
-            TweakedPumpjackHandler.PowerTier powerTier =
-                    TweakedPumpjackHandler.getPowerTier(
-                            this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
-
-            energyStorage.setCapacity(powerTier.capacity);
-            energyStorage.setLimitReceive(powerTier.rft * 2);
-            energyStorage.setMaxExtract(powerTier.rft);
-        }
+        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE)
+            initEnergyStorage();
 
         super.update();
         if (world.isRemote || isDummy()) {
@@ -109,8 +120,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
                 lastHadPipes = hasPipes();
             }
             if (lastHadPipes) {
-                int[] replenishRateAndPumpSpeed = TweakedPumpjackHandler.getReplenishRateAndPumpSpeed(
-                        this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
+                int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
 
                 if (availableOil() > 0 || replenishRateAndPumpSpeed[0] > 0) {
                     int oilAmnt = availableOil() <= 0 ? replenishRateAndPumpSpeed[0] : availableOil();
