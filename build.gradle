@@ -1,16 +1,11 @@
 buildscript {
     repositories {
         maven {
-            name 'ForgeGradle 5'
-            url 'https://maven.minecraftforge.net'
-        }
-        maven {
             name 'MixinGradle'
             url 'https://repo.spongepowered.org/repository/maven-public'
         }
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
         if (project.use_mixins.toBoolean()) {
             classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
         }
@@ -18,7 +13,8 @@ buildscript {
 }
 
 plugins {
-    id 'wtf.gofancy.fancygradle' version '1.+'
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'wtf.gofancy.fancygradle' version '1.1.+'
 }
 
 apply {
@@ -27,14 +23,18 @@ apply {
     plugin 'idea'
 }
 
-if (project.use_mixins.toBoolean()) {
-    apply plugin: 'org.spongepowered.mixin'
+fancyGradle {
+    patches {
+        resources
+        coremods
+        asm
+    }
 }
 
 version = project.mod_version
 mcversion = project.mcversion
 group = project.maven_group
-archivesBaseName = project.archives_base_name
+archivesBaseName = project.archives_base_name + '-1.12.2'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
@@ -43,11 +43,6 @@ idea {
         downloadJavadoc = true
         downloadSources = true
     }
-}
-
-configurations {
-    embed
-    implementation.extendsFrom(embed)
 }
 
 minecraft {
@@ -70,6 +65,7 @@ minecraft {
             }
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
+            environment 'MC_VERSION', '1.12.2'
         }
 
         server {
@@ -83,17 +79,9 @@ minecraft {
             }
             property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-            mods {
-                '${archives_base_name}' {
-                    source sourceSets.main
-                }
-            }
+            environment 'MC_VERSION', '1.12.2'
         }
     }
-}
-
-sourceSets.main.resources {
-    srcDir 'src/generated/resources'
 }
 
 
@@ -143,27 +131,39 @@ dependencies {
     //mods
     //runtime		'curse.maven:had-enough-items-557549:3862733'
 
-    compileOnly ('zone.rong:mixinbooter:5.0')
-    runtimeOnly ('zone.rong:mixinbooter:5.0')
+    compileOnly('zone.rong:mixinbooter:5.0')
+    runtimeOnly('zone.rong:mixinbooter:5.0')
 
-}
-
-
-fancyGradle {
-    patches {
-        resources
-        coremods
-        asm
-    }
 }
 
 
 sourceSets {
-
     main {
         ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
+        if (project.use_mixins.toBoolean()) {
+            ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
+        }
+
+        java {
+            srcDirs = ["src/main/java"]
+        }
+
+        resources {
+            srcDirs = ["src/main/java", "src/main/resources"]
+        }
     }
 
+    test {
+        java {
+            srcDirs = ["src/test/java"]
+        }
+        resources {
+            srcDirs = ["src/test/resources"]
+        }
+    }
+
+    // at compile time, put resources in same directories as classes
+    main.output.setResourcesDir(main.java.outputDir)
 }
 
 
@@ -220,5 +220,47 @@ processResources {
     // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
+    }
+}
+
+if (project.build_deobfJar.toBoolean()) {
+    // Create deobf dev jars
+    task deobfJar(type: Jar) {
+        from sourceSets.main.output
+        classifier = 'deobf'
+    }
+}
+
+if (project.build_apiJar.toBoolean()) {
+    // Create API library jar
+    task apiZip(type: Jar) {
+        from(sourceSets.main.java) {
+            include "name/api/**"
+        }
+        from(sourceSets.main.output) {
+            include "name/api/**"
+        }
+
+        classifier = 'api'
+    }
+}
+
+if (project.build_sourceJar.toBoolean()) {
+    // Create source jar
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        classifier = 'sources'
+    }
+}
+
+artifacts {
+    if (project.build_deobfJar.toBoolean()) {
+        archives deobfJar
+    }
+    if (project.build_apiJar.toBoolean()) {
+        archives apiZip
+    }
+    if (project.build_sourceJar.toBoolean()) {
+        archives sourcesJar
     }
 }
