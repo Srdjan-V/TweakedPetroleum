@@ -24,7 +24,7 @@ import srki2k.tweakedpetroleum.util.Util;
 public class TweakedPetroleum {
 
     public static final String MODID = "tweakedpetroleum";
-    public static final String VERSION = "1.0";
+    public static final String VERSION = "@VERSION@";
 
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
