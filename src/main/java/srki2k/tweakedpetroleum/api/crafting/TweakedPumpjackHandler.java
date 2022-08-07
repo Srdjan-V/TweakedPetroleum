@@ -3,6 +3,7 @@ package srki2k.tweakedpetroleum.api.crafting;
 import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import net.minecraft.world.World;
+import srki2k.tweakedpetroleum.util.ErrorLoggingUtil;
 
 import java.util.HashMap;
 
@@ -36,7 +37,7 @@ public class TweakedPumpjackHandler {
     public static PowerTier getPowerTier(World world, int chunkX, int chunkZ) {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
         if (rftTier.get(0) == null) {
-            throw new RuntimeException("You have not setup the scripts properly, you can fix this by setting 'Disable IP's Reservoir Loading' to false");
+            ErrorLoggingUtil.Runtime.missingRuntimePowerTiersLog();
         }
 
         if (info == null || info.getType() == null || !(info.getType() instanceof TweakedReservoirType)) {

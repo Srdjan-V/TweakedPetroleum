@@ -23,13 +23,29 @@ public class Configs {
             @Config.Name("Disable IP's Default Pumpjack Capacity and Consumption")
             @Config.RequiresMcRestart
             public static boolean disableDefaultRFT = true;
+
+
+            @Config.Comment({"This will disable the registration of reservoirs through the default IP Zen script method. It is not recommended to disable this, default=true"})
+            @Config.Name("Disable IP's Pumpjack Zen script")
+            @Config.RequiresMcRestart
+            public static boolean disableDefaultRFTZenScriptLoading = true;
         }
 
 
+        @Config.Name("Startup Script Checks")
+        public static StartupScriptChecks startupScriptChecks;
+        public static class StartupScriptChecks{
+            @Config.Comment({"This will check if you for missing scripts on startup, default=true"})
+            @Config.Name("Do not load with no scripts")
+            @Config.RequiresMcRestart
+            public static boolean noScriptsCheck = true;
 
-        @Config.Comment({"This will not allow you to load MC if it detects errors with the scripts, default=true"})
-        @Config.Name("Do not load mc with errors in scripts")
-        public static boolean doNotLoadMinecraftIfWithErrorInScripts = true;
+            @Config.Comment({"This will check for missing power tiers on startup, default=false"})
+            @Config.Name("Do not load with missing power tiers")
+            @Config.RequiresMcRestart
+            public static boolean missingPowerTierCheck = false;
+
+        }
 
     }
 

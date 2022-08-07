@@ -13,7 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.common.Configs;
-import srki2k.tweakedpetroleum.util.Util;
+import srki2k.tweakedpetroleum.util.ErrorLoggingUtil;
 
 
 @Mod(modid = TweakedPetroleum.MODID,
@@ -53,10 +53,7 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void loadComplete(FMLLoadCompleteEvent event) {
-        if (Configs.TPConfig.doNotLoadMinecraftIfWithErrorInScripts) {
-            Util.validateState();
-        }
-
+        ErrorLoggingUtil.Startup.validateScripts();
     }
 
 }
