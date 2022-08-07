@@ -106,7 +106,7 @@ public class TweakedReservoir {
             validState = false;
         }
 
-        if (validState){
+        if (validState) {
             TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
             CraftTweakerAPI.logInfo("Added power tier: " + tier + "with capacity:" + capacity + "and" + rft + "RF/t");
         }

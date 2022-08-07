@@ -3,6 +3,7 @@ package srki2k.tweakedpetroleum.util;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
+import org.apache.logging.log4j.Level;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.common.Configs;
@@ -43,8 +44,15 @@ public class ErrorLoggingUtil {
             }
 
             if (!errors.isEmpty()) {
+                logSetting();
                 errorScreen();
             }
+        }
+
+        private static void logSetting() {
+            TweakedPetroleum.LOGGER.info("Disable IP's Reservoir Loading:" + Configs.TPConfig.ImmersivePetroleumOverwrites.disableIPReservoirLoading);
+            TweakedPetroleum.LOGGER.info("Disable IP's Default Pumpjack Capacity and Consumption:" + Configs.TPConfig.ImmersivePetroleumOverwrites.disableDefaultRFT);
+            TweakedPetroleum.LOGGER.info("Disable IP's Pumpjack Zen script: " + Configs.TPConfig.ImmersivePetroleumOverwrites.disableDefaultRFTZenScriptLoading);
         }
 
         private static void noScriptsCheck() {
