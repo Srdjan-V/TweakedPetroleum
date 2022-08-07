@@ -20,65 +20,97 @@ public class TweakedReservoir {
                                          int[] dimBlacklist, int[] dimWhitelist, String[] biomeBlacklist, String[] biomeWhitelist) {
         List<String> biomeBlacklistList = Lists.newArrayList();
         List<String> biomeWhitelistList = Lists.newArrayList();
+        boolean validState = true;
 
         if (name.isEmpty()) {
             CraftTweakerAPI.logError("Reservoir name can not be empty string!");
-        } else if (minSize <= 0) {
-            CraftTweakerAPI.logError("Reservoir minSize has to be at least 1mb!");
-        } else if (maxSize < minSize) {
-            CraftTweakerAPI.logError("Reservoir maxSize can not be smaller than minSize!");
-        } else if (weight < 1) {
-            CraftTweakerAPI.logError("Reservoir weight has to be greater than or equal to 1!");
-        } else if (pumpSpeed <= 0) {
-            CraftTweakerAPI.logError("Reservoir Pump Speed has to be at least 1mb/t");
-        } else if (pumpSpeed < replenishRate) {
-            CraftTweakerAPI.logError("Reservoir Pump Speed can not be smaller than Replenish Rate!");
-        } else if (powerTier < 0) {
-
-            CraftTweakerAPI.logError("Reservoir powerTier can not be smaller than 0!");
+            validState = false;
         }
-
-        String rFluid = fluid.getName();
-
-        TweakedPumpjackHandler.TweakedReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, rFluid, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
+        if (minSize <= 0) {
+            CraftTweakerAPI.logError("Reservoir minSize has to be at least 1mb!");
+            validState = false;
+        }
+        if (maxSize < minSize) {
+            CraftTweakerAPI.logError("Reservoir maxSize can not be smaller than minSize!");
+            validState = false;
+        }
+        if (weight < 1) {
+            CraftTweakerAPI.logError("Reservoir weight has to be greater than or equal to 1!");
+            validState = false;
+        }
+        if (pumpSpeed <= 0) {
+            CraftTweakerAPI.logError("Reservoir Pump Speed has to be at least 1mb/t");
+            validState = false;
+        }
+        if (pumpSpeed < replenishRate) {
+            CraftTweakerAPI.logError("Reservoir Pump Speed can not be smaller than Replenish Rate!");
+            validState = false;
+        }
+        if (powerTier < 0) {
+            CraftTweakerAPI.logError("Reservoir powerTier can not be smaller than 0!");
+            validState = false;
+        }
 
         for (String string : biomeBlacklist) {
             if (string == null || string.isEmpty()) {
                 CraftTweakerAPI.logError("String '" + string + "' in biomeBlacklist is either Empty or Null");
-            } else {
-                biomeBlacklistList.add(string);
+                validState = false;
+                continue;
             }
+
+            biomeBlacklistList.add(string);
         }
 
         for (String string : biomeWhitelist) {
             if (string == null || string.isEmpty()) {
                 CraftTweakerAPI.logError("String '" + string + "' in biomeBlacklist is either Empty or Null");
-            } else {
-                biomeWhitelistList.add(string);
+                validState = false;
+                continue;
             }
+
+            biomeWhitelistList.add(string);
         }
 
-        res.dimensionBlacklist = dimBlacklist;
-        res.dimensionWhitelist = dimWhitelist;
-        res.biomeBlacklist = biomeBlacklistList.toArray(new String[0]);
-        res.biomeWhitelist = biomeWhitelistList.toArray(new String[0]);
+        if (validState) {
+            String rFluid = fluid.getName();
+            TweakedPumpjackHandler.TweakedReservoirType res =
+                    TweakedPumpjackHandler.addTweakedReservoir(name, rFluid, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
 
-        CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
+            res.dimensionBlacklist = dimBlacklist;
+            res.dimensionWhitelist = dimWhitelist;
+            res.biomeBlacklist = biomeBlacklistList.toArray(new String[0]);
+            res.biomeWhitelist = biomeWhitelistList.toArray(new String[0]);
+
+            CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
+        }
+
     }
 
     @ZenMethod
     public static void registerPowerUsage(int tier, int capacity, int rft) {
+        boolean validState = true;
         if (tier < 0) {
             CraftTweakerAPI.logError("PowerUsage tier can not be smaller than 0!");
-        } else if (capacity < 1) {
+            validState = false;
+        }
+        if (capacity < 1) {
             CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than 1!");
-        } else if (capacity == Integer.MAX_VALUE) {
+            validState = false;
+        }
+        if (capacity == Integer.MAX_VALUE) {
             CraftTweakerAPI.logError("PowerUsage capacity should not be MAX_INT!");
-        } else if (capacity < rft) {
+            validState = false;
+        }
+        if (capacity < rft) {
             CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than rft!");
+            validState = false;
         }
 
-        TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
+        if (validState){
+            TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
+            CraftTweakerAPI.logInfo("Added power tier: " + tier + "with capacity:" + capacity + "and" + rft + "RF/t");
+        }
+
     }
 
 }
