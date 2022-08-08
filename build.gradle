@@ -125,11 +125,11 @@ dependencies {
 
     //Will switch to hei once its in the CR maven
     compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
-    implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
+    // implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
 
 
     //mods
-    //runtime		'curse.maven:had-enough-items-557549:3862733'
+    implementation 'curse.maven:had-enough-items-557549:3862733'
 
     compileOnly('zone.rong:mixinbooter:5.0')
     runtimeOnly('zone.rong:mixinbooter:5.0')

@@ -13,11 +13,15 @@ import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.*;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.ImmersivePetroleumOverwrites.*;
 
 public class ErrorLoggingUtil {
 
     public static class Runtime {
         public static void missingRuntimePowerTiersLog() {
+            Common.logSetting();
+
             reservoirList.keySet().
                     stream().
                     map(reservoirType -> (TweakedPumpjackHandler.TweakedReservoirType) reservoirType).
@@ -35,24 +39,18 @@ public class ErrorLoggingUtil {
         private static final List<String> errors = new ArrayList<>();
 
         public static void validateScripts() {
-            if (Configs.TPConfig.StartupScriptChecks.noScriptsCheck) {
+            if (noScriptsCheck) {
                 noScriptsCheck();
             }
 
-            if (Configs.TPConfig.StartupScriptChecks.missingPowerTierCheck) {
+            if (missingPowerTierCheck) {
                 missingPowerTierCheck();
             }
 
             if (!errors.isEmpty()) {
-                logSetting();
+                Common.logSetting();
                 errorScreen();
             }
-        }
-
-        private static void logSetting() {
-            TweakedPetroleum.LOGGER.info("Disable IP's Reservoir Loading:" + Configs.TPConfig.ImmersivePetroleumOverwrites.disableIPReservoirLoading);
-            TweakedPetroleum.LOGGER.info("Disable IP's Default Pumpjack Capacity and Consumption:" + Configs.TPConfig.ImmersivePetroleumOverwrites.disableDefaultRFT);
-            TweakedPetroleum.LOGGER.info("Disable IP's Pumpjack Zen script: " + Configs.TPConfig.ImmersivePetroleumOverwrites.disableDefaultRFTZenScriptLoading);
         }
 
         private static void noScriptsCheck() {
@@ -107,4 +105,20 @@ public class ErrorLoggingUtil {
         }
 
     }
+
+    public static class Common {
+        private static void logSetting() {
+            TweakedPetroleum.LOGGER.info("Immersive Petroleum Overwrites:");
+            TweakedPetroleum.LOGGER.info("Disable IP's Reservoir Loading: " + disableIPReservoirLoading);
+            TweakedPetroleum.LOGGER.info("Disable IP's Default Pumpjack Capacity and Consumption: " + disableDefaultRFT);
+            TweakedPetroleum.LOGGER.info("Disable IP's Pumpjack Zen script: " + disableDefaultRFTZenScriptLoading);
+
+            TweakedPetroleum.LOGGER.info("Startup Script Checks:");
+            TweakedPetroleum.LOGGER.info("Do not load with no scripts: " + noScriptsCheck);
+            TweakedPetroleum.LOGGER.info("Do not load with missing power tiers: " + missingPowerTierCheck);
+
+        }
+
+    }
+
 }
