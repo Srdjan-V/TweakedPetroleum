@@ -1,7 +1,6 @@
 package srki2k.tweakedpetroleum.common.compat.hei;
 
 import com.google.common.collect.Lists;
-import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -37,31 +36,24 @@ public class PumpjackWrapper implements IRecipeWrapper {
         return new FluidStack(reservoirFluid, (reservoir.maxSize + reservoir.minSize) / 2);
     }
 
-    public OptionalInt getOptionalMaxFluidReplenishRate() {
-        return reservoirList.keySet().
-                stream().
-                filter(reservoirType -> reservoirType.getFluid().equals(reservoirFluid)).
-                mapToInt(value -> value.replenishRate).
-                max();
-    }
-
-    public OptionalInt getOptionalMaxAverageFluid() {
-        return reservoirList.keySet().
-                stream().
-                filter(reservoirType -> reservoirType.getFluid().equals(reservoirFluid)).
-                mapToInt(value -> (value.maxSize + value.minSize) / 2).
-                max();
-    }
-
-    public Optional<PumpjackHandler.ReservoirType> getReservoirWeight() {
-        return reservoirList.keySet().
-                stream().
-                filter(reservoirType -> reservoirType.name.equals(reservoir.name)).
-                findFirst();
+    public FluidStack getAverageReplenishFluid() {
+        return new FluidStack(reservoirFluid, reservoir.replenishRate);
     }
 
     public TweakedPumpjackHandler.TweakedReservoirType getReservoir() {
         return reservoir;
+    }
+
+    public int getMaxFluidReplenishRate() {
+        return reservoir.replenishRate;
+    }
+
+    public int getMinFluid() {
+        return reservoir.minSize;
+    }
+
+    public int getMaxFluid() {
+        return reservoir.maxSize;
     }
 
     @Override
@@ -91,11 +83,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
 
         if (mouseX > 61 && mouseX < 74 && mouseY > 60 && mouseY < 74) {
 
-            getReservoirWeight().
-                    ifPresent(reservoirType -> {
-                        list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get(reservoirType)));
-                        list.add("");
-                    });
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get(reservoir)));
+            list.add("");
 
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biomes"));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.biomeWhitelist)));
