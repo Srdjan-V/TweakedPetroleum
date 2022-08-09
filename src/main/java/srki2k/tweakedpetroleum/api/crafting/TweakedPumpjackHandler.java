@@ -37,16 +37,16 @@ public class TweakedPumpjackHandler {
     public static PowerTier getPowerTier(World world, int chunkX, int chunkZ) {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
-        if (info == null || info.getType() == null || !(info.getType() instanceof TweakedReservoirType)) {
+        if (info == null || info.getType() == null) {
             if (rftTier.get(0) == null) {
                 ErrorLoggingUtil.Runtime.missingRuntimePowerTiersLog();
             }
             return rftTier.get(0);
         }
 
-        TweakedReservoirType tweakedReservoirType = (TweakedPumpjackHandler.TweakedReservoirType) info.getType();
+        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (rftTier.get(tweakedReservoirType.powerTier) == null){
+        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null){
             ErrorLoggingUtil.Runtime.missingRuntimePowerTiersLog();
         }
 
@@ -55,12 +55,12 @@ public class TweakedPumpjackHandler {
         Long l = timeCache.get(coords);
         if (l == null) {
             timeCache.put(coords, world.getTotalWorldTime());
-            return rftTier.get(tweakedReservoirType.powerTier);
+            return rftTier.get(tweakedReservoirType.getPowerTier());
         }
 
         long lastTime = world.getTotalWorldTime();
         timeCache.put(coords, world.getTotalWorldTime());
-        int last = lastTime != l ? tweakedReservoirType.powerTier : 0;
+        int last = lastTime != l ? tweakedReservoirType.getPowerTier() : 0;
 
         return rftTier.get(last);
     }
@@ -79,10 +79,15 @@ public class TweakedPumpjackHandler {
      * @param powerTier     The tier of power usage
      * @return The created TweakedReservoirType
      */
-    public static TweakedReservoirType addTweakedReservoir(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier) {
-        TweakedReservoirType mix = new TweakedReservoirType(name, fluid, minSize, maxSize, replenishRate, pumpSpeed, powerTier);
+    public static IReservoirType addTweakedReservoir(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier) {
+        ReservoirType mix = new ReservoirType(name, fluid, minSize, maxSize, replenishRate);
         reservoirList.put(mix, weight);
-        return mix;
+
+        IReservoirType iMix =(IReservoirType) mix;
+        iMix.setPumpSpeed(pumpSpeed);
+        iMix.setPowerTier(powerTier);
+
+        return iMix;
     }
 
 
@@ -98,12 +103,12 @@ public class TweakedPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
         int[] replenishRateAndPumpSpeed = new int[2];
 
-        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0) || !(info.getType() instanceof TweakedReservoirType))
+        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0))
             return replenishRateAndPumpSpeed;
 
-        TweakedReservoirType tweakedReservoirType = (TweakedPumpjackHandler.TweakedReservoirType) info.getType();
+        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (tweakedReservoirType.pumpSpeed == 0)
+        if (tweakedReservoirType.getPumpSpeed() == 0)
             return replenishRateAndPumpSpeed;
 
         DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
@@ -112,8 +117,8 @@ public class TweakedPumpjackHandler {
 
         if (l == null) {
             timeCache.put(coords, world.getTotalWorldTime());
-            replenishRateAndPumpSpeed[0] = tweakedReservoirType.replenishRate;
-            replenishRateAndPumpSpeed[1] = tweakedReservoirType.pumpSpeed;
+            replenishRateAndPumpSpeed[0] = tweakedReservoirType.getReplenishRate();
+            replenishRateAndPumpSpeed[1] = tweakedReservoirType.getPumpSpeed();
 
             return replenishRateAndPumpSpeed;
         }
@@ -122,8 +127,8 @@ public class TweakedPumpjackHandler {
         timeCache.put(coords, world.getTotalWorldTime());
 
         if (lastTime != l) {
-            replenishRateAndPumpSpeed[0] = tweakedReservoirType.replenishRate;
-            replenishRateAndPumpSpeed[1] = tweakedReservoirType.pumpSpeed;
+            replenishRateAndPumpSpeed[0] = tweakedReservoirType.getReplenishRate();
+            replenishRateAndPumpSpeed[1] = tweakedReservoirType.getPumpSpeed();
 
             return replenishRateAndPumpSpeed;
         }
@@ -143,12 +148,12 @@ public class TweakedPumpjackHandler {
     public static int getPumpSpeed(World world, int chunkX, int chunkZ) {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
-        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0) || !(info.getType() instanceof TweakedReservoirType))
+        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0))
             return 0;
 
-        TweakedReservoirType tweakedReservoirType = (TweakedPumpjackHandler.TweakedReservoirType) info.getType();
+        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (tweakedReservoirType.pumpSpeed == 0)
+        if (tweakedReservoirType.getPumpSpeed() == 0)
             return 0;
 
         DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
@@ -157,14 +162,14 @@ public class TweakedPumpjackHandler {
 
         if (l == null) {
             timeCache.put(coords, world.getTotalWorldTime());
-            return tweakedReservoirType.pumpSpeed;
+            return tweakedReservoirType.getPumpSpeed();
         }
 
         long lastTime = world.getTotalWorldTime();
         timeCache.put(coords, world.getTotalWorldTime());
 
         if (lastTime != l) {
-            return tweakedReservoirType.pumpSpeed;
+            return tweakedReservoirType.getPumpSpeed();
         }
 
         return 0;
@@ -179,18 +184,6 @@ public class TweakedPumpjackHandler {
             this.capacity = capacity;
             this.rft = rft;
         }
-    }
-
-    public static class TweakedReservoirType extends PumpjackHandler.ReservoirType {
-        public final int powerTier;
-        public final int pumpSpeed;
-
-        public TweakedReservoirType(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int powerTier) {
-            super(name, fluid, minSize, maxSize, replenishRate);
-            this.pumpSpeed = pumpSpeed;
-            this.powerTier = powerTier;
-        }
-
     }
 
 }

@@ -3,10 +3,8 @@ package srki2k.tweakedpetroleum.util;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
-import org.apache.logging.log4j.Level;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
-import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import srki2k.tweakedpetroleum.common.Configs;
+import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +22,10 @@ public class ErrorLoggingUtil {
 
             reservoirList.keySet().
                     stream().
-                    map(reservoirType -> (TweakedPumpjackHandler.TweakedReservoirType) reservoirType).
+                    map(reservoirType -> (IReservoirType) reservoirType).
                     forEach(tweakedReservoirType -> {
-                        if (rftTier.get(tweakedReservoirType.powerTier) == null) {
-                            TweakedPetroleum.LOGGER.fatal("Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier");
+                        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
+                            TweakedPetroleum.LOGGER.fatal("Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier");
                         }
                     });
             throw new Error("Check the Tweaked Petroleum logs");
@@ -38,9 +36,13 @@ public class ErrorLoggingUtil {
     public static class Startup {
         private static final List<String> errors = new ArrayList<>();
 
+        public static void setErrors(List<String> error) {
+            errors.addAll(error);
+        }
+
         public static void validateScripts() {
-            if (noScriptsCheck) {
-                noScriptsCheck();
+            if (scriptsErrorCheck) {
+                scriptsErrorCheck();
             }
 
             if (missingPowerTierCheck) {
@@ -49,38 +51,40 @@ public class ErrorLoggingUtil {
 
             if (!errors.isEmpty()) {
                 Common.logSetting();
+                logContentErrors();
                 errorScreen();
             }
         }
 
-        private static void noScriptsCheck() {
+        private static void scriptsErrorCheck() {
             if (reservoirList.isEmpty()) {
                 String error = "No reservoirs are registered";
-                TweakedPetroleum.LOGGER.fatal(error);
                 errors.add(error);
             }
 
             if (rftTier.isEmpty()) {
                 String error = "No power tiers are registered";
-                TweakedPetroleum.LOGGER.fatal(error);
                 errors.add(error);
             }
 
         }
 
+        private static void logContentErrors(){
+            errors.forEach(TweakedPetroleum.LOGGER::error);
+        }
+
         public static void missingPowerTierCheck() {
             reservoirList.keySet().
                     stream().
-                    map(reservoirType -> (TweakedPumpjackHandler.TweakedReservoirType) reservoirType).
+                    map(reservoirType -> (IReservoirType) reservoirType).
                     forEach(tweakedReservoirType -> {
-                        if (rftTier.get(tweakedReservoirType.powerTier) == null) {
-                            String error = "Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier";
+                        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
+                            String error = "Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier";
                             errors.add(error);
                             TweakedPetroleum.LOGGER.fatal(error);
                         }
                     });
         }
-
         private static void errorScreen() {
             throw new CustomModLoadingErrorDisplayException() {
                 @Override
@@ -94,7 +98,7 @@ public class ErrorLoggingUtil {
 
                     for (int i = 0; i < errors.size(); i++) {
                         String error = errors.get(i);
-                        drawCenteredString(fontRenderer, error, errorScreen.width / 2, 24 + i * 12);
+                        drawCenteredString(fontRenderer, error, errorScreen.width / 2, 40 + i * 12);
                     }
                 }
             };
@@ -114,7 +118,7 @@ public class ErrorLoggingUtil {
             TweakedPetroleum.LOGGER.info("Disable IP's Pumpjack Zen script: " + disableDefaultRFTZenScriptLoading);
 
             TweakedPetroleum.LOGGER.info("Startup Script Checks:");
-            TweakedPetroleum.LOGGER.info("Do not load with no scripts: " + noScriptsCheck);
+            TweakedPetroleum.LOGGER.info("Do not load with errors in scripts: " + scriptsErrorCheck);
             TweakedPetroleum.LOGGER.info("Do not load with missing power tiers: " + missingPowerTierCheck);
 
         }

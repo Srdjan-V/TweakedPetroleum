@@ -42,10 +42,10 @@ public class Configs {
         public static StartupScriptChecks startupScriptChecks;
 
         public static class StartupScriptChecks {
-            @Config.Comment({"This will check if you for missing scripts on startup, default=true"})
+            @Config.Comment({"This will check if you have missing scripts on startup, default=true"})
             @Config.Name("Do not load with no scripts")
             @Config.RequiresMcRestart
-            public static boolean noScriptsCheck = true;
+            public static boolean scriptsErrorCheck = true;
 
             @Config.Comment({"This will check for missing power tiers on startup, recommend while developing a pack but not in production, default=false"})
             @Config.Name("Do not load with missing power tiers")

@@ -12,7 +12,6 @@ public abstract class MixinConfig {
 
     @Inject(method = "addConfigReservoirs", at = @At("HEAD"), remap = false, cancellable = true)
     private static void onAddConfigReservoirs(String[] reservoirs, CallbackInfo ci) {
-        TweakedPetroleum.LOGGER.warn("You are trying to add reservoirs with the default IP config system , this is not recommend");
 
         if (Configs.TPConfig.ImmersivePetroleumOverwrites.disableIPReservoirLoading) {
             ci.cancel();

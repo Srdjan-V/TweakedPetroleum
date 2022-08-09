@@ -6,6 +6,7 @@
   "mixins": [
     "MixinConfig",
     "MixinReservoirTweaker",
+    "MixinReservoirType",
     "MixinTileEntityPumpjack"
   ],
   "client": [],
