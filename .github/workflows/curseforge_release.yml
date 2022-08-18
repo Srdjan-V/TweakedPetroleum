@@ -41,7 +41,7 @@ jobs:
           release_type: "release"
           changelog: "Changelog is available [here](https://github.com/${{ github.repository }}/releases/tag/v${{ steps.get_version.outputs.version }})."
           changelog_type: "markdown"
-          relations: ""
+          relations: "crafttweaker:requiredDependency,immersive-petroleum:requiredDependency,mixin-booter:requiredDependency,had-enough-items:optionalDependency"
           file_path: "${{ steps.get_mod_name.outputs.mod_name }}-${{ steps.get_version.outputs.version }}.jar"
           project_id: "${{ secrets.CURSEFORGE_PROJECT_ID }}"
           token: "${{ secrets.CURSEFORGE_API_KEY }}"
