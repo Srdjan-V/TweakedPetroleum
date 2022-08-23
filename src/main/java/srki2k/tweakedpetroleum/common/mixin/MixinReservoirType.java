@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 
+import java.util.Objects;
+
 @Mixin(PumpjackHandler.ReservoirType.class)
 public abstract class MixinReservoirType implements IReservoirType {
 
@@ -126,8 +128,7 @@ public abstract class MixinReservoirType implements IReservoirType {
     }
 
 
-    @Inject(method = "readFromNBT",
-            at = @At(value = "RETURN"))
+    @Inject(method = "readFromNBT", at = @At("RETURN"))
     private static void onReadFromNBT(NBTTagCompound tag, CallbackInfoReturnable<PumpjackHandler.ReservoirType> cir) {
         int pumpSpeed = tag.getInteger("pumpSpeed");
         int powerTier = tag.getInteger("powerTier");
@@ -142,6 +143,23 @@ public abstract class MixinReservoirType implements IReservoirType {
         NBTTagCompound tag = cir.getReturnValue();
         tag.setInteger("pumpSpeed", this.pumpSpeed);
         tag.setInteger("powerTier", this.powerTier);
+    }
+
+
+    //Equals and hashCode methods
+    @Unique
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MixinReservoirType that = (MixinReservoirType) o;
+        return name.equals(that.name);
+    }
+
+    @Unique
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
 }

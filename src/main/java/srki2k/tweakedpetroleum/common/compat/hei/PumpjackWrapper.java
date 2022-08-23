@@ -14,6 +14,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.*;
 
+import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
 
 @SuppressWarnings("NullableProblems")
@@ -83,9 +84,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
 
         if (mouseX > 61 && mouseX < 74 && mouseY > 60 && mouseY < 74) {
 
-            //will probably add, this at some point
-/*            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
-            list.add("");*/
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
+            list.add("");
 
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biomes"));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
