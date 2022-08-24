@@ -136,46 +136,6 @@ public class TweakedPumpjackHandler {
         return replenishRateAndPumpSpeed;
     }
 
-
-    /**
-     * Gets the pump speed from a given chunk
-     *
-     * @param world  World whose chunk to drain
-     * @param chunkX Chunk x
-     * @param chunkZ Chunk z
-     * @return Returns the pump speed from the given chunk
-     */
-    public static int getPumpSpeed(World world, int chunkX, int chunkZ) {
-        PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
-
-        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0))
-            return 0;
-
-        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
-
-        if (tweakedReservoirType.getPumpSpeed() == 0)
-            return 0;
-
-        DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
-
-        Long l = timeCache.get(coords);
-
-        if (l == null) {
-            timeCache.put(coords, world.getTotalWorldTime());
-            return tweakedReservoirType.getPumpSpeed();
-        }
-
-        long lastTime = world.getTotalWorldTime();
-        timeCache.put(coords, world.getTotalWorldTime());
-
-        if (lastTime != l) {
-            return tweakedReservoirType.getPumpSpeed();
-        }
-
-        return 0;
-    }
-
-
     public static class PowerTier {
         public int capacity;
         public int rft;
