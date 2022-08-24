@@ -117,9 +117,9 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation fg.deobf('CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.0.9.289')
-    implementation fg.deobf('CraftTweaker2:CraftTweaker2-API:1.12-4.1.9.6')
-    implementation fg.deobf('CraftTweaker2:ZenScript:1.12-4.1.9.6')
+    implementation 'CraftTweaker2:CraftTweaker2-API:4.1.20.679'
+    implementation 'CraftTweaker2:ZenScript:4.1.20.679'
+    runtimeOnly 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
 
     implementation fg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
     implementation fg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
