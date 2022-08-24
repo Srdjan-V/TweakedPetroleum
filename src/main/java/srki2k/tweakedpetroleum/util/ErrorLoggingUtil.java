@@ -17,7 +17,7 @@ import static srki2k.tweakedpetroleum.common.Configs.TPConfig.ImmersivePetroleum
 public class ErrorLoggingUtil {
 
     public static class Runtime {
-        public static void missingRuntimePowerTiersLog() {
+        public static void missingPowerTiersLog() {
             Common.logSetting();
 
             reservoirList.keySet().
@@ -56,6 +56,7 @@ public class ErrorLoggingUtil {
             }
         }
 
+
         private static void scriptsErrorCheck() {
             if (reservoirList.isEmpty()) {
                 String error = "No reservoirs are registered";
@@ -68,12 +69,10 @@ public class ErrorLoggingUtil {
             }
 
         }
-
         private static void logContentErrors(){
             errors.forEach(TweakedPetroleum.LOGGER::error);
         }
-
-        public static void missingPowerTierCheck() {
+        private static void missingPowerTierCheck() {
             reservoirList.keySet().
                     stream().
                     map(reservoirType -> (IReservoirType) reservoirType).
@@ -103,14 +102,13 @@ public class ErrorLoggingUtil {
                 }
             };
         }
-
         private static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y) {
             fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, 16777215);
         }
 
     }
 
-    public static class Common {
+    private static class Common {
         private static void logSetting() {
             TweakedPetroleum.LOGGER.info("Immersive Petroleum Overwrites:");
             TweakedPetroleum.LOGGER.info("Disable IP's Reservoir Loading: " + disableIPReservoirLoading);

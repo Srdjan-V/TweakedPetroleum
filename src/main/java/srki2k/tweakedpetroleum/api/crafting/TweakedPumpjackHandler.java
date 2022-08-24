@@ -39,7 +39,7 @@ public class TweakedPumpjackHandler {
 
         if (info == null || info.getType() == null) {
             if (rftTier.get(0) == null) {
-                ErrorLoggingUtil.Runtime.missingRuntimePowerTiersLog();
+                ErrorLoggingUtil.Runtime.missingPowerTiersLog();
             }
             return rftTier.get(0);
         }
@@ -47,7 +47,7 @@ public class TweakedPumpjackHandler {
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
         if (rftTier.get(tweakedReservoirType.getPowerTier()) == null){
-            ErrorLoggingUtil.Runtime.missingRuntimePowerTiersLog();
+            ErrorLoggingUtil.Runtime.missingPowerTiersLog();
         }
 
         DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
