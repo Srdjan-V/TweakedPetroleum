@@ -1,7 +1,5 @@
 package srki2k.tweakedpetroleum.common.compat.crafttweaker;
 
-
-import com.google.common.collect.Lists;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
@@ -27,53 +25,37 @@ public class TweakedReservoir {
         boolean validState = true;
 
         if (name.isEmpty()) {
-            String error = "Reservoir name can not be empty string!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir name can not be empty string!");
             validState = false;
         }
         if (minSize <= 0) {
-            String error = "Reservoir minSize has to be at least 1mb!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") minSize has to be at least 1mb!");
             validState = false;
         }
         if (maxSize < minSize) {
-            String error = "Reservoir maxSize can not be smaller than minSize!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") maxSize can not be smaller than minSize!");
             validState = false;
         }
         if (weight < 1) {
-            String error = "Reservoir weight has to be greater than or equal to 1!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") weight has to be greater than or equal to 1!");
             validState = false;
         }
         if (pumpSpeed <= 0) {
-            String error = "Reservoir Pump Speed has to be at least 1mb/t";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") Pump Speed has to be at least 1mb/t");
             validState = false;
         }
         if (pumpSpeed < replenishRate) {
-            String error = "Reservoir Pump Speed can not be smaller than Replenish Rate!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") Pump Speed can not be smaller than Replenish Rate!");
             validState = false;
         }
         if (powerTier < 0) {
-            String error = "Reservoir powerTier can not be smaller than 0!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("Reservoir(" + name + ") powerTier can not be smaller than 0!");
             validState = false;
         }
 
         for (String string : biomeBlacklist) {
             if (string == null || string.isEmpty()) {
-                String error = "String '" + string + "' in biomeBlacklist is either Empty or Null";
-                CraftTweakerAPI.logError(error);
-                errors.add(error);
+                errors.add("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
                 validState = false;
                 continue;
             }
@@ -83,9 +65,7 @@ public class TweakedReservoir {
 
         for (String string : biomeWhitelist) {
             if (string == null || string.isEmpty()) {
-                String error = "String '" + string + "' in biomeBlacklist is either Empty or Null";
-                CraftTweakerAPI.logError(error);
-                errors.add(error);
+                errors.add("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
                 validState = false;
                 continue;
             }
@@ -115,27 +95,19 @@ public class TweakedReservoir {
         List<String> errors = new ArrayList<>();
         boolean validState = true;
         if (tier < 0) {
-            String error = "PowerUsage tier can not be smaller than 0!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("PowerUsage tier can not be smaller than 0!");
             validState = false;
         }
         if (capacity < 1) {
-            String error = "PowerUsage capacity can not be smaller than 1!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("PowerUsage capacity can not be smaller than 1!");
             validState = false;
         }
         if (capacity == Integer.MAX_VALUE) {
-            String error = "PowerUsage capacity should not be MAX_INT!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("PowerUsage capacity should not be MAX_INT!");
             validState = false;
         }
         if (capacity < rft) {
-            String error = "PowerUsage capacity can not be smaller than rft!";
-            CraftTweakerAPI.logError(error);
-            errors.add(error);
+            errors.add("PowerUsage capacity can not be smaller than rft!");
             validState = false;
         }
 
