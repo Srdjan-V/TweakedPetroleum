@@ -8,6 +8,7 @@ import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
@@ -18,16 +19,21 @@ public class ErrorLoggingUtil {
 
     public static class Runtime {
         public static void missingPowerTiersLog() {
-            Common.logSetting();
+            TweakedPetroleum.LOGGER.warn("Runtime missingPowerTiersLog() method was called");
 
-            reservoirList.keySet().
+            List<IReservoirType> powerTierNulls = reservoirList.keySet().
                     stream().
                     map(reservoirType -> (IReservoirType) reservoirType).
-                    forEach(tweakedReservoirType -> {
-                        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
-                            TweakedPetroleum.LOGGER.fatal("Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier");
-                        }
-                    });
+                    filter(iReservoirType -> rftTier.get(iReservoirType.getPowerTier()) == null).
+                    collect(Collectors.toList());
+
+            if (powerTierNulls.isEmpty()) {
+                return;
+            }
+
+            Common.logSetting();
+            powerTierNulls.forEach(iReservoirType -> TweakedPetroleum.LOGGER.fatal("Reservoir with the ID (name)" + iReservoirType.getName() + "has no valid Power tier"));
+
             throw new Error("Check the Tweaked Petroleum logs");
         }
 
@@ -69,9 +75,11 @@ public class ErrorLoggingUtil {
             }
 
         }
-        private static void logContentErrors(){
+
+        private static void logContentErrors() {
             errors.forEach(TweakedPetroleum.LOGGER::error);
         }
+
         private static void missingPowerTierCheck() {
             reservoirList.keySet().
                     stream().
@@ -84,6 +92,7 @@ public class ErrorLoggingUtil {
                         }
                     });
         }
+
         private static void errorScreen() {
             throw new CustomModLoadingErrorDisplayException() {
                 @Override
@@ -102,6 +111,7 @@ public class ErrorLoggingUtil {
                 }
             };
         }
+
         private static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y) {
             fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, 16777215);
         }
