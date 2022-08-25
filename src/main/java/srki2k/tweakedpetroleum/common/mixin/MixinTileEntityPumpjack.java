@@ -92,10 +92,12 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
      */
     @Overwrite(remap = false)
     public void update(boolean consumePower) {
-        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE)
-            initEnergyStorage();
-
         super.update();
+
+        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
+            initEnergyStorage();
+        }
+
         if (world.isRemote || isDummy()) {
             if (world.isRemote && !isDummy() && state != null && wasActive) {
                 BlockPos particlePos = this.getPos().offset(facing, 4);
@@ -121,9 +123,10 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
             }
             if (lastHadPipes) {
                 int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
+                int availableOil = availableOil();
 
-                if (availableOil() > 0 || replenishRateAndPumpSpeed[0] > 0) {
-                    int oilAmnt = availableOil() <= 0 ? replenishRateAndPumpSpeed[0] : availableOil();
+                if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
+                    int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
 
                     energyStorage.extractEnergy(consumed, false);
                     active = true;
