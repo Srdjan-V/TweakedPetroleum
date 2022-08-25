@@ -16,3 +16,5 @@ jei.pumpjack.reservoir.dimension_blacklist= Dimension Blacklist: %d
 jei.pumpjack.reservoir.power_tier=Reservoir Power Tier: %d
 jei.pumpjack.reservoir.power_capacity= Reservoir power capacity: %d RF
 jei.pumpjack.reservoir.power_usage= Reservoir power usage: %d RF/t
+
+jei.pumpjack.reservoir.lshift=Hold LShift for more info

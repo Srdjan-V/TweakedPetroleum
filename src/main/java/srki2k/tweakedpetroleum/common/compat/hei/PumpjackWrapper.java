@@ -6,8 +6,10 @@ import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import mezz.jei.util.Translator;
+import net.minecraft.world.DimensionType;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import org.lwjgl.input.Keyboard;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 
 import java.text.DecimalFormat;
@@ -33,16 +35,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
         return reservoirFluid;
     }
 
-    public FluidStack getAverageFluid() {
-        return new FluidStack(reservoirFluid, (reservoir.getMaxSize() + reservoir.getMinSize()) / 2);
-    }
-
     public FluidStack getAverageReplenishFluid() {
         return new FluidStack(reservoirFluid, reservoir.getReplenishRate());
-    }
-
-    public IReservoirType getReservoir() {
-        return reservoir;
     }
 
     public int getMaxFluidReplenishRate() {
@@ -57,18 +51,48 @@ public class PumpjackWrapper implements IRecipeWrapper {
         return reservoir.getMaxSize();
     }
 
+    public FluidStack getAverageFluid() {
+        return new FluidStack(reservoirFluid, (reservoir.getMaxSize() + reservoir.getMinSize()) / 2);
+    }
+
     @Override
     public void getIngredients(IIngredients ingredients) {
         ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
     }
 
+    private String firstToUpperCase(String s) {
+        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    }
+
+    private String detailedDimension(int[] dim) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0, dimLength = dim.length; i < dimLength; i++) {
+            int id = dim[i];
+            for (DimensionType dimensionType : DimensionType.values()) {
+                if (dimensionType.getId() == id) {
+                    stringBuilder.append(firstToUpperCase(dimensionType.getName())).
+                            append(" [").
+                            append(id).
+                            append("]");
+
+                    if (i + 1 < dimLength) {
+                        stringBuilder.append(", ");
+                    }
+                }
+            }
+        }
+
+        return stringBuilder.toString();
+    }
+
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
-        List<String> list = new ArrayList<>();
 
         if (mouseX > 14 && mouseX < 25 && mouseY > 60 && mouseY < 74) {
+            List<String> list = new ArrayList<>();
 
-            list.add(Character.toUpperCase(reservoir.getName().charAt(0)) + reservoir.getName().substring(1));
+            list.add(firstToUpperCase(reservoir.getName()));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.getMaxSize())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.getMaxSize())));
 
@@ -76,6 +100,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
         }
 
         if (mouseX > 37 && mouseX < 50 && mouseY > 60 && mouseY < 74) {
+            List<String> list = new ArrayList<>();
+
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", numberFormat.format(reservoir.getReplenishRate())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.speed", numberFormat.format(reservoir.getPumpSpeed())));
 
@@ -83,6 +109,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
         }
 
         if (mouseX > 61 && mouseX < 74 && mouseY > 60 && mouseY < 74) {
+            List<String> list = new ArrayList<>();
 
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
             list.add("");
@@ -91,14 +118,27 @@ public class PumpjackWrapper implements IRecipeWrapper {
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
 
+            if (Keyboard.isKeyDown(0x2A)) {
+                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
+                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", detailedDimension(reservoir.getDimensionWhitelist())));
+                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", detailedDimension(reservoir.getDimensionBlacklist())));
+
+                return list;
+            }
+
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", Arrays.toString(reservoir.getDimensionWhitelist())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", Arrays.toString(reservoir.getDimensionBlacklist())));
 
+
+            list.add("");
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.lshift"));
             return list;
         }
 
         if (mouseX > 61 && mouseX < 73 && mouseY > 44 && mouseY < 57) {
+            List<String> list = new ArrayList<>();
+
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_tier", reservoir.getPowerTier()));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_capacity", numberFormat.format(rftTier.get(reservoir.getPowerTier()).capacity)));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_usage", numberFormat.format(rftTier.get(reservoir.getPowerTier()).rft)));
