@@ -24,7 +24,7 @@ public class TweakedReservoir {
         List<String> errors = new ArrayList<>();
 
         if (name.isEmpty()) {
-            errors.add("Reservoir name can not be empty string!");
+            errors.add("Reservoir name can not be a empty string!");
         }
         if (minSize <= 0) {
             errors.add("Reservoir(" + name + ") minSize has to be at least 1mb!");
@@ -77,7 +77,7 @@ public class TweakedReservoir {
             return;
         }
 
-        ErrorLoggingUtil.Startup.setErrors(errors);
+        ErrorLoggingUtil.Startup.addErrors(errors);
     }
 
     @ZenMethod
@@ -103,7 +103,7 @@ public class TweakedReservoir {
             return;
         }
 
-        ErrorLoggingUtil.Startup.setErrors(errors);
+        ErrorLoggingUtil.Startup.addErrors(errors);
 
     }
 

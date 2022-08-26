@@ -12,8 +12,8 @@ import java.util.stream.Collectors;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.*;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.ImmersivePetroleumOverwrites.*;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.missingPowerTierCheck;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.scriptsErrorCheck;
 
 public class ErrorLoggingUtil {
 
@@ -42,7 +42,7 @@ public class ErrorLoggingUtil {
     public static class Startup {
         private static final List<String> errors = new ArrayList<>();
 
-        public static void setErrors(List<String> error) {
+        public static void addErrors(List<String> error) {
             errors.addAll(error);
         }
 
@@ -120,11 +120,6 @@ public class ErrorLoggingUtil {
 
     private static class Common {
         private static void logSetting() {
-            TweakedPetroleum.LOGGER.info("Immersive Petroleum Overwrites:");
-            TweakedPetroleum.LOGGER.info("Disable IP's Reservoir Loading: " + disableIPReservoirLoading);
-            TweakedPetroleum.LOGGER.info("Disable IP's Default Pumpjack Capacity and Consumption: " + disableDefaultRFT);
-            TweakedPetroleum.LOGGER.info("Disable IP's Pumpjack Zen script: " + disableDefaultRFTZenScriptLoading);
-
             TweakedPetroleum.LOGGER.info("Startup Script Checks:");
             TweakedPetroleum.LOGGER.info("Do not load with errors in scripts: " + scriptsErrorCheck);
             TweakedPetroleum.LOGGER.info("Do not load with missing power tiers: " + missingPowerTierCheck);

@@ -11,8 +11,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import srki2k.tweakedpetroleum.common.Configs;
 import srki2k.tweakedpetroleum.util.ErrorLoggingUtil;
 
 
@@ -46,9 +44,6 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        if (!Configs.TPConfig.ImmersivePetroleumOverwrites.disableDefaultRFT) {
-            TweakedPumpjackHandler.registerPowerUsage(0, 16000, flaxbeard.immersivepetroleum.common.Config.IPConfig.Extraction.pumpjack_consumption);
-        }
     }
 
     @Mod.EventHandler
