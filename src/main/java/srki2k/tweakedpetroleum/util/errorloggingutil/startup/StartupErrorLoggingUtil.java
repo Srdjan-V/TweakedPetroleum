@@ -37,7 +37,7 @@ public class StartupErrorLoggingUtil extends ErrorLoggingUtil {
     }
 
 
-    protected void scriptsErrorCheck() {
+    private void scriptsErrorCheck() {
         if (reservoirList.isEmpty()) {
             String error = "No reservoirs are registered";
             errors.add(error);
@@ -50,7 +50,7 @@ public class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     }
 
-    protected void missingPowerTierCheck() {
+    private void missingPowerTierCheck() {
         reservoirList.keySet().
                 stream().
                 map(reservoirType -> (IReservoirType) reservoirType).
