@@ -19,7 +19,6 @@ public class ErrorLoggingUtil {
 
     public static class Runtime {
         public static void missingPowerTiersLog() {
-            TweakedPetroleum.LOGGER.warn("Runtime missingPowerTiersLog() method was called");
 
             List<IReservoirType> powerTierNulls = reservoirList.keySet().
                     stream().
@@ -28,6 +27,7 @@ public class ErrorLoggingUtil {
                     collect(Collectors.toList());
 
             if (powerTierNulls.isEmpty()) {
+                TweakedPetroleum.LOGGER.warn("Runtime missingPowerTiersLog() method was called, but return a empty error list");
                 return;
             }
 
