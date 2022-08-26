@@ -38,10 +38,11 @@ public class TweakedPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
         if (info == null || info.getType() == null) {
-            if (rftTier.get(0) == null) {
+            PowerTier powerTier =rftTier.get(0);
+            if (powerTier == null) {
                 ErrorLoggingUtil.Runtime.missingPowerTiersLog();
             }
-            return rftTier.get(0);
+            return powerTier;
         }
 
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
@@ -50,19 +51,7 @@ public class TweakedPumpjackHandler {
             ErrorLoggingUtil.Runtime.missingPowerTiersLog();
         }
 
-        DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
-
-        Long l = timeCache.get(coords);
-        if (l == null) {
-            timeCache.put(coords, world.getTotalWorldTime());
-            return rftTier.get(tweakedReservoirType.getPowerTier());
-        }
-
-        long lastTime = world.getTotalWorldTime();
-        timeCache.put(coords, world.getTotalWorldTime());
-        int last = lastTime != l ? tweakedReservoirType.getPowerTier() : 0;
-
-        return rftTier.get(last);
+        return rftTier.get(tweakedReservoirType.getPowerTier());
     }
 
 

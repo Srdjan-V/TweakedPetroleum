@@ -94,7 +94,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     public void update(boolean consumePower) {
         super.update();
 
-        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
+        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE && !world.isRemote) {
             initEnergyStorage();
         }
 
