@@ -32,16 +32,35 @@ jobs:
           file: "${{ steps.get_mod_name.outputs.mod_name }}-${{ steps.get_version.outputs.version }}.jar"
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Retrieve Source from Latest Release
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: "${{ github.repository }}"
+          version: "tags/v${{ steps.get_version.outputs.version }}"
+          file: "${{ steps.get_mod_name.outputs.mod_name }}-${{ steps.get_version.outputs.version }}-sources.jar"
+          token: ${{ secrets.GITHUB_TOKEN }}
+
         #See https://github.com/itsmeow/curseforge-upload#usagearguments for more information
       - name: Create CurseForge Release
+        id: "release-curseforge"
         uses: itsmeow/curseforge-upload@v3
         with:
-          game_versions: "Minecraft 1.12.2,Forge"
+          game_versions: "Minecraft 1.12:1.12.2,Forge"
           game_endpoint: "minecraft"
           release_type: "release"
           changelog: "Changelog is available [here](https://github.com/${{ github.repository }}/releases/tag/v${{ steps.get_version.outputs.version }})."
           changelog_type: "markdown"
           relations: "crafttweaker:requiredDependency,immersive-petroleum:requiredDependency,mixin-booter:requiredDependency,had-enough-items:optionalDependency"
           file_path: "${{ steps.get_mod_name.outputs.mod_name }}-${{ steps.get_version.outputs.version }}.jar"
+          project_id: "${{ secrets.CURSEFORGE_PROJECT_ID }}"
+          token: "${{ secrets.CURSEFORGE_API_KEY }}"
+
+      - name: Create CurseForge Sources Release
+        uses: itsmeow/curseforge-upload@v3
+        with:
+          game_endpoint: "minecraft"
+          release_type: "release"
+          parent_file_id: "${{ steps.release-curseforge.outputs.id }}"
+          file_path: "${{ steps.get_mod_name.outputs.mod_name }}-${{ steps.get_version.outputs.version }}-sources.jar"
           project_id: "${{ secrets.CURSEFORGE_PROJECT_ID }}"
           token: "${{ secrets.CURSEFORGE_API_KEY }}"
