@@ -117,20 +117,14 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation 'CraftTweaker2:CraftTweaker2-API:4.1.20.679'
-    implementation 'CraftTweaker2:ZenScript:4.1.20.679'
-    runtimeOnly 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
-
+    implementation 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
     implementation fg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
     implementation fg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
 
-    //Will switch to hei once its in the CR maven
-    compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
-    // implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
 
-
-    //mods
-    implementation 'curse.maven:had-enough-items-557549:3862733'
+    //compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
+    //implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
+    implementation fg.deobf('curse.maven:had-enough-items-557549:3862733')
 
     compileOnly('zone.rong:mixinbooter:5.0')
     runtimeOnly('zone.rong:mixinbooter:5.0')
