@@ -14,6 +14,11 @@ public class TweakedPumpjackHandler {
 
     public static final HashMap<Integer, PowerTier> rftTier = new HashMap<>();
 
+    static {
+        //A fallback power tier instead of returning null or power tier 0
+        rftTier.put(-1, new PowerTier(Integer.MAX_VALUE, 0));
+    }
+
 
     /**
      * Sets the PowerTier object associated with the fluid of a given chunk
@@ -38,16 +43,12 @@ public class TweakedPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
         if (info == null || info.getType() == null) {
-            PowerTier powerTier =rftTier.get(0);
-            if (powerTier == null) {
-                ErrorLoggingUtil.Runtime.missingPowerTiersLog();
-            }
-            return powerTier;
+            return rftTier.get(-1);
         }
 
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null){
+        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
             ErrorLoggingUtil.Runtime.missingPowerTiersLog();
         }
 
@@ -72,7 +73,7 @@ public class TweakedPumpjackHandler {
         ReservoirType mix = new ReservoirType(name, fluid, minSize, maxSize, replenishRate);
         reservoirList.put(mix, weight);
 
-        IReservoirType iMix =(IReservoirType) mix;
+        IReservoirType iMix = (IReservoirType) mix;
         iMix.setPumpSpeed(pumpSpeed);
         iMix.setPowerTier(powerTier);
 
