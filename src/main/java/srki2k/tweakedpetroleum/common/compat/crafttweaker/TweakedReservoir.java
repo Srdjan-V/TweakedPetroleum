@@ -5,7 +5,7 @@ import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
-import srki2k.tweakedpetroleum.util.ErrorLoggingUtil;
+import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -77,7 +77,7 @@ public class TweakedReservoir {
             return;
         }
 
-        ErrorLoggingUtil.Startup.addErrors(errors);
+        ErrorLoggingUtil.getStartupInstance().addErrors(errors);
     }
 
     @ZenMethod
@@ -103,7 +103,7 @@ public class TweakedReservoir {
             return;
         }
 
-        ErrorLoggingUtil.Startup.addErrors(errors);
+        ErrorLoggingUtil.getStartupInstance().addErrors(errors);
 
     }
 

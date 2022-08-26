@@ -3,7 +3,7 @@ package srki2k.tweakedpetroleum.api.crafting;
 import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import net.minecraft.world.World;
-import srki2k.tweakedpetroleum.util.ErrorLoggingUtil;
+import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
 import java.util.HashMap;
 
@@ -49,7 +49,7 @@ public class TweakedPumpjackHandler {
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
         if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
-            ErrorLoggingUtil.Runtime.missingPowerTiersLog();
+            ErrorLoggingUtil.getRuntimeInstance().missingPowerTiersLog();
         }
 
         return rftTier.get(tweakedReservoirType.getPowerTier());
