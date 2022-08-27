@@ -10,12 +10,12 @@ public class Client extends Common {
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
-        super.preInit(event);
+        ErrorLoggingUtil.makeClientSideStartupInstance();
     }
 
     @Override
     public void init(FMLInitializationEvent event) {
-        ErrorLoggingUtil.makeClientSideStartupInstance();
+        super.init(event);
     }
 
     @Override

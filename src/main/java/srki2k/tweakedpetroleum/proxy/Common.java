@@ -11,11 +11,11 @@ public class Common {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        ErrorLoggingUtil.makeServerSideStartupInstance();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ErrorLoggingUtil.makeServerSideStartupInstance();
     }
 
     @Mod.EventHandler
