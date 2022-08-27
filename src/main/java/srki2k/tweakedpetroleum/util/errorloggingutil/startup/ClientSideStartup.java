@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
 
 public class ClientSideStartup extends StartupErrorLoggingUtil {
+
+    @Override
     public void validateScripts() {
         super.validateScripts();
 

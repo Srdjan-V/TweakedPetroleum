@@ -12,7 +12,7 @@ import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTie
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.missingPowerTierCheck;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.scriptsErrorCheck;
 
-public class StartupErrorLoggingUtil extends ErrorLoggingUtil {
+public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     protected final List<String> errors = new ArrayList<>();
 
