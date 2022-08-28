@@ -52,7 +52,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
     }
 
     public FluidStack getAverageFluid() {
-        return new FluidStack(reservoirFluid, (reservoir.getMaxSize() + reservoir.getMinSize()) / 2);
+        return new FluidStack(reservoirFluid, (int) (((long) reservoir.getMaxSize() + (long) reservoir.getMinSize()) / 2));
     }
 
     @Override
@@ -94,7 +94,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
 
             list.add(firstToUpperCase(reservoir.getName()));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.getMaxSize())));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.getMaxSize())));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.getMinSize())));
 
             return list;
         }
@@ -118,15 +118,14 @@ public class PumpjackWrapper implements IRecipeWrapper {
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
 
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
             if (Keyboard.isKeyDown(0x2A)) {
-                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
                 list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", detailedDimension(reservoir.getDimensionWhitelist())));
                 list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", detailedDimension(reservoir.getDimensionBlacklist())));
 
                 return list;
             }
 
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", Arrays.toString(reservoir.getDimensionWhitelist())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", Arrays.toString(reservoir.getDimensionBlacklist())));
 
