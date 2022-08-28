@@ -35,12 +35,12 @@ public class PumpjackWrapper implements IRecipeWrapper {
         return reservoirFluid;
     }
 
-    public FluidStack getAverageReplenishFluid() {
+    public FluidStack getReplenishRateFluid() {
         return new FluidStack(reservoirFluid, reservoir.getReplenishRate());
     }
 
-    public int getMaxFluidReplenishRate() {
-        return reservoir.getReplenishRate();
+    public int getPumpSpeed() {
+        return reservoir.getPumpSpeed();
     }
 
     public int getMinFluid() {
