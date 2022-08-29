@@ -25,7 +25,6 @@ public final class RuntimeErrorLoggingUtil extends ErrorLoggingUtil {
             return;
         }
 
-        super.logSetting();
         logContentErrors(powerTierNulls.stream().
                 map(iReservoirType -> "Reservoir with the ID (name) " + iReservoirType.getName() + " has no valid Power tier").
                 collect(Collectors.toList()));

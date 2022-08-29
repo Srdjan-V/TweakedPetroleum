@@ -1,6 +1,5 @@
 package srki2k.tweakedpetroleum.util.errorloggingutil.startup;
 
-import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
@@ -24,6 +23,9 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
         errors.add(error);
     }
 
+    protected StartupErrorLoggingUtil() {
+    }
+
     public void validateScripts() {
         if (scriptsErrorCheck) {
             scriptsErrorCheck();
@@ -34,7 +36,6 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
         }
 
         if (!errors.isEmpty()) {
-            logSetting();
             logContentErrors(errors);
             customErrorImplementation();
         }
@@ -49,7 +50,7 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
             errors.add("No reservoirs are registered");
         }
 
-        if (rftTier.isEmpty()) {
+        if (rftTier.size() == 1) {
             errors.add("No power tiers are registered");
         }
 
@@ -61,9 +62,7 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
                 map(reservoirType -> (IReservoirType) reservoirType).
                 forEach(tweakedReservoirType -> {
                     if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
-                        String error = "Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier";
-                        errors.add(error);
-                        TweakedPetroleum.LOGGER.fatal(error);
+                        errors.add("Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier");
                     }
                 });
     }

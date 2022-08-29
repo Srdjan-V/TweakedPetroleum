@@ -43,6 +43,11 @@ public abstract class ErrorLoggingUtil {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    protected ErrorLoggingUtil() {
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////
+
     protected void logSetting() {
         TweakedPetroleum.LOGGER.info("Startup Script Checks:");
         TweakedPetroleum.LOGGER.info("Do not load with errors in scripts: " + scriptsErrorCheck);
@@ -51,6 +56,7 @@ public abstract class ErrorLoggingUtil {
     }
 
     protected void logContentErrors(List<String> errors) {
+        logSetting();
         errors.forEach(TweakedPetroleum.LOGGER::fatal);
     }
 

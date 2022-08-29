@@ -43,11 +43,11 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        ErrorLoggingUtil.getStartupInstance().validateScripts();
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        ErrorLoggingUtil.getStartupInstance().validateScripts();
         Constants.init();
     }
 
