@@ -11,10 +11,14 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.input.Keyboard;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
+import srki2k.tweakedpetroleum.util.Constants;
+import zmaster587.advancedRocketry.dimension.DimensionManager;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
@@ -60,30 +64,62 @@ public class PumpjackWrapper implements IRecipeWrapper {
         ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
     }
 
-    private String firstToUpperCase(String s) {
-        return Character.toUpperCase(s.charAt(0)) + s.substring(1);
+    private String formatString(String s) {
+        return (Character.toUpperCase(s.charAt(0)) + s.substring(1)).replace("_", " ");
     }
 
     private String detailedDimension(int[] dim) {
         StringBuilder stringBuilder = new StringBuilder();
 
-        for (int i = 0, dimLength = dim.length; i < dimLength; i++) {
-            int id = dim[i];
+        int dimLength = dim.length;
+        if (dimLength == 0) {
+            return stringBuilder.append("[]").toString();
+        }
+
+        int elements = 1;
+        foundDim:
+        for (int id : dim) {
+            //Vanilla dims and dims registered with DimensionType.register()
             for (DimensionType dimensionType : DimensionType.values()) {
                 if (dimensionType.getId() == id) {
-                    stringBuilder.append(firstToUpperCase(dimensionType.getName())).
+                    stringBuilder.append(formatString(dimensionType.getName())).
                             append(" [").
                             append(id).
                             append("]");
 
-                    if (i + 1 < dimLength) {
+                    if (elements < dimLength) {
                         stringBuilder.append(", ");
+                        elements++;
+                        continue foundDim;
+                    }
+                    return stringBuilder.toString();
+                }
+            }
+
+            //Advanced Rocketry planets
+            if (Constants.getAdvancedRocketryLoaded()) {
+                DimensionManager dimensionManager = DimensionManager.getInstance();
+                Integer[] dims = dimensionManager.getRegisteredDimensions();
+
+                for (Integer integer : dims) {
+                    if (integer == id) {
+                        stringBuilder.append(formatString(dimensionManager.getDimensionProperties(id).getName())).
+                                append(" [").
+                                append(id).
+                                append("]");
+
+                        if (elements < dimLength) {
+                            stringBuilder.append(", ");
+                            elements++;
+                            continue foundDim;
+                        }
+                        return stringBuilder.toString();
                     }
                 }
             }
         }
 
-        return stringBuilder.toString();
+        return stringBuilder.append("Wrong dimension id or Missing integration").toString();
     }
 
     @Override
@@ -92,7 +128,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
         if (mouseX > 14 && mouseX < 25 && mouseY > 60 && mouseY < 74) {
             List<String> list = new ArrayList<>();
 
-            list.add(firstToUpperCase(reservoir.getName()));
+            list.add(formatString(reservoir.getName()));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.getMaxSize())));
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.getMinSize())));
 

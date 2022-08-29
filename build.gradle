@@ -121,6 +121,9 @@ dependencies {
     implementation fg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
     implementation fg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
 
+    //AdvancedRocketry
+    implementation fg.deobf('curse.maven:AdvancedRocketry-236542:3801020')
+    implementation fg.deobf('curse.maven:Libvulpes-236541:3801015')
 
     //compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
     //implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
@@ -134,7 +137,6 @@ dependencies {
 
 sourceSets {
     main {
-        ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
         if (project.use_mixins.toBoolean()) {
             ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
         }
