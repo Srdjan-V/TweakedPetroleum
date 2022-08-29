@@ -1,12 +1,9 @@
 package srki2k.tweakedpetroleum.util.errorloggingutil.startup;
 
-public class ServerSideStartup extends StartupErrorLoggingUtil {
+public final class ServerSideStartup extends StartupErrorLoggingUtil {
 
     @Override
-    public void validateScripts() {
-        super.validateScripts();
-
-        markStartupInstanceNull();
+    protected void customErrorImplementation() {
+        throw new Error("Check the logs for Tweaked Petroleum startup errors");
     }
-
 }

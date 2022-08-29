@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
 
-public class RuntimeErrorLoggingUtil extends ErrorLoggingUtil {
+public final class RuntimeErrorLoggingUtil extends ErrorLoggingUtil {
 
     public void missingPowerTiersLog() {
 
@@ -26,8 +26,10 @@ public class RuntimeErrorLoggingUtil extends ErrorLoggingUtil {
         }
 
         super.logSetting();
-        powerTierNulls.forEach(iReservoirType -> TweakedPetroleum.LOGGER.fatal("Reservoir with the ID (name)" + iReservoirType.getName() + "has no valid Power tier"));
+        logContentErrors(powerTierNulls.stream().
+                map(iReservoirType -> "Reservoir with the ID (name) " + iReservoirType.getName() + " has no valid Power tier").
+                collect(Collectors.toList()));
 
-        throw new Error("Check the Tweaked Petroleum logs");
+        throw new Error("Check the logs for Tweaked Petroleum errors");
     }
 }

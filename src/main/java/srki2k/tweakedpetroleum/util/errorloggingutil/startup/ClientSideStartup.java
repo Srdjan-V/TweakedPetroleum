@@ -4,20 +4,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
 
-public class ClientSideStartup extends StartupErrorLoggingUtil {
-
+public final class ClientSideStartup extends StartupErrorLoggingUtil {
     @Override
-    public void validateScripts() {
-        super.validateScripts();
-
-        if (!errors.isEmpty()){
-            errorScreen();
-        }
-
-        markStartupInstanceNull();
-    }
-
-    private void errorScreen() {
+    protected void customErrorImplementation() {
         throw new CustomModLoadingErrorDisplayException() {
             @Override
             public void initGui(GuiErrorScreen errorScreen, FontRenderer fontRenderer) {

@@ -16,8 +16,12 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     protected final List<String> errors = new ArrayList<>();
 
-    public void addErrors(List<String> error) {
+    public void addErrorToList(List<String> error) {
         errors.addAll(error);
+    }
+
+    public void addErrorToList(String error) {
+        errors.add(error);
     }
 
     public void validateScripts() {
@@ -32,20 +36,21 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
         if (!errors.isEmpty()) {
             logSetting();
             logContentErrors(errors);
+            customErrorImplementation();
         }
 
+        markStartupInstanceNull();
     }
 
+    protected abstract void customErrorImplementation();
 
     private void scriptsErrorCheck() {
         if (reservoirList.isEmpty()) {
-            String error = "No reservoirs are registered";
-            errors.add(error);
+            errors.add("No reservoirs are registered");
         }
 
         if (rftTier.isEmpty()) {
-            String error = "No power tiers are registered";
-            errors.add(error);
+            errors.add("No power tiers are registered");
         }
 
     }
