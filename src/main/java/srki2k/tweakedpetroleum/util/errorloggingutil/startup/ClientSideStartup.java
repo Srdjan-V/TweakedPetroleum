@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiErrorScreen;
 import net.minecraftforge.fml.client.CustomModLoadingErrorDisplayException;
 
 public final class ClientSideStartup extends StartupErrorLoggingUtil {
+
     @Override
     protected void customErrorImplementation() {
         throw new CustomModLoadingErrorDisplayException() {
@@ -14,19 +15,14 @@ public final class ClientSideStartup extends StartupErrorLoggingUtil {
 
             @Override
             public void drawScreen(GuiErrorScreen errorScreen, FontRenderer fontRenderer, int mouseRelX, int mouseRelY, float tickTime) {
-                drawCenteredString(fontRenderer, "The following errors were found in your Tweaked Petroleum configs:", errorScreen.width / 2, 12);
-                drawCenteredString(fontRenderer, "You can also visit the logs for a list of errors", errorScreen.width / 2, 24);
+                errorScreen.drawCenteredString(fontRenderer, "The following errors were found in your Tweaked Petroleum configs:", errorScreen.width / 2, 12, 16777215);
+                errorScreen.drawCenteredString(fontRenderer, "You can also visit the logs for a list of errors", errorScreen.width / 2, 24, 16777215);
 
                 for (int i = 0; i < errors.size(); i++) {
-                    String error = errors.get(i);
-                    drawCenteredString(fontRenderer, error, errorScreen.width / 2, 40 + i * 12);
+                    errorScreen.drawCenteredString(fontRenderer, errors.get(i), errorScreen.width / 2, 40 + i * 12, 16777215);
                 }
             }
         };
-    }
-
-    private void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y) {
-        fontRendererIn.drawStringWithShadow(text, (float) (x - fontRendererIn.getStringWidth(text) / 2), (float) y, 16777215);
     }
 
 }
