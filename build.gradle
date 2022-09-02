@@ -160,7 +160,7 @@ sourceSets {
     }
 
     // at compile time, put resources in same directories as classes
-    main.output.setResourcesDir(main.java.outputDir)
+    main.output.setResourcesDir(main.java.classesDirectory)
 }
 
 
@@ -223,30 +223,29 @@ processResources {
 if (project.build_deobfJar.toBoolean()) {
     // Create deobf dev jars
     task deobfJar(type: Jar) {
+        archiveClassifier.set("deobf")
         from sourceSets.main.output
-        classifier = 'deobf'
     }
 }
 
 if (project.build_apiJar.toBoolean()) {
     // Create API library jar
     task apiZip(type: Jar) {
+        archiveClassifier.set("api")
         from(sourceSets.main.java) {
             include "name/api/**"
         }
         from(sourceSets.main.output) {
             include "name/api/**"
         }
-
-        classifier = 'api'
     }
 }
 
 if (project.build_sourceJar.toBoolean()) {
     // Create source jar
     task sourcesJar(type: Jar) {
+        archiveClassifier.set("sources")
         from sourceSets.main.allJava
-        classifier = 'sources'
     }
 }
 
