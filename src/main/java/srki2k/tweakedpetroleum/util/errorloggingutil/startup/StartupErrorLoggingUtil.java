@@ -1,5 +1,8 @@
 package srki2k.tweakedpetroleum.util.errorloggingutil.startup;
 
+import crafttweaker.socket.SingleError;
+import crafttweaker.zenscript.CrtStoringErrorLogger;
+import crafttweaker.zenscript.GlobalRegistry;
 import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
@@ -27,6 +30,14 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
     }
 
     public void validateScripts() {
+        if (!((CrtStoringErrorLogger) GlobalRegistry.getErrors()).getErrors().isEmpty()) {
+            errors.add("=========== Everything below this is highlighting errors with zen script(after TP is loaded) ===========");
+            for (SingleError e : ((CrtStoringErrorLogger) GlobalRegistry.getErrors()).getErrors()) {
+                errors.add("fileName='" + e.fileName + '\'' + ", line=" + e.line + ", offset=" + e.offset + ", explanation='" + e.explanation + '\'' + ", level=" + e.level);
+            }
+            errors.add("====================== Everything below this line may or may not be a error ======================");
+        }
+
         if (scriptsErrorCheck) {
             scriptsErrorCheck();
         }
