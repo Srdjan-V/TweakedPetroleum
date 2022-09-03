@@ -25,7 +25,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 
-@Mixin(TileEntityPumpjack.class)
+@Mixin(value = TileEntityPumpjack.class)
 public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements IPumpjackAddons {
 
     //Shadow Variables
@@ -213,7 +213,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         return true;
     }
 
-    @Unique
+    @Unique(silent = true)
     @Override
     public boolean caseGas(int consumed, int pumpSpeed, int oilAmnt) {
         energyStorage.extractEnergy(consumed, false);

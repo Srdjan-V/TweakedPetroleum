@@ -8,7 +8,6 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.HEIUtil;
 
@@ -40,11 +39,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
     }
 
     @Override
-    @SuppressWarnings("NullableProblems")
     public void getIngredients(IIngredients ingredients) {
-        if (reservoir.getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID) {
-            ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
-        }
+        ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
     }
 
     @Override
