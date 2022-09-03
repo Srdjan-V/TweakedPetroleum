@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum.common.mixin;
+package srki2k.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import net.minecraft.nbt.NBTTagCompound;
@@ -48,7 +48,7 @@ public abstract class MixinReservoirType implements IReservoirType {
 
     @Unique
     @Override
-    public String getFluid() {
+    public String getStringFluid() {
         return fluid;
     }
 

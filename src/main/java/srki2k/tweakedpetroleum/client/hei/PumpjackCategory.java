@@ -13,7 +13,7 @@ import srki2k.tweakedpetroleum.util.HEIUtil;
 
 @SuppressWarnings("NullableProblems")
 public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
-    public static final String UID = "immersivepetroleum.pumpjack";
+    public static final String UID = "tweakedpetroleum.pumpjack";
 
     @Override
     public String getUid() {
@@ -51,7 +51,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
         outputGuiFluids.set(0, recipeWrapper.getAverageFluid());
 
         outputGuiFluids.init(1, false, 36, 10, 16, 47, recipeWrapper.getPumpSpeed(), false, null);
-        outputGuiFluids.set(1, recipeWrapper.getReplenishRate());
+        outputGuiFluids.set(1, recipeWrapper.getReplenishRateFluid());
 
     }
 

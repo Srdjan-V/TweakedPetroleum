@@ -8,12 +8,12 @@ import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.HEIUtil;
 
 import java.util.List;
 
-@SuppressWarnings("NullableProblems")
 public class PumpjackWrapper implements IRecipeWrapper {
     private final IReservoirType reservoir;
     private final Fluid reservoirFluid;
@@ -23,7 +23,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
         reservoirFluid = reservoir.getFluid();
     }
 
-    public FluidStack getReplenishRate() {
+    public FluidStack getReplenishRateFluid() {
         return new FluidStack(reservoirFluid, reservoir.getReplenishRate());
     }
 
@@ -40,11 +40,15 @@ public class PumpjackWrapper implements IRecipeWrapper {
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public void getIngredients(IIngredients ingredients) {
-        ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
+        if (reservoir.getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID) {
+            ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
+        }
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         if (Config.IPConfig.Extraction.req_pipes) {
             return HEIUtil.tooltipStrings(mouseX, mouseY, "jei.pumpjack.reservoir.req_pipes", reservoir);

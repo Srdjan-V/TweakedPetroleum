@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum.common.mixin;
+package srki2k.tweakedpetroleum.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

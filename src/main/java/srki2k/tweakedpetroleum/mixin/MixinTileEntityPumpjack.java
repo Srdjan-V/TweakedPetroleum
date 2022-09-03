@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum.common.mixin;
+package srki2k.tweakedpetroleum.mixin;
 
 import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
@@ -23,9 +23,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
+import srki2k.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 
 @Mixin(TileEntityPumpjack.class)
-public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> {
+public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements IPumpjackAddons {
 
     //Shadow Variables
     @Shadow(remap = false)
@@ -67,6 +68,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     TweakedPumpjackHandler.ReservoirContent chunkContains = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
 
     @Unique
+    @Override
     public void initEnergyStorage() {
         TweakedPumpjackHandler.PowerTier powerTier =
                 TweakedPumpjackHandler.getPowerTier(
@@ -78,6 +80,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     }
 
     @Unique
+    @Override
     public int[] getReplenishRateAndPumpSpeed() {
         return TweakedPumpjackHandler.getReplenishRateAndPumpSpeed(
                 this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
@@ -85,6 +88,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     }
 
     @Unique
+    @Override
     public TweakedPumpjackHandler.ReservoirContent getChunkContains() {
         return TweakedPumpjackHandler.getReservoirContent(
                 this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
@@ -179,7 +183,9 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
 
     }
 
-    private boolean caseLiquid(int consumed, int pumpSpeed, int oilAmnt) {
+    @Unique
+    @Override
+    public boolean caseLiquid(int consumed, int pumpSpeed, int oilAmnt) {
         energyStorage.extractEnergy(consumed, false);
         FluidStack out = new FluidStack(availableFluid(), Math.min(pumpSpeed, oilAmnt));
 
@@ -207,7 +213,9 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         return true;
     }
 
-    private boolean caseGas(int consumed, int pumpSpeed, int oilAmnt) {
+    @Unique
+    @Override
+    public boolean caseGas(int consumed, int pumpSpeed, int oilAmnt) {
         energyStorage.extractEnergy(consumed, false);
         return true;
     }

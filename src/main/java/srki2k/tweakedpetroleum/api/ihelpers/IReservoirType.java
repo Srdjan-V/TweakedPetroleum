@@ -26,8 +26,6 @@ public interface IReservoirType {
 
     String[] getBiomeBlacklist();
 
-    String getFluid();
-
     TweakedPumpjackHandler.ReservoirContent getReservoirContent();
 
 

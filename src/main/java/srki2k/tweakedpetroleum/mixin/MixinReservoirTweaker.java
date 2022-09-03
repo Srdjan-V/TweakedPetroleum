@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum.common.mixin;
+package srki2k.tweakedpetroleum.mixin;
 
 import crafttweaker.api.liquid.ILiquidStack;
 import flaxbeard.immersivepetroleum.common.compat.crafttweaker.ReservoirTweaker;
