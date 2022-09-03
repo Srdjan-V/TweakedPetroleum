@@ -1,17 +1,17 @@
-package srki2k.tweakedpetroleum.common.compat.hei;
+package srki2k.tweakedpetroleum.util;
 
-import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.ingredients.VanillaTypes;
-import mezz.jei.api.recipe.IRecipeWrapper;
+import flaxbeard.immersivepetroleum.common.IPContent;
+import flaxbeard.immersivepetroleum.common.blocks.metal.BlockTypes_IPMetalMultiblock;
+import mezz.jei.api.IGuiHelper;
+import mezz.jei.api.gui.IDrawable;
 import mezz.jei.util.Translator;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.DimensionType;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidStack;
 import org.lwjgl.input.Keyboard;
-import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
-import srki2k.tweakedpetroleum.util.Constants;
+import srki2k.tweakedpetroleum.TweakedPetroleum;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import zmaster587.advancedRocketry.dimension.DimensionManager;
 
 import java.text.DecimalFormat;
@@ -23,52 +23,35 @@ import java.util.List;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
 
-@SuppressWarnings("NullableProblems")
-public class PumpjackWrapper implements IRecipeWrapper {
+public class HEIUtil {
+
     public static NumberFormat numberFormat = new DecimalFormat("#,###,###,###.#");
-    private final IReservoirType reservoir;
-    private final Fluid reservoirFluid;
 
-    public PumpjackWrapper(PumpjackHandler.ReservoirType reservoir) {
-        this.reservoir = (IReservoirType) reservoir;
-        reservoirFluid = reservoir.getFluid();
+    public static ItemStack pumpjackCatalyst = new ItemStack(IPContent.blockMetalMultiblock, 1, BlockTypes_IPMetalMultiblock.PUMPJACK_PARENT.getMeta());
+
+    private static IDrawable pumpjackBackground;
+
+    private static IDrawable pumpjackWarning;
+
+    public static void initGuiHelper(IGuiHelper guiHelper) {
+        ResourceLocation location = new ResourceLocation(TweakedPetroleum.MODID, "textures/gui/pumpjack.png");
+        pumpjackBackground = guiHelper.createDrawable(location, 0, 0, 84, 80);
+        pumpjackWarning = guiHelper.createDrawable(location, 85, 0, 102, 17);
     }
 
-
-    public Fluid getReservoirFluid() {
-        return reservoirFluid;
+    public static IDrawable getPumpjackBackground() {
+        return pumpjackBackground;
     }
 
-    public FluidStack getReplenishRateFluid() {
-        return new FluidStack(reservoirFluid, reservoir.getReplenishRate());
+    public static IDrawable getPumpjackWarning() {
+        return pumpjackWarning;
     }
 
-    public int getPumpSpeed() {
-        return reservoir.getPumpSpeed();
-    }
-
-    public int getMinFluid() {
-        return reservoir.getMinSize();
-    }
-
-    public int getMaxFluid() {
-        return reservoir.getMaxSize();
-    }
-
-    public FluidStack getAverageFluid() {
-        return new FluidStack(reservoirFluid, (int) (((long) reservoir.getMaxSize() + (long) reservoir.getMinSize()) / 2));
-    }
-
-    @Override
-    public void getIngredients(IIngredients ingredients) {
-        ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
-    }
-
-    private String formatString(String s) {
+    public static String formatString(String s) {
         return (Character.toUpperCase(s.charAt(0)) + s.substring(1)).replace("_", " ");
     }
 
-    private String detailedDimension(int[] dim) {
+    public static String detailedDimension(int[] dim) {
         StringBuilder stringBuilder = new StringBuilder();
 
         int dimLength = dim.length;
@@ -97,7 +80,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
             }
 
             //Advanced Rocketry planets
-            if (Constants.getAdvancedRocketryLoaded()) {
+            if (Constants.isAdvancedRocketryLoaded()) {
                 DimensionManager dimensionManager = DimensionManager.getInstance();
                 Integer[] dims = dimensionManager.getRegisteredDimensions();
 
@@ -122,15 +105,47 @@ public class PumpjackWrapper implements IRecipeWrapper {
         return stringBuilder.append("Wrong dimension id or Missing integration").toString();
     }
 
-    @Override
-    public List<String> getTooltipStrings(int mouseX, int mouseY) {
 
+    public static List<String> tooltipStrings(int mouseX, int mouseY, List<String> customWarnings, IReservoirType reservoir) {
+        List<String> baseList = tooltipStrings(mouseX, mouseY, reservoir);
+        if (baseList != null) {
+            return baseList;
+        }
+
+        if (mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25 && (customWarnings != null && !(customWarnings.isEmpty()))) {
+            List<String> list = new ArrayList<>();
+
+            customWarnings.forEach(customWarning -> list.add(Translator.translateToLocal(customWarning)));
+
+            return list;
+        }
+
+        return null;
+    }
+
+    public static List<String> tooltipStrings(int mouseX, int mouseY, String customWarning, IReservoirType reservoir) {
+        List<String> baseList = tooltipStrings(mouseX, mouseY, reservoir);
+        if (baseList != null) {
+            return baseList;
+        }
+
+        if (mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25 && (customWarning != null && !(customWarning.isEmpty()))) {
+            List<String> list = new ArrayList<>();
+            list.add(Translator.translateToLocal(customWarning));
+
+            return list;
+        }
+
+        return null;
+    }
+
+    public static List<String> tooltipStrings(int mouseX, int mouseY, IReservoirType reservoir) {
         if (mouseX > 14 && mouseX < 25 && mouseY > 60 && mouseY < 74) {
             List<String> list = new ArrayList<>();
 
-            list.add(formatString(reservoir.getName()));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", numberFormat.format(reservoir.getMaxSize())));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", numberFormat.format(reservoir.getMinSize())));
+            list.add(HEIUtil.formatString(reservoir.getName()));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", HEIUtil.numberFormat.format(reservoir.getMaxSize())));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", HEIUtil.numberFormat.format(reservoir.getMinSize())));
 
             return list;
         }
@@ -138,8 +153,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
         if (mouseX > 37 && mouseX < 50 && mouseY > 60 && mouseY < 74) {
             List<String> list = new ArrayList<>();
 
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", numberFormat.format(reservoir.getReplenishRate())));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.speed", numberFormat.format(reservoir.getPumpSpeed())));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", HEIUtil.numberFormat.format(reservoir.getReplenishRate())));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.speed", HEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
 
             return list;
         }
@@ -156,8 +171,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
 
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimensions"));
             if (Keyboard.isKeyDown(0x2A)) {
-                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", detailedDimension(reservoir.getDimensionWhitelist())));
-                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", detailedDimension(reservoir.getDimensionBlacklist())));
+                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_whitelist", HEIUtil.detailedDimension(reservoir.getDimensionWhitelist())));
+                list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.dimension_blacklist", HEIUtil.detailedDimension(reservoir.getDimensionBlacklist())));
 
                 return list;
             }
@@ -175,13 +190,14 @@ public class PumpjackWrapper implements IRecipeWrapper {
             List<String> list = new ArrayList<>();
 
             list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_tier", reservoir.getPowerTier()));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_capacity", numberFormat.format(rftTier.get(reservoir.getPowerTier()).capacity)));
-            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_usage", numberFormat.format(rftTier.get(reservoir.getPowerTier()).rft)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_capacity", HEIUtil.numberFormat.format(rftTier.get(reservoir.getPowerTier()).capacity)));
+            list.add(Translator.translateToLocalFormatted("jei.pumpjack.reservoir.power_usage", HEIUtil.numberFormat.format(rftTier.get(reservoir.getPowerTier()).rft)));
 
             return list;
         }
 
         return null;
     }
+
 
 }

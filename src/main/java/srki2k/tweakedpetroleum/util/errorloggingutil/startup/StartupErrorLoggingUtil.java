@@ -3,7 +3,7 @@ package srki2k.tweakedpetroleum.util.errorloggingutil.startup;
 import crafttweaker.socket.SingleError;
 import crafttweaker.zenscript.CrtStoringErrorLogger;
 import crafttweaker.zenscript.GlobalRegistry;
-import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
 import java.util.ArrayList;

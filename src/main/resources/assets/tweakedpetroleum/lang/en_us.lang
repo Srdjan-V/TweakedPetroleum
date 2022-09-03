@@ -18,3 +18,5 @@ jei.pumpjack.reservoir.power_capacity= Reservoir power capacity: %d RF
 jei.pumpjack.reservoir.power_usage= Reservoir power usage: %d RF/t
 
 jei.pumpjack.reservoir.lshift=Hold LShift for more info
+
+jei.pumpjack.reservoir.req_pipes=The pumpjack requires IE pipes built down to Bedrock

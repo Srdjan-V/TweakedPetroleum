@@ -4,8 +4,6 @@ import blusunrize.immersiveengineering.api.MultiblockHandler;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import blusunrize.immersiveengineering.common.util.Utils;
-import org.spongepowered.asm.mixin.Unique;
-import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
 import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
 import net.minecraft.block.Block;
@@ -20,9 +18,11 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 
 @Mixin(TileEntityPumpjack.class)
 public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> {
@@ -61,6 +61,10 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     public MixinTileEntityPumpjack(MultiblockHandler.IMultiblock mutliblockInstance, int[] structureDimensions, int energyCapacity, boolean redstoneControl) {
         super(mutliblockInstance, structureDimensions, energyCapacity, redstoneControl);
     }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    @Unique
+    TweakedPumpjackHandler.ReservoirContent chunkContains = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
 
     @Unique
     public void initEnergyStorage() {
@@ -80,6 +84,13 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
 
     }
 
+    @Unique
+    public TweakedPumpjackHandler.ReservoirContent getChunkContains() {
+        return TweakedPumpjackHandler.getReservoirContent(
+                this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
+
+    }
+
     @Inject(method = "<init>", at = @At("RETURN"))
     private void onConstructed(CallbackInfo ci) {
         energyStorage.setCapacity(Integer.MAX_VALUE);
@@ -94,17 +105,16 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     public void update(boolean consumePower) {
         super.update();
 
-        if (!isDummy() && energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE && !world.isRemote) {
-            initEnergyStorage();
-        }
-
+        //Client side
         if (world.isRemote || isDummy()) {
             if (world.isRemote && !isDummy() && state != null && wasActive) {
                 BlockPos particlePos = this.getPos().offset(facing, 4);
+
                 float r1 = (world.rand.nextFloat() - .5F) * 2F;
                 float r2 = (world.rand.nextFloat() - .5F) * 2F;
 
-                world.spawnParticle(EnumParticleTypes.BLOCK_DUST, particlePos.getX() + 0.5F, particlePos.getY(), particlePos.getZ() + 0.5F, r1 * 0.04F, 0.25F, r2 * 0.025F, Block.getStateId(state));
+                world.spawnParticle(EnumParticleTypes.BLOCK_DUST, particlePos.getX() + 0.5F, particlePos.getY(),
+                        particlePos.getZ() + 0.5F, r1 * 0.04F, 0.25F, r2 * 0.025F, Block.getStateId(state));
             }
             if (wasActive) {
                 activeTicks++;
@@ -112,12 +122,22 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
             return;
         }
 
+        //Tile initialization
+        if (!isDummy()) {
+            if (energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
+                initEnergyStorage();
+            }
+
+            if (chunkContains == TweakedPumpjackHandler.ReservoirContent.DEFAULT) {
+                chunkContains = getChunkContains();
+            }
+        }
+
         boolean active = false;
 
         int consumed = energyStorage.getLimitExtract();
-        int extracted = energyStorage.extractEnergy(consumed, true);
 
-        if (extracted >= consumed && canExtract() && !this.isRSDisabled()) {
+        if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
             if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
                 lastHadPipes = hasPipes();
             }
@@ -128,32 +148,21 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
                 if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
                     int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
 
-                    energyStorage.extractEnergy(consumed, false);
-                    active = true;
-                    FluidStack out = new FluidStack(availableFluid(), Math.min(replenishRateAndPumpSpeed[1], oilAmnt));
-                    BlockPos outputPos = this.getPos().offset(facing, 2).offset(facing.rotateY().getOpposite(), 2).offset(EnumFacing.DOWN, 1);
-                    IFluidHandler output = FluidUtil.getFluidHandler(world, outputPos, facing.rotateY());
-                    if (output != null) {
-                        int accepted = output.fill(out, false);
-                        if (accepted > 0) {
-                            int drained = output.fill(Utils.copyFluidStackWithAmount(out, Math.min(out.amount, accepted), false), true);
-                            extractOil(drained);
-                            out = Utils.copyFluidStackWithAmount(out, out.amount - drained, false);
+                    switch (chunkContains) {
+                        case LIQUID: {
+                            active = caseLiquid(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
+                            break;
                         }
-                    }
-
-
-                    outputPos = this.getPos().offset(facing, 2).offset(facing.rotateY(), 2).offset(EnumFacing.DOWN, 1);
-                    output = FluidUtil.getFluidHandler(world, outputPos, facing.rotateYCCW());
-                    if (output != null) {
-                        int accepted = output.fill(out, false);
-                        if (accepted > 0) {
-                            int drained = output.fill(Utils.copyFluidStackWithAmount(out, Math.min(out.amount, accepted), false), true);
-                            extractOil(drained);
-
+                        case GAS: {
+                            active = caseGas(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
+                            break;
                         }
-                    }
+                        case EMPTY: {
+                            energyStorage.extractEnergy(consumed / 2, false);
+                            active = true;
+                        }
 
+                    }
 
                     activeTicks++;
                 }
@@ -168,6 +177,39 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
 
         wasActive = active;
 
+    }
+
+    private boolean caseLiquid(int consumed, int pumpSpeed, int oilAmnt) {
+        energyStorage.extractEnergy(consumed, false);
+        FluidStack out = new FluidStack(availableFluid(), Math.min(pumpSpeed, oilAmnt));
+
+        BlockPos outputPos = this.getPos().offset(facing, 2).offset(facing.rotateY().getOpposite(), 2).offset(EnumFacing.DOWN, 1);
+
+        IFluidHandler output = FluidUtil.getFluidHandler(world, outputPos, facing.rotateY());
+        if (output != null) {
+            int accepted = output.fill(out, false);
+            if (accepted > 0) {
+                int drained = output.fill(Utils.copyFluidStackWithAmount(out, accepted, false), true);
+                extractOil(drained);
+                out = Utils.copyFluidStackWithAmount(out, out.amount - drained, false);
+            }
+        }
+
+        outputPos = this.getPos().offset(facing, 2).offset(facing.rotateY(), 2).offset(EnumFacing.DOWN, 1);
+        output = FluidUtil.getFluidHandler(world, outputPos, facing.rotateYCCW());
+        if (output != null) {
+            int accepted = output.fill(out, false);
+            if (accepted > 0) {
+                int drained = output.fill(Utils.copyFluidStackWithAmount(out, accepted, false), true);
+                extractOil(drained);
+            }
+        }
+        return true;
+    }
+
+    private boolean caseGas(int consumed, int pumpSpeed, int oilAmnt) {
+        energyStorage.extractEnergy(consumed, false);
+        return true;
     }
 
 }

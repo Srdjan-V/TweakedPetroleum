@@ -8,7 +8,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
+import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
 import java.util.Objects;
 
@@ -18,6 +19,9 @@ public abstract class MixinReservoirType implements IReservoirType {
 
     @Shadow
     public String name;
+
+    @Shadow
+    public String fluid;
     @Shadow
     public int minSize;
     @Shadow
@@ -37,62 +41,80 @@ public abstract class MixinReservoirType implements IReservoirType {
     //getters
 
     @Unique
+    @Override
     public String getName() {
         return name;
     }
 
     @Unique
+    @Override
+    public String getFluid() {
+        return fluid;
+    }
+
+    @Unique
+    @Override
     public int getMinSize() {
         return minSize;
     }
 
     @Unique
+    @Override
     public int getMaxSize() {
         return maxSize;
     }
 
     @Unique
+    @Override
     public int getReplenishRate() {
         return replenishRate;
     }
 
     @Unique
+    @Override
     public int[] getDimensionWhitelist() {
         return dimensionWhitelist;
     }
 
     @Unique
+    @Override
     public int[] getDimensionBlacklist() {
         return dimensionBlacklist;
     }
 
     @Unique
+    @Override
     public String[] getBiomeWhitelist() {
         return biomeWhitelist;
     }
 
     @Unique
+    @Override
     public String[] getBiomeBlacklist() {
         return biomeBlacklist;
     }
 
     //setter
     @Unique
+    @Override
     public void setDimensionWhitelist(int[] dimensionWhitelist) {
         this.dimensionWhitelist = dimensionWhitelist;
     }
 
     @Unique
+    @Override
     public void setDimensionBlacklist(int[] dimensionBlacklist) {
         this.dimensionBlacklist = dimensionBlacklist;
     }
 
     @Unique
+    @Override
     public void setBiomeWhitelist(String[] biomeWhitelist) {
         this.biomeWhitelist = biomeWhitelist;
     }
 
     @Unique
+    @Override
     public void setBiomeBlacklist(String[] biomeBlacklist) {
         this.biomeBlacklist = biomeBlacklist;
     }
@@ -101,18 +123,17 @@ public abstract class MixinReservoirType implements IReservoirType {
     //ReservoirType Addons
 
     @Unique
+    TweakedPumpjackHandler.ReservoirContent reservoirContent;
+
+    @Unique
     public int powerTier;
     @Unique
     public int pumpSpeed;
 
     @Unique
-    public void setPowerTier(int powerTier) {
-        this.powerTier = powerTier;
-    }
-
-    @Unique
-    public void setPumpSpeed(int pumpSpeed) {
-        this.pumpSpeed = pumpSpeed;
+    @Override
+    public TweakedPumpjackHandler.ReservoirContent getReservoirContent() {
+        return reservoirContent;
     }
 
     @Unique
@@ -128,19 +149,38 @@ public abstract class MixinReservoirType implements IReservoirType {
     }
 
 
+    @Unique
+    @Override
+    public void setReservoirContent(TweakedPumpjackHandler.ReservoirContent reservoirContent) {
+        this.reservoirContent = reservoirContent;
+    }
+
+    @Unique
+    @Override
+    public void setPowerTier(int powerTier) {
+        this.powerTier = powerTier;
+    }
+
+    @Unique
+    @Override
+    public void setPumpSpeed(int pumpSpeed) {
+        this.pumpSpeed = pumpSpeed;
+    }
+
+
     @Inject(method = "readFromNBT", at = @At("RETURN"))
     private static void onReadFromNBT(NBTTagCompound tag, CallbackInfoReturnable<PumpjackHandler.ReservoirType> cir) {
-        int pumpSpeed = tag.getInteger("pumpSpeed");
-        int powerTier = tag.getInteger("powerTier");
         IReservoirType mix = (IReservoirType) cir.getReturnValue();
-        mix.setPumpSpeed(pumpSpeed);
-        mix.setPowerTier(powerTier);
+        mix.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.values()[tag.getByte("reservoirContent")]);
+        mix.setPumpSpeed(tag.getInteger("pumpSpeed"));
+        mix.setPowerTier(tag.getInteger("powerTier"));
     }
 
 
     @Inject(method = "writeToNBT", at = @At("RETURN"))
     private void onWriteToNBT(CallbackInfoReturnable<NBTTagCompound> cir) {
         NBTTagCompound tag = cir.getReturnValue();
+        tag.setByte("reservoirContent", (byte) this.reservoirContent.ordinal());
         tag.setInteger("pumpSpeed", this.pumpSpeed);
         tag.setInteger("powerTier", this.powerTier);
     }

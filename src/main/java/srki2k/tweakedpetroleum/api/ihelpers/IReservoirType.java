@@ -1,8 +1,12 @@
-package srki2k.tweakedpetroleum.api.crafting;
+package srki2k.tweakedpetroleum.api.ihelpers;
+
+import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 
 public interface IReservoirType {
 
     String getName();
+
+    String getStringFluid();
 
     int getMinSize();
 
@@ -22,6 +26,9 @@ public interface IReservoirType {
 
     String[] getBiomeBlacklist();
 
+    String getFluid();
+
+    TweakedPumpjackHandler.ReservoirContent getReservoirContent();
 
 
     void setDimensionWhitelist(int[] dimWhitelist);
@@ -31,6 +38,8 @@ public interface IReservoirType {
     void setBiomeBlacklist(String[] dimBlacklist);
 
     void setBiomeWhitelist(String[] biomeWhitelistList);
+
+    void setReservoirContent(TweakedPumpjackHandler.ReservoirContent reservoirContents);
 
     void setPowerTier(int i);
 

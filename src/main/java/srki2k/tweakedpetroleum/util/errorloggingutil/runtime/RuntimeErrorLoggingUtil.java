@@ -1,7 +1,7 @@
 package srki2k.tweakedpetroleum.util.errorloggingutil.runtime;
 
 import srki2k.tweakedpetroleum.TweakedPetroleum;
-import srki2k.tweakedpetroleum.api.crafting.IReservoirType;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
 import java.util.List;

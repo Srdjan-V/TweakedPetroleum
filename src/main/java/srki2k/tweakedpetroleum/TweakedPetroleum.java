@@ -39,16 +39,18 @@ public class TweakedPetroleum {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        Constants.init();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ErrorLoggingUtil.getStartupInstance().validateScripts();
+       if (!Constants.isTweakedPetroleumGasLoaded()) {
+            ErrorLoggingUtil.getStartupInstance().validateScripts();
+        }
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        Constants.init();
     }
 
     @Mod.EventHandler

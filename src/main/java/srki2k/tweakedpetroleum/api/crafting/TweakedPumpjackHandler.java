@@ -3,6 +3,7 @@ package srki2k.tweakedpetroleum.api.crafting;
 import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import net.minecraft.world.World;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
 import java.util.HashMap;
@@ -126,6 +127,16 @@ public class TweakedPumpjackHandler {
         return replenishRateAndPumpSpeed;
     }
 
+    public static ReservoirContent getReservoirContent(World world, int chunkX, int chunkZ) {
+        PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
+
+        if (info == null || info.getType() == null) {
+            return ReservoirContent.EMPTY;
+        }
+
+        return ((IReservoirType) info.getType()).getReservoirContent();
+    }
+
     public static class PowerTier {
         public int capacity;
         public int rft;
@@ -136,4 +147,8 @@ public class TweakedPumpjackHandler {
         }
     }
 
+
+    public enum ReservoirContent {
+        LIQUID, GAS, EMPTY, DEFAULT
+    }
 }
