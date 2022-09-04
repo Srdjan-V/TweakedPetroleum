@@ -127,6 +127,15 @@ public class TweakedPumpjackHandler {
         return replenishRateAndPumpSpeed;
     }
 
+
+    /**
+     * Gets the contents of a reservoir associated a given chunk
+     *
+     * @param world  World whose chunk to drain
+     * @param chunkX Chunk x
+     * @param chunkZ Chunk z
+     * @return Returns ReservoirContent object from the given chunk
+     */
     public static ReservoirContent getReservoirContent(World world, int chunkX, int chunkZ) {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
