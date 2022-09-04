@@ -1,11 +1,11 @@
 package srki2k.tweakedpetroleum;
 
+import crafttweaker.CrafttweakerImplementationAPI;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -38,6 +38,7 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        CrafttweakerImplementationAPI.logger.addLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
         MinecraftForge.EVENT_BUS.register(this);
         Constants.init();
     }
@@ -51,10 +52,8 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-    }
-
-    @Mod.EventHandler
-    public void loadComplete(FMLLoadCompleteEvent event) {
+        CrafttweakerImplementationAPI.logger.removeLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
+        ErrorLoggingUtil.markStartupInstanceNull();
     }
 
 }

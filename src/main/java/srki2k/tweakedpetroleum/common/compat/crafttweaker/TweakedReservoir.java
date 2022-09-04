@@ -6,7 +6,7 @@ import crafttweaker.api.liquid.ILiquidStack;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.ReservoirValidation;
-import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
+import srki2k.tweakedpetroleum.util.errorloggingutil.startup.StartupCTLogger;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
@@ -23,50 +23,45 @@ public class TweakedReservoir {
 
         List<String> biomeBlacklistList = new ArrayList<>();
         List<String> biomeWhitelistList = new ArrayList<>();
-        List<String> errors = new ArrayList<>();
 
         ReservoirValidation.validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
-                dimBlacklist, dimWhitelist, biomeBlacklist, biomeWhitelist,
-                biomeBlacklistList, biomeWhitelistList, errors);
+                biomeBlacklist, biomeWhitelist,
+                biomeBlacklistList, biomeWhitelistList);
 
-        if (errors.isEmpty()) {
-            IReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
 
-            res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
-            res.setDimensionBlacklist(dimBlacklist);
-            res.setDimensionWhitelist(dimWhitelist);
-            res.setBiomeBlacklist(biomeBlacklistList.toArray(new String[0]));
-            res.setBiomeWhitelist(biomeWhitelistList.toArray(new String[0]));
+        IReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
 
-            CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
-        }
+        res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
+        res.setDimensionBlacklist(dimBlacklist);
+        res.setDimensionWhitelist(dimWhitelist);
+        res.setBiomeBlacklist(biomeBlacklistList.toArray(new String[0]));
+        res.setBiomeWhitelist(biomeWhitelistList.toArray(new String[0]));
+
+        CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
+
 
     }
 
     @ZenMethod
     public static void registerPowerUsage(int tier, int capacity, int rft) {
-        List<String> errors = new ArrayList<>();
 
         if (tier < 0) {
-            errors.add("PowerUsage tier can not be smaller than 0!");
+            CraftTweakerAPI.logError("PowerUsage tier can not be smaller than 0!", new StartupCTLogger.TPRntimeExeption());
         }
         if (capacity < 1) {
-            errors.add("PowerUsage capacity can not be smaller than 1!");
+            CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than 1!", new StartupCTLogger.TPRntimeExeption());
         }
         if (capacity == Integer.MAX_VALUE) {
-            errors.add("PowerUsage capacity should not be MAX_INT!");
+            CraftTweakerAPI.logError("PowerUsage capacity should not be MAX_INT!", new StartupCTLogger.TPRntimeExeption());
         }
         if (capacity < rft) {
-            errors.add("PowerUsage capacity can not be smaller than rft!");
+            CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than rft!", new StartupCTLogger.TPRntimeExeption());
         }
 
-        if (errors.isEmpty()) {
-            TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
-            CraftTweakerAPI.logInfo("Added power tier: " + tier + "with capacity:" + capacity + "and" + rft + "RF/t");
-            return;
-        }
 
-        ErrorLoggingUtil.getStartupInstance().addErrorToList(errors);
+        TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
+        CraftTweakerAPI.logInfo("Added power tier: " + tier + "with capacity:" + capacity + "and" + rft + "RF/t");
+
     }
 
 }

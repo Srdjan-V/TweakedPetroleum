@@ -1,8 +1,5 @@
 package srki2k.tweakedpetroleum.util.errorloggingutil.startup;
 
-import crafttweaker.socket.SingleError;
-import crafttweaker.zenscript.CrtStoringErrorLogger;
-import crafttweaker.zenscript.GlobalRegistry;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
@@ -15,6 +12,16 @@ import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptCheck
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.scriptsErrorCheck;
 
 public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
+
+    private StartupCTLogger startupCTLogger;
+
+    public StartupCTLogger getStartupCTLogger(){
+        if (startupCTLogger == null){
+            startupCTLogger = new StartupCTLogger();
+        }
+        return startupCTLogger;
+    }
+
 
     protected final List<String> errors = new ArrayList<>();
 
@@ -30,14 +37,6 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
     }
 
     public void validateScripts() {
-        if (!((CrtStoringErrorLogger) GlobalRegistry.getErrors()).getErrors().isEmpty()) {
-            errors.add("=========== Everything below this is highlighting errors with zen script(after TP is loaded) ===========");
-            for (SingleError e : ((CrtStoringErrorLogger) GlobalRegistry.getErrors()).getErrors()) {
-                errors.add("fileName='" + e.fileName + '\'' + ", line=" + e.line + ", offset=" + e.offset + ", explanation='" + e.explanation + '\'' + ", level=" + e.level);
-            }
-            errors.add("====================== Everything below this line may or may not be a error ======================");
-        }
-
         if (scriptsErrorCheck) {
             scriptsErrorCheck();
         }
@@ -50,8 +49,6 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
             logContentErrors(errors);
             customErrorImplementation();
         }
-
-        markStartupInstanceNull();
     }
 
     protected abstract void customErrorImplementation();

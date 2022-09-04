@@ -26,7 +26,7 @@ public abstract class ErrorLoggingUtil {
         return startupErrorLoggingUtil;
     }
 
-    protected static void markStartupInstanceNull() {
+    public static void markStartupInstanceNull() {
         startupErrorLoggingUtil = null;
     }
 
