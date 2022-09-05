@@ -32,6 +32,33 @@ public class TweakedReservoir {
         IReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
 
         res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
+        res.setDrainChance(1f);
+        res.setDimensionBlacklist(dimBlacklist);
+        res.setDimensionWhitelist(dimWhitelist);
+        res.setBiomeBlacklist(biomeBlacklistList.toArray(new String[0]));
+        res.setBiomeWhitelist(biomeWhitelistList.toArray(new String[0]));
+
+        CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
+
+
+    }
+
+    @ZenMethod
+    public static void registerReservoirWithDrainChance(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, float drawChance, int weight, int powerTier,
+                                                        int[] dimBlacklist, int[] dimWhitelist, String[] biomeBlacklist, String[] biomeWhitelist) {
+
+        List<String> biomeBlacklistList = new ArrayList<>();
+        List<String> biomeWhitelistList = new ArrayList<>();
+
+        ReservoirValidation.validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drawChance,
+                biomeBlacklist, biomeWhitelist,
+                biomeBlacklistList, biomeWhitelistList);
+
+
+        IReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
+
+        res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
+        res.setDrainChance(drawChance);
         res.setDimensionBlacklist(dimBlacklist);
         res.setDimensionWhitelist(dimWhitelist);
         res.setBiomeBlacklist(biomeBlacklistList.toArray(new String[0]));

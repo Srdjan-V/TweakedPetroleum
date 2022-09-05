@@ -18,6 +18,8 @@ public interface IReservoirType {
 
     int getPumpSpeed();
 
+    float getDrainChance();
+
     int[] getDimensionWhitelist();
 
     int[] getDimensionBlacklist();
@@ -42,6 +44,8 @@ public interface IReservoirType {
     void setPowerTier(int i);
 
     void setPumpSpeed(int i);
+
+    void setDrainChance(float f);
 
 }
 

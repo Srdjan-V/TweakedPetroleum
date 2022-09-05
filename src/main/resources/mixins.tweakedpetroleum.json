@@ -5,8 +5,10 @@
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinConfig",
+    "MixinPumpjackHandler",
     "MixinReservoirTweaker",
-    "MixinReservoirType",
+    "MixinReservoirTypeAddons",
+    "MixinReservoirTypeBase",
     "MixinTileEntityPumpjack"
   ],
   "client": [],
