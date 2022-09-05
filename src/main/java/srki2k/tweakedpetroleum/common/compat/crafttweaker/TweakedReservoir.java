@@ -44,13 +44,13 @@ public class TweakedReservoir {
     }
 
     @ZenMethod
-    public static void registerReservoirWithDrainChance(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, float drawChance, int weight, int powerTier,
+    public static void registerReservoirWithDrainChance(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, float drainChance, int weight, int powerTier,
                                                         int[] dimBlacklist, int[] dimWhitelist, String[] biomeBlacklist, String[] biomeWhitelist) {
 
         List<String> biomeBlacklistList = new ArrayList<>();
         List<String> biomeWhitelistList = new ArrayList<>();
 
-        ReservoirValidation.validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drawChance,
+        ReservoirValidation.validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
                 biomeBlacklist, biomeWhitelist,
                 biomeBlacklistList, biomeWhitelistList);
 
@@ -58,7 +58,7 @@ public class TweakedReservoir {
         IReservoirType res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
 
         res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
-        res.setDrainChance(drawChance);
+        res.setDrainChance(drainChance);
         res.setDimensionBlacklist(dimBlacklist);
         res.setDimensionWhitelist(dimWhitelist);
         res.setBiomeBlacklist(biomeBlacklistList.toArray(new String[0]));

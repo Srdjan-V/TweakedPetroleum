@@ -6,6 +6,7 @@ import flaxbeard.immersivepetroleum.common.Config;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
@@ -46,11 +47,24 @@ public class PumpjackWrapper implements IRecipeWrapper {
     @Override
     @SuppressWarnings("NullableProblems")
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
+        String[][] strings = new String[2][];
+
         if (Config.IPConfig.Extraction.req_pipes) {
-            return HEIUtil.tooltipStrings(mouseX, mouseY, "jei.pumpjack.reservoir.req_pipes", reservoir);
+            strings[0] = new String[]{"jei.pumpjack.reservoir.req_pipes"};
+        }
+        if (reservoir.getDrainChance() != 1f) {
+            strings[1] = new String[]{"jei.pumpjack.reservoir.draw_chance", String.valueOf(100f - reservoir.getDrainChance()), String.valueOf(100f - (100f - reservoir.getDrainChance()))};
         }
 
-        return HEIUtil.tooltipStrings(mouseX, mouseY, reservoir);
+        return HEIUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);
+    }
+
+    @Override
+    @SuppressWarnings("NullableProblems")
+    public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
+        if (Config.IPConfig.Extraction.req_pipes || reservoir.getDrainChance() != 1f) {
+            HEIUtil.getPumpjackWarning().draw(minecraft, 58, 8);
+        }
     }
 
 }

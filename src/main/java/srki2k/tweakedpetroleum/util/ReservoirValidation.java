@@ -7,12 +7,12 @@ import java.util.List;
 
 public class ReservoirValidation {
 
-    public static void validateReservoir(String name, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier, float drawChance,
+    public static void validateReservoir(String name, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier, float drainChance,
                                          String[] biomeBlacklist, String[] biomeWhitelist,
                                          List<String> biomeBlacklistList, List<String> biomeWhitelistList) {
 
-        if (drawChance < 0 || 101 < drawChance) {
-            CraftTweakerAPI.logError("Reservoir drawChance must be between 0 and 100!", new StartupCTLogger.TPRntimeExeption());
+        if (drainChance < 0 || 101 < drainChance) {
+            CraftTweakerAPI.logError("Reservoir drainChance must be between 0 and 100!", new StartupCTLogger.TPRntimeExeption());
         }
 
         validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,

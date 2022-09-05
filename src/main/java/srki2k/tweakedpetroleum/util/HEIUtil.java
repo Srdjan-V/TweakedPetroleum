@@ -105,41 +105,7 @@ public class HEIUtil {
         return stringBuilder.append("Wrong dimension id or Missing integration").toString();
     }
 
-
-    public static List<String> tooltipStrings(int mouseX, int mouseY, List<String> customWarnings, IReservoirType reservoir) {
-        List<String> baseList = tooltipStrings(mouseX, mouseY, reservoir);
-        if (baseList != null) {
-            return baseList;
-        }
-
-        if (mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25 && (customWarnings != null && !(customWarnings.isEmpty()))) {
-            List<String> list = new ArrayList<>();
-
-            customWarnings.forEach(customWarning -> list.add(Translator.translateToLocal(customWarning)));
-
-            return list;
-        }
-
-        return null;
-    }
-
-    public static List<String> tooltipStrings(int mouseX, int mouseY, String customWarning, IReservoirType reservoir) {
-        List<String> baseList = tooltipStrings(mouseX, mouseY, reservoir);
-        if (baseList != null) {
-            return baseList;
-        }
-
-        if (mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25 && (customWarning != null && !(customWarning.isEmpty()))) {
-            List<String> list = new ArrayList<>();
-            list.add(Translator.translateToLocal(customWarning));
-
-            return list;
-        }
-
-        return null;
-    }
-
-    public static List<String> tooltipStrings(int mouseX, int mouseY, IReservoirType reservoir) {
+    public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, IReservoirType reservoir) {
         if (mouseX > 14 && mouseX < 25 && mouseY > 60 && mouseY < 74) {
             List<String> list = new ArrayList<>();
 
@@ -196,8 +162,32 @@ public class HEIUtil {
             return list;
         }
 
+        if (customWarnings != null && mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25) {
+            List<String> list = new ArrayList<>();
+
+            for (String[] s : customWarnings) {
+                if (s == null) {
+                    continue;
+                }
+
+                if (s.length == 3) {
+                    list.add(Translator.translateToLocalFormatted(s[0], s[1], s[2]));
+                    continue;
+                }
+
+                if (s.length == 2) {
+                    list.add(Translator.translateToLocalFormatted(s[0], s[1]));
+                    continue;
+                }
+
+                list.add(Translator.translateToLocal(s[1]));
+
+            }
+
+            return list;
+        }
+
         return null;
     }
-
 
 }
