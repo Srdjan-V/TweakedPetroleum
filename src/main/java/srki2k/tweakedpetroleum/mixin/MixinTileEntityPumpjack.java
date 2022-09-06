@@ -216,8 +216,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     @Unique(silent = true)
     @Override
     public boolean caseGas(int consumed, int pumpSpeed, int oilAmnt) {
-        energyStorage.extractEnergy(consumed, false);
-        return true;
+        return false;
     }
 
 }

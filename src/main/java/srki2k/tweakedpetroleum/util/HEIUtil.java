@@ -180,7 +180,7 @@ public class HEIUtil {
                     continue;
                 }
 
-                list.add(Translator.translateToLocal(s[1]));
+                list.add(Translator.translateToLocal(s[0]));
 
             }
 

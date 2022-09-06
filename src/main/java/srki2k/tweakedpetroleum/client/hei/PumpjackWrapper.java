@@ -49,11 +49,11 @@ public class PumpjackWrapper implements IRecipeWrapper {
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         String[][] strings = new String[2][];
 
-        if (Config.IPConfig.Extraction.req_pipes) {
-            strings[0] = new String[]{"jei.pumpjack.reservoir.req_pipes"};
-        }
         if (reservoir.getDrainChance() != 1f) {
             strings[1] = new String[]{"jei.pumpjack.reservoir.draw_chance", String.valueOf(100f - reservoir.getDrainChance()), String.valueOf(100f - (100f - reservoir.getDrainChance()))};
+        }
+        if (Config.IPConfig.Extraction.req_pipes) {
+            strings[0] = new String[]{"jei.pumpjack.reservoir.req_pipes"};
         }
 
         return HEIUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);
@@ -62,8 +62,19 @@ public class PumpjackWrapper implements IRecipeWrapper {
     @Override
     @SuppressWarnings("NullableProblems")
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        if (Config.IPConfig.Extraction.req_pipes || reservoir.getDrainChance() != 1f) {
+        int warningCount = 0;
+
+        if (Config.IPConfig.Extraction.req_pipes) {
+            warningCount++;
+        }
+
+        if (reservoir.getDrainChance() != 1f) {
+            warningCount++;
+        }
+
+        if (warningCount > 0) {
             HEIUtil.getPumpjackWarning().draw(minecraft, 58, 8);
+            minecraft.fontRenderer.drawString(String.valueOf(warningCount), 58, 8, 16696077);
         }
     }
 
