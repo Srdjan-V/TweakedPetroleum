@@ -8,15 +8,14 @@ import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler.rftTier;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.missingPowerTierCheck;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.scriptsErrorCheck;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.*;
 
 public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     private StartupCTLogger startupCTLogger;
 
-    public StartupCTLogger getStartupCTLogger(){
-        if (startupCTLogger == null){
+    public StartupCTLogger getStartupCTLogger() {
+        if (startupCTLogger == null) {
             startupCTLogger = new StartupCTLogger();
         }
         return startupCTLogger;
@@ -25,9 +24,6 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     protected final List<String> errors = new ArrayList<>();
 
-    public void addErrorToList(List<String> error) {
-        errors.addAll(error);
-    }
 
     public void addErrorToList(String error) {
         errors.add(error);
@@ -37,8 +33,12 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
     }
 
     public void validateScripts() {
-        if (scriptsErrorCheck) {
-            scriptsErrorCheck();
+        if (disableAllChecks) {
+            return;
+        }
+
+        if (missingContentCheck) {
+            missingContentCheck();
         }
 
         if (missingPowerTierCheck) {
@@ -53,7 +53,7 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     protected abstract void customErrorImplementation();
 
-    private void scriptsErrorCheck() {
+    private void missingContentCheck() {
         if (reservoirList.isEmpty()) {
             errors.add("No reservoirs are registered");
         }
@@ -66,11 +66,9 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
 
     private void missingPowerTierCheck() {
         reservoirList.keySet().
-                stream().
-                map(reservoirType -> (IReservoirType) reservoirType).
                 forEach(tweakedReservoirType -> {
-                    if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
-                        errors.add("Reservoir with the ID (name)" + tweakedReservoirType.getName() + "has no valid Power tier");
+                    if (rftTier.get(((IReservoirType) tweakedReservoirType).getPowerTier()) == null) {
+                        errors.add("Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier");
                     }
                 });
     }

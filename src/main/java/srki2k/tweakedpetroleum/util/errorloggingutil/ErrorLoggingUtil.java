@@ -9,8 +9,7 @@ import srki2k.tweakedpetroleum.util.errorloggingutil.startup.StartupErrorLogging
 
 import java.util.List;
 
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.missingPowerTierCheck;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.scriptsErrorCheck;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.*;
 
 public abstract class ErrorLoggingUtil {
     private static StartupErrorLoggingUtil startupErrorLoggingUtil;
@@ -50,7 +49,10 @@ public abstract class ErrorLoggingUtil {
 
     protected void logSetting() {
         TweakedPetroleum.LOGGER.info("Startup Script Checks:");
-        TweakedPetroleum.LOGGER.info("Do not load with errors in scripts: " + scriptsErrorCheck);
+        TweakedPetroleum.LOGGER.info("Disable all checks: " +  disableAllChecks);
+        TweakedPetroleum.LOGGER.info("Don't load with ZenScript Syntax errors: " +  zenScriptErrorSyntaxCheck);
+        TweakedPetroleum.LOGGER.info("Don't load with ZenScript errors: " +  zenScriptErrorsCheck);
+        TweakedPetroleum.LOGGER.info("Don't load with no reservoirs/power tiers: " + missingContentCheck);
         TweakedPetroleum.LOGGER.info("Do not load with missing power tiers: " + missingPowerTierCheck);
 
     }

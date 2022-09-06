@@ -4,6 +4,9 @@ import crafttweaker.api.player.IPlayer;
 import crafttweaker.runtime.ILogger;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.zenScriptErrorSyntaxCheck;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.zenScriptErrorsCheck;
+
 public class StartupCTLogger implements ILogger {
 
     StartupCTLogger(){
@@ -31,9 +34,16 @@ public class StartupCTLogger implements ILogger {
 
     @Override
     public void logError(String message, Throwable exception) {
-        if (exception == null || exception instanceof TPRntimeExeption) {
+
+        if (zenScriptErrorsCheck && exception instanceof TPRntimeExeption) {
+            ErrorLoggingUtil.getStartupInstance().errors.add(message);
+            return;
+        }
+
+        if (zenScriptErrorSyntaxCheck && exception == null) {
             ErrorLoggingUtil.getStartupInstance().errors.add(message);
         }
+
     }
 
     @Override
