@@ -18,8 +18,8 @@ public final class ClientSideStartup extends StartupErrorLoggingUtil {
             @Override
             public void drawScreen(GuiErrorScreen errorScreen, FontRenderer fontRenderer, int mouseRelX, int mouseRelY, float tickTime) {
                 int j = 12;
-                errorScreen.drawCenteredString(fontRenderer, "The following errors were found in your Tweaked Petroleum configs", errorScreen.width / 2, j, 16777215);
-                errorScreen.drawCenteredString(fontRenderer, "You can also visit the logs for a list of errors", errorScreen.width / 2, j += 12, 16777215);
+                errorScreen.drawCenteredString(fontRenderer, "The following errors were found in your Tweaked Petroleum configs, you can find thous", errorScreen.width / 2, j, 16777215);
+                errorScreen.drawCenteredString(fontRenderer, "errors in the latest log, its also possible to disable these checks in the configs.", errorScreen.width / 2, j += 12, 16777215);
 
                 if (zenScriptErrorSyntaxCheck) {
                     errorScreen.drawCenteredString(fontRenderer, "These errors may contain Zen script errors from other mods", errorScreen.width / 2, j += 12, 16777215);

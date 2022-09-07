@@ -33,10 +33,6 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
     }
 
     public void validateScripts() {
-        if (disableAllChecks) {
-            return;
-        }
-
         if (missingContentCheck) {
             missingContentCheck();
         }

@@ -11,6 +11,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import srki2k.tweakedpetroleum.common.Configs;
 import srki2k.tweakedpetroleum.util.Constants;
 import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 
@@ -38,22 +39,26 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        CrafttweakerImplementationAPI.logger.addLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
+        if (!Configs.TPConfig.StartupScriptChecks.disableAllChecks) {
+            CrafttweakerImplementationAPI.logger.addLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
+        }
         MinecraftForge.EVENT_BUS.register(this);
         Constants.init();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-       if (!Constants.isTweakedPetroleumGasLoaded()) {
+        if (!Constants.isTweakedPetroleumGasLoaded()) {
             ErrorLoggingUtil.getStartupInstance().validateScripts();
         }
     }
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        CrafttweakerImplementationAPI.logger.removeLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
-        ErrorLoggingUtil.markStartupInstanceNull();
+        if (!Configs.TPConfig.StartupScriptChecks.disableAllChecks) {
+            CrafttweakerImplementationAPI.logger.removeLogger(ErrorLoggingUtil.getStartupInstance().getStartupCTLogger());
+            ErrorLoggingUtil.markStartupInstanceNull();
+        }
     }
 
 }

@@ -11,8 +11,8 @@ public class ReservoirValidation {
                                          String[] biomeBlacklist, String[] biomeWhitelist,
                                          List<String> biomeBlacklistList, List<String> biomeWhitelistList) {
 
-        if (drainChance < 0 || 101 < drainChance) {
-            CraftTweakerAPI.logError("Reservoir drainChance must be between 0 and 100!", new StartupCTLogger.TPRntimeExeption());
+        if (drainChance < 0 || 1 < drainChance) {
+            CraftTweakerAPI.logError("Reservoir drainChance must be between 0 and 1!", new StartupCTLogger.TPRntimeExeption());
         }
 
         validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
