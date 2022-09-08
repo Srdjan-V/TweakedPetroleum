@@ -20,9 +20,8 @@ public abstract class MixinReservoirTypeAddons implements IReservoirType {
     public int powerTier;
     @Unique
     public int pumpSpeed;
-
     @Unique
-    public float drainChance;
+    public float drainChance = 1f;
 
     @Unique
     @Override
@@ -78,6 +77,7 @@ public abstract class MixinReservoirTypeAddons implements IReservoirType {
         mix.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.values()[tag.getByte("reservoirContent")]);
         mix.setPumpSpeed(tag.getInteger("pumpSpeed"));
         mix.setPowerTier(tag.getInteger("powerTier"));
+        mix.setDrainChance(tag.getFloat("drainChance"));
     }
 
 
@@ -87,6 +87,7 @@ public abstract class MixinReservoirTypeAddons implements IReservoirType {
         tag.setByte("reservoirContent", (byte) this.reservoirContent.ordinal());
         tag.setInteger("pumpSpeed", this.pumpSpeed);
         tag.setInteger("powerTier", this.powerTier);
+        tag.setFloat("drainChance", this.drainChance);
     }
 
 
