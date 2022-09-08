@@ -48,7 +48,7 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        if (!Constants.isTweakedPetroleumGasLoaded()) {
+        if (!Configs.TPConfig.StartupScriptChecks.disableAllChecks && !Constants.isTweakedPetroleumGasLoaded()) {
             ErrorLoggingUtil.getStartupInstance().validateScripts();
         }
     }

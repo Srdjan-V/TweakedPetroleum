@@ -18,9 +18,9 @@ public abstract class ErrorLoggingUtil {
         if (startupErrorLoggingUtil == null) {
             if (FMLLaunchHandler.side().isClient()) {
                 startupErrorLoggingUtil = new ClientSideStartup();
-                return startupErrorLoggingUtil;
+            } else {
+                startupErrorLoggingUtil = new ServerSideStartup();
             }
-            startupErrorLoggingUtil = new ServerSideStartup();
         }
         return startupErrorLoggingUtil;
     }
