@@ -22,8 +22,8 @@ public class MixinPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
         if (Math.random() < ((IReservoirType) info.getType()).getDrainChance()) {
             info.current = Math.max(0, info.current - amount);
+            IPSaveData.setDirty(world.provider.getDimension());
         }
-        IPSaveData.setDirty(world.provider.getDimension());
     }
 
 }

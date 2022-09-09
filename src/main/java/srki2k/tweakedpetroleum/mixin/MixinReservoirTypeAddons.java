@@ -14,7 +14,7 @@ import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 public abstract class MixinReservoirTypeAddons implements IReservoirType {
 
     @Unique
-    TweakedPumpjackHandler.ReservoirContent reservoirContent;
+    TweakedPumpjackHandler.ReservoirContent reservoirContent = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
 
     @Unique
     public int powerTier;

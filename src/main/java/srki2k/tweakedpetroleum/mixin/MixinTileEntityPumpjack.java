@@ -127,7 +127,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         }
 
         //Tile initialization
-        if (!isDummy()) {
+        if (pipeTicks == 0) {
             if (energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
                 initEnergyStorage();
             }
@@ -139,39 +139,36 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
 
         boolean active = false;
 
-        int consumed = energyStorage.getLimitExtract();
+        if (chunkContains != TweakedPumpjackHandler.ReservoirContent.EMPTY) {
+            int consumed = energyStorage.getLimitExtract();
 
-        if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
-            if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
-                lastHadPipes = hasPipes();
-            }
-            if (lastHadPipes) {
-                int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
-                int availableOil = availableOil();
-
-                if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
-                    int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
-
-                    switch (chunkContains) {
-                        case LIQUID: {
-                            active = caseLiquid(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
-                            break;
-                        }
-                        case GAS: {
-                            active = caseGas(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
-                            break;
-                        }
-                        case EMPTY: {
-                            energyStorage.extractEnergy(consumed / 2, false);
-                            active = true;
-                        }
-
-                    }
-
-                    activeTicks++;
+            if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
+                if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
+                    lastHadPipes = hasPipes();
                 }
+                if (lastHadPipes) {
+                    int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
+                    int availableOil = availableOil();
+
+                    if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
+                        int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
+
+                        switch (chunkContains) {
+                            case LIQUID: {
+                                active = caseLiquid(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
+                                break;
+                            }
+                            case GAS: {
+                                active = caseGas(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
+                            }
+
+                        }
+
+                        activeTicks++;
+                    }
+                }
+                pipeTicks = (pipeTicks + 1) % Config.IPConfig.Extraction.pipe_check_ticks;
             }
-            pipeTicks = (pipeTicks + 1) % Config.IPConfig.Extraction.pipe_check_ticks;
         }
 
         if (active != wasActive) {
