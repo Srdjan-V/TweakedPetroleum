@@ -25,38 +25,38 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 
-@Mixin(value = TileEntityPumpjack.class)
+@Mixin(value = TileEntityPumpjack.class, remap = false)
 public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements IPumpjackAddons {
 
     //Shadow Variables
-    @Shadow(remap = false)
+    @Shadow
     public boolean wasActive;
-    @Shadow(remap = false)
+    @Shadow
     public float activeTicks;
-    @Shadow(remap = false)
+    @Shadow
     private int pipeTicks;
-    @Shadow(remap = false)
+    @Shadow
     private boolean lastHadPipes;
-    @Shadow(remap = false)
+    @Shadow
     public IBlockState state;
 
     //Shadow Methods
-    @Shadow(remap = false)
+    @Shadow
     public abstract boolean isDummy();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract boolean canExtract();
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract boolean hasPipes();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract Fluid availableFluid();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract int availableOil();
 
-    @Shadow(remap = false)
+    @Shadow
     public abstract void extractOil(int amount);
 
     public MixinTileEntityPumpjack(MultiblockHandler.IMultiblock mutliblockInstance, int[] structureDimensions, int energyCapacity, boolean redstoneControl) {
@@ -105,7 +105,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
      * @author Srki_2K
      * @reason Multiple small adjustment
      */
-    @Overwrite(remap = false)
+    @Overwrite
     public void update(boolean consumePower) {
         super.update();
 

@@ -9,7 +9,7 @@ import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import java.util.Objects;
 
 
-@Mixin(PumpjackHandler.ReservoirType.class)
+@Mixin(value = PumpjackHandler.ReservoirType.class, remap = false)
 public abstract class MixinReservoirTypeBase implements IReservoirType {
 
     @Shadow

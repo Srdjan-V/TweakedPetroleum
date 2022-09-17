@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
-@Mixin(PumpjackHandler.ReservoirType.class)
+@Mixin(value = PumpjackHandler.ReservoirType.class, remap = false)
 public abstract class MixinReservoirTypeAddons implements IReservoirType {
 
     @Unique

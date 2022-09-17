@@ -10,7 +10,7 @@ import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.getOilWorldInfo;
 
 
-@Mixin(PumpjackHandler.class)
+@Mixin(value = PumpjackHandler.class, remap = false)
 public class MixinPumpjackHandler {
 
     /**

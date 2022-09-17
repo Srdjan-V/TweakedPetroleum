@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srki2k.tweakedpetroleum.util.errorloggingutil.startup.StartupCTLogger;
 
-@Mixin(ReservoirTweaker.class)
+@Mixin(value = ReservoirTweaker.class, remap = false)
 public abstract class MixinReservoirTweaker {
 
     @Inject(method = "registerReservoir", at = @At("HEAD"), remap = false, cancellable = true)
