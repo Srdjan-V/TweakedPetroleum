@@ -42,7 +42,6 @@ public class ReservoirValidation {
         }
         if (pumpSpeed < replenishRate) {
             CraftTweakerAPI.logError("Reservoir(" + name + ") Pump Speed can not be smaller than Replenish Rate!", new StartupCTLogger.TPRntimeExeption());
-
         }
         if (powerTier < 0) {
             CraftTweakerAPI.logError("Reservoir(" + name + ") powerTier can not be smaller than 0!", new StartupCTLogger.TPRntimeExeption());
@@ -65,7 +64,6 @@ public class ReservoirValidation {
 
             biomeWhitelistList.add(string);
         }
-
 
     }
 

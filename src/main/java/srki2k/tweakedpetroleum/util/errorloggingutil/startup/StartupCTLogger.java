@@ -7,9 +7,9 @@ import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.zenScriptErrorSyntaxCheck;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.StartupScriptChecks.zenScriptErrorsCheck;
 
-public class StartupCTLogger implements ILogger {
+public final class StartupCTLogger implements ILogger {
 
-    StartupCTLogger(){
+    StartupCTLogger() {
     }
 
     @Override

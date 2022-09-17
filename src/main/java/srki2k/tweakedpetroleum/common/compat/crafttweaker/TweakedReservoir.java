@@ -39,7 +39,6 @@ public class TweakedReservoir {
 
         CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
 
-
     }
 
     @ZenMethod
@@ -65,7 +64,6 @@ public class TweakedReservoir {
 
         CraftTweakerAPI.logInfo("Added Reservoir Type: " + name);
 
-
     }
 
     @ZenMethod
@@ -86,7 +84,7 @@ public class TweakedReservoir {
 
 
         TweakedPumpjackHandler.registerPowerUsage(tier, capacity, rft);
-        CraftTweakerAPI.logInfo("Added power tier: " + tier + "with capacity:" + capacity + "and" + rft + "RF/t");
+        CraftTweakerAPI.logInfo("Added power tier: " + tier + " with capacity: " + capacity + " and " + rft + " RF/t");
 
     }
 

@@ -25,8 +25,8 @@ public class HEIPlugin implements IModPlugin {
     public void register(IModRegistry registry) {
         registry.handleRecipes(PumpjackHandler.ReservoirType.class, PumpjackWrapper::new, PumpjackCategory.UID);
         if (Constants.isTweakedPetroleumGasLoaded()) {
-            registry.addRecipes(PumpjackHandler.reservoirList.keySet().stream()
-                    .filter(reservoirType -> ((IReservoirType) reservoirType).getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID).
+            registry.addRecipes(PumpjackHandler.reservoirList.keySet().stream().
+                    filter(reservoirType -> ((IReservoirType) reservoirType).getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID).
                     collect(Collectors.toList()), PumpjackCategory.UID);
         } else {
             registry.addRecipes(PumpjackHandler.reservoirList.keySet(), PumpjackCategory.UID);

@@ -20,13 +20,12 @@ public class TweakedPumpjackHandler {
         rftTier.put(-1, new PowerTier(Integer.MAX_VALUE, 0));
     }
 
-
     /**
      * Sets the PowerTier object associated with the fluid of a given chunk
      *
-     * @param tier      The tier of the power, must start from 0
-     * @param capacity  The capacity
-     * @param rft       The RF/t
+     * @param tier     The tier of the power, must start from 0
+     * @param capacity The capacity
+     * @param rft      The RF/t
      */
     public static void registerPowerUsage(int tier, int capacity, int rft) {
         rftTier.put(tier, new PowerTier(capacity, rft));
@@ -35,9 +34,9 @@ public class TweakedPumpjackHandler {
     /**
      * Gets the PowerTier object associated with the fluid of a given chunk
      *
-     * @param world      World whose chunk to drain
-     * @param chunkX     Chunk x
-     * @param chunkZ     Chunk z
+     * @param world  World whose chunk to drain
+     * @param chunkX Chunk x
+     * @param chunkZ Chunk z
      * @return Returns PowerTier
      */
     public static PowerTier getPowerTier(World world, int chunkX, int chunkZ) {
@@ -55,7 +54,6 @@ public class TweakedPumpjackHandler {
 
         return rftTier.get(tweakedReservoirType.getPowerTier());
     }
-
 
     /**
      * Adds a tweaked reservoir type to the pool of valid reservoirs
@@ -81,7 +79,6 @@ public class TweakedPumpjackHandler {
         return iMix;
     }
 
-
     /**
      * Gets the replenish rate and pump speed from a given chunk
      *
@@ -94,13 +91,15 @@ public class TweakedPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
         int[] replenishRateAndPumpSpeed = new int[2];
 
-        if (info == null || info.getType() == null || info.getType().fluid == null || (info.capacity == 0) || (info.current == 0))
+        if (info == null || info.getType() == null) {
             return replenishRateAndPumpSpeed;
+        }
 
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (tweakedReservoirType.getPumpSpeed() == 0)
+        if (tweakedReservoirType.getPumpSpeed() == 0) {
             return replenishRateAndPumpSpeed;
+        }
 
         DimensionChunkCoords coords = new DimensionChunkCoords(world.provider.getDimension(), chunkX / depositSize, chunkZ / depositSize);
 
@@ -126,7 +125,6 @@ public class TweakedPumpjackHandler {
 
         return replenishRateAndPumpSpeed;
     }
-
 
     /**
      * Gets the contents of a reservoir associated a given chunk
@@ -155,7 +153,6 @@ public class TweakedPumpjackHandler {
             this.rft = rft;
         }
     }
-
 
     public enum ReservoirContent {
         LIQUID, GAS, EMPTY, DEFAULT

@@ -21,13 +21,7 @@ public abstract class StartupErrorLoggingUtil extends ErrorLoggingUtil {
         return startupCTLogger;
     }
 
-
     protected final List<String> errors = new ArrayList<>();
-
-
-    public void addErrorToList(String error) {
-        errors.add(error);
-    }
 
     protected StartupErrorLoggingUtil() {
     }

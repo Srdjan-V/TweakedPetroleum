@@ -75,7 +75,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
                         this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
 
         energyStorage.setCapacity(powerTier.capacity);
-        energyStorage.setLimitReceive(powerTier.rft * 2);
+        energyStorage.setLimitReceive(Integer.min(powerTier.rft * 2, powerTier.capacity));
         energyStorage.setMaxExtract(powerTier.rft);
     }
 

@@ -20,6 +20,9 @@ public class MixinPumpjackHandler {
     @Overwrite
     public static void depleteFluid(World world, int chunkX, int chunkZ, int amount) {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
+        if (info.current == 0) {
+            return;
+        }
         if (Math.random() < ((IReservoirType) info.getType()).getDrainChance()) {
             info.current = Math.max(0, info.current - amount);
             IPSaveData.setDirty(world.provider.getDimension());
