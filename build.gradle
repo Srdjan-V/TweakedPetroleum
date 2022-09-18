@@ -33,7 +33,6 @@ fancyGradle {
 }
 
 version = project.mod_version
-mcversion = project.mcversion
 group = project.maven_group
 archivesBaseName = project.archives_base_name
 
@@ -134,6 +133,15 @@ dependencies {
 
 }
 
+git {
+    def props = new Properties()
+    new File("${project.projectDir}/gradle.properties").withInputStream { props.load(it) }
+
+    implementation 'https://github.com/Srdjan-V/TweakedLib.git', {
+        name 'TweakedLib'
+        commit "v${props.getProperty('tweaked_lib_version')}"
+    }
+}
 
 sourceSets {
     main {
@@ -190,9 +198,10 @@ import org.apache.tools.ant.filters.ReplaceTokens
 task filterTokens(type: Sync) {
 
     inputs.property 'version', version
+    inputs.property 'tweaked_lib_version', tweaked_lib_version
 
     from sourceSets.main.java
-    filter(ReplaceTokens, tokens: [VERSION: version.toString()])
+    filter(ReplaceTokens, tokens: [VERSION: version.toString(), TWEAKEDLIB: tweaked_lib_version.toString()])
     into "$buildDir/src/$sourceSets.main.name/$sourceSets.main.java.name"
 }
 
@@ -204,14 +213,13 @@ processResources {
 
     // this will ensure that this task is redone when the versions change.
     inputs.property 'version', version
-    inputs.property 'mcversion', mcversion
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
 
-        // replace version and mcversion
-        expand 'version': version, 'mcversion': mcversion
+        // replace version
+        expand 'version': version
     }
 
     // copy everything else except the mcmod.info

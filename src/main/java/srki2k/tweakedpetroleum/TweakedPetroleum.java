@@ -20,7 +20,8 @@ import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
         version = TweakedPetroleum.VERSION,
         name = "Tweaked Petroleum",
         dependencies = "required-after:immersivepetroleum;" +
-                "required-after:crafttweaker;")
+                "required-after:crafttweaker;" +
+                "required-after:tweakedlib@[@TWEAKEDLIB@,)")
 public class TweakedPetroleum {
 
     public static final String MODID = "tweakedpetroleum";
