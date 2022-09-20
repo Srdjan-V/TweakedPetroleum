@@ -22,6 +22,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import srki2k.tweakedlib.api.powertier.PowerTier;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 
@@ -70,13 +71,13 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     @Unique
     @Override
     public void initEnergyStorage() {
-        TweakedPumpjackHandler.PowerTier powerTier =
+        PowerTier powerTier =
                 TweakedPumpjackHandler.getPowerTier(
                         this.getWorld(), this.getPos().getX() >> 4, this.getPos().getZ() >> 4);
 
-        energyStorage.setCapacity(powerTier.capacity);
-        energyStorage.setLimitReceive(Integer.min(powerTier.rft * 2, powerTier.capacity));
-        energyStorage.setMaxExtract(powerTier.rft);
+        energyStorage.setCapacity(powerTier.getCapacity());
+        energyStorage.setLimitReceive(Integer.min(powerTier.getRft() * 2, powerTier.getCapacity()));
+        energyStorage.setMaxExtract(powerTier.getRft());
     }
 
     @Unique

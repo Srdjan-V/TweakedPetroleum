@@ -1,13 +1,17 @@
 package srki2k.tweakedpetroleum.client.hei;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import flaxbeard.immersivepetroleum.common.IPContent;
+import flaxbeard.immersivepetroleum.common.blocks.metal.BlockTypes_IPMetalMultiblock;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
+import net.minecraft.item.ItemStack;
+import srki2k.tweakedlib.api.hei.BaseHEIUtil;
+import srki2k.tweakedlib.util.Constants;
+import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
-import srki2k.tweakedpetroleum.util.Constants;
-import srki2k.tweakedpetroleum.util.HEIUtil;
 
 import java.util.stream.Collectors;
 
@@ -16,7 +20,9 @@ public class HEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registry) {
-        HEIUtil.initGuiHelper(registry.getJeiHelpers().getGuiHelper());
+        BaseHEIUtil.initPumpjackGui(registry.getJeiHelpers().getGuiHelper(),
+                new ItemStack(IPContent.blockMetalMultiblock, 1, BlockTypes_IPMetalMultiblock.PUMPJACK_PARENT.getMeta()),
+                TweakedPetroleum.MODID);
         registry.addRecipeCategories(new PumpjackCategory());
     }
 
@@ -32,7 +38,7 @@ public class HEIPlugin implements IModPlugin {
             registry.addRecipes(PumpjackHandler.reservoirList.keySet(), PumpjackCategory.UID);
         }
 
-        registry.addRecipeCatalyst(HEIUtil.pumpjackCatalyst, PumpjackCategory.UID);
+        registry.addRecipeCatalyst(BaseHEIUtil.getPumpjackCatalyst(), PumpjackCategory.UID);
     }
 
 }

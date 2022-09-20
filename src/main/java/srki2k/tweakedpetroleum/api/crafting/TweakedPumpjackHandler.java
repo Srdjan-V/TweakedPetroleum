@@ -3,33 +3,15 @@ package srki2k.tweakedpetroleum.api.crafting;
 import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import net.minecraft.world.World;
+import srki2k.tweakedlib.api.powertier.PowerTier;
+import srki2k.tweakedlib.api.powertier.PowerTierHandler;
+import srki2k.tweakedlib.util.errorlogging.ErrorLoggingUtil;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
-import srki2k.tweakedpetroleum.util.errorloggingutil.ErrorLoggingUtil;
-
-import java.util.HashMap;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.*;
 
 public class TweakedPumpjackHandler {
     private static final int depositSize = 1;
-
-    public static final HashMap<Integer, PowerTier> rftTier = new HashMap<>();
-
-    static {
-        //A fallback power tier instead of returning null or power tier 0
-        rftTier.put(-1, new PowerTier(Integer.MAX_VALUE, 0));
-    }
-
-    /**
-     * Sets the PowerTier object associated with the fluid of a given chunk
-     *
-     * @param tier     The tier of the power, must start from 0
-     * @param capacity The capacity
-     * @param rft      The RF/t
-     */
-    public static void registerPowerUsage(int tier, int capacity, int rft) {
-        rftTier.put(tier, new PowerTier(capacity, rft));
-    }
 
     /**
      * Gets the PowerTier object associated with the fluid of a given chunk
@@ -43,16 +25,16 @@ public class TweakedPumpjackHandler {
         PumpjackHandler.OilWorldInfo info = getOilWorldInfo(world, chunkX, chunkZ);
 
         if (info == null || info.getType() == null) {
-            return rftTier.get(-1);
+            return PowerTierHandler.getFallbackPowerTier();
         }
 
         IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
 
-        if (rftTier.get(tweakedReservoirType.getPowerTier()) == null) {
-            ErrorLoggingUtil.getRuntimeInstance().missingPowerTiersLog();
+        if (PowerTierHandler.getPowerTier(tweakedReservoirType.getPowerTier()) == null) {
+            ErrorLoggingUtil.runtimeErrorLogging();
         }
 
-        return rftTier.get(tweakedReservoirType.getPowerTier());
+        return PowerTierHandler.getPowerTier(tweakedReservoirType.getPowerTier());
     }
 
     /**
@@ -143,17 +125,6 @@ public class TweakedPumpjackHandler {
 
         return ((IReservoirType) info.getType()).getReservoirContent();
     }
-
-    public static class PowerTier {
-        public int capacity;
-        public int rft;
-
-        public PowerTier(int capacity, int rft) {
-            this.capacity = capacity;
-            this.rft = rft;
-        }
-    }
-
     public enum ReservoirContent {
         LIQUID, GAS, EMPTY, DEFAULT
     }

@@ -9,8 +9,9 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
+import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
-import srki2k.tweakedpetroleum.util.HEIUtil;
+import srki2k.tweakedpetroleum.util.HEIPumpjackUtil;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
             strings[1] = new String[]{"jei.pumpjack.reservoir.req_pipes"};
         }
 
-        return HEIUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);
+        return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);
     }
 
     @Override
@@ -75,7 +76,7 @@ public class PumpjackWrapper implements IRecipeWrapper {
         }
 
         if (warningCount > 0) {
-            HEIUtil.getPumpjackWarning().draw(minecraft, 58, 8);
+            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 58, 8);
             minecraft.fontRenderer.drawString(String.valueOf(warningCount), 58, 8, 16696077);
         }
     }

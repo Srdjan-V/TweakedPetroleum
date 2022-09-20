@@ -1,7 +1,6 @@
 package srki2k.tweakedpetroleum.util;
 
 import crafttweaker.CraftTweakerAPI;
-import srki2k.tweakedpetroleum.util.errorloggingutil.startup.StartupCTLogger;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public class ReservoirValidation {
                                          List<String> biomeBlacklistList, List<String> biomeWhitelistList) {
 
         if (drainChance < 0 || 1 < drainChance) {
-            CraftTweakerAPI.logError("Reservoir drainChance must be between 0 and 1!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir drainChance must be between 0 and 1!");
         }
 
         validateReservoir(name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
@@ -26,30 +25,30 @@ public class ReservoirValidation {
                                          List<String> biomeBlacklistList, List<String> biomeWhitelistList) {
 
         if (name.isEmpty()) {
-            CraftTweakerAPI.logError("Reservoir name can not be a empty string!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir name can not be a empty string!");
         }
         if (minSize <= 0) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ") minSize has to be at least 1mb!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ") minSize has to be at least 1mb!");
         }
         if (maxSize < minSize) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ":) maxSize can not be smaller than minSize!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ":) maxSize can not be smaller than minSize!");
         }
         if (weight < 1) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ") weight has to be greater than or equal to 1!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ") weight has to be greater than or equal to 1!");
         }
         if (pumpSpeed <= 0) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ") Pump Speed has to be at least 1mb/t", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ") Pump Speed has to be at least 1mb/t");
         }
         if (pumpSpeed < replenishRate) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ") Pump Speed can not be smaller than Replenish Rate!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ") Pump Speed can not be smaller than Replenish Rate!");
         }
         if (powerTier < 0) {
-            CraftTweakerAPI.logError("Reservoir(" + name + ") powerTier can not be smaller than 0!", new StartupCTLogger.TPRntimeExeption());
+            CraftTweakerAPI.logError("Reservoir(" + name + ") powerTier can not be smaller than 0!");
         }
 
         for (String string : biomeBlacklist) {
             if (string == null || string.isEmpty()) {
-                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null", new StartupCTLogger.TPRntimeExeption());
+                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
                 continue;
             }
 
@@ -58,7 +57,7 @@ public class ReservoirValidation {
 
         for (String string : biomeWhitelist) {
             if (string == null || string.isEmpty()) {
-                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null", new StartupCTLogger.TPRntimeExeption());
+                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
                 continue;
             }
 

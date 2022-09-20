@@ -6,8 +6,8 @@ import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
 import mezz.jei.util.Translator;
+import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
-import srki2k.tweakedpetroleum.util.HEIUtil;
 
 @SuppressWarnings("NullableProblems")
 public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
@@ -30,7 +30,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
 
     @Override
     public IDrawable getBackground() {
-        return HEIUtil.getPumpjackBackground();
+        return BaseHEIUtil.getPumpjackBackground();
     }
 
     @Override
