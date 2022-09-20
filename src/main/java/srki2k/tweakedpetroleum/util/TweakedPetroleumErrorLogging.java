@@ -1,7 +1,8 @@
 package srki2k.tweakedpetroleum.util;
 
+import srki2k.tweakedlib.api.logging.errorlogginglib.ErrorLoggingLib;
+import srki2k.tweakedlib.api.logging.errorlogginglib.ICustomLogger;
 import srki2k.tweakedlib.api.powertier.PowerTierHandler;
-import srki2k.tweakedlib.util.errorlogging.ICustomLogger;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
@@ -9,19 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.ScriptChecks.*;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.*;
 
-public class ErrorLogging implements ICustomLogger {
+public class TweakedPetroleumErrorLogging implements ICustomLogger {
 
+    public static void register() {
+        if (!disableLogging) {
+            return;
+        }
+        ErrorLoggingLib.addCustomLogger(new TweakedPetroleumErrorLogging());
+    }
     List<String> errors = new ArrayList<>();
 
     @Override
     public boolean doCustomCheck() {
         boolean mark = false;
-
-        if (disableLogging) {
-            return false;
-        }
 
         if (logMissingContent) {
             if (reservoirList.isEmpty()) {
@@ -65,9 +68,8 @@ public class ErrorLogging implements ICustomLogger {
                 });
     }
 
-
     @Override
-    public String modid() {
+    public String getMODID() {
         return TweakedPetroleum.MODID;
     }
 

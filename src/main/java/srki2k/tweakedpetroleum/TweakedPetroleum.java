@@ -9,8 +9,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import srki2k.tweakedlib.util.errorlogging.ErrorLoggingUtil;
-import srki2k.tweakedpetroleum.util.ErrorLogging;
+import srki2k.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
 
 
 @Mod(modid = TweakedPetroleum.MODID,
@@ -42,7 +41,7 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        ErrorLoggingUtil.addCustomLogger(new ErrorLogging());
+        TweakedPetroleumErrorLogging.register();
     }
 
 }

@@ -8,7 +8,7 @@ import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
 import net.minecraft.item.ItemStack;
 import srki2k.tweakedlib.api.hei.BaseHEIUtil;
-import srki2k.tweakedlib.util.Constants;
+import srki2k.tweakedlib.common.Constants;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;

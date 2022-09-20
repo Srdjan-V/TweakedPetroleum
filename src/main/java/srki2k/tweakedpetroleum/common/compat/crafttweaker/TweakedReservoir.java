@@ -3,7 +3,7 @@ package srki2k.tweakedpetroleum.common.compat.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
-import srki2k.tweakedlib.api.powertier.PowerTierHandler;
+import srki2k.tweakedlib.common.compat.TweakedPowerTier;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.ReservoirValidation;
@@ -68,26 +68,9 @@ public class TweakedReservoir {
 
     @ZenMethod
     public static void registerPowerUsage(int tier, int capacity, int rft) {
-
-        // TODO: 20/09/2022 Move to TweakedLib? 
-        
-        if (tier < 0) {
-            CraftTweakerAPI.logError("PowerUsage tier can not be smaller than 0!");
-        }
-        if (capacity < 1) {
-            CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than 1!");
-        }
-        if (capacity == Integer.MAX_VALUE) {
-            CraftTweakerAPI.logError("PowerUsage capacity should not be MAX_INT!");
-        }
-        if (capacity < rft) {
-            CraftTweakerAPI.logError("PowerUsage capacity can not be smaller than rft!");
-        }
-
-
-        PowerTierHandler.registerPowerUsage(tier, capacity, rft);
-        CraftTweakerAPI.logInfo("Added power tier: " + tier + " with capacity: " + capacity + " and " + rft + " RF/t");
-
+        //This exists to keep compatibility with old projects
+        CraftTweakerAPI.logInfo("You are using 'mods.TweakedPetroleum.TweakedReservoir.registerPowerUsage()' to register power tiers but you should ideally be using 'mods.TweakedLib.TweakedPowerTier.registerPowerUsage()'");
+        TweakedPowerTier.registerPowerUsage(tier, capacity, rft);
     }
 
 }

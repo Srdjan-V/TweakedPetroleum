@@ -6,7 +6,7 @@ import net.minecraft.world.DimensionType;
 import org.lwjgl.input.Keyboard;
 import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedlib.api.powertier.PowerTierHandler;
-import srki2k.tweakedlib.util.Constants;
+import srki2k.tweakedlib.common.Constants;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import zmaster587.advancedRocketry.dimension.DimensionManager;
 
