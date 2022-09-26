@@ -13,6 +13,7 @@ import srki2k.tweakedpetroleum.TweakedPetroleum;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
+import java.util.Collection;
 import java.util.stream.Collectors;
 
 @mezz.jei.api.JEIPlugin
@@ -30,15 +31,18 @@ public class HEIPlugin implements IModPlugin {
     @Override
     public void register(IModRegistry registry) {
         registry.handleRecipes(PumpjackHandler.ReservoirType.class, PumpjackWrapper::new, PumpjackCategory.UID);
+        registry.addRecipes(getRecipes(), PumpjackCategory.UID);
+        registry.addRecipeCatalyst(BaseHEIUtil.getPumpjackCatalyst(), PumpjackCategory.UID);
+    }
+
+    private Collection<PumpjackHandler.ReservoirType> getRecipes() {
         if (Constants.isTweakedPetroleumGasLoaded()) {
-            registry.addRecipes(PumpjackHandler.reservoirList.keySet().stream().
+            return PumpjackHandler.reservoirList.keySet().stream().
                     filter(reservoirType -> ((IReservoirType) reservoirType).getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID).
-                    collect(Collectors.toList()), PumpjackCategory.UID);
-        } else {
-            registry.addRecipes(PumpjackHandler.reservoirList.keySet(), PumpjackCategory.UID);
+                    collect(Collectors.toList());
         }
 
-        registry.addRecipeCatalyst(BaseHEIUtil.getPumpjackCatalyst(), PumpjackCategory.UID);
+        return PumpjackHandler.reservoirList.keySet();
     }
 
 }

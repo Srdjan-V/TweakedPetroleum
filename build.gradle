@@ -124,9 +124,9 @@ dependencies {
     implementation fg.deobf('curse.maven:AdvancedRocketry-236542:3801020')
     implementation fg.deobf('curse.maven:Libvulpes-236541:3801015')
 
-    //compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
-    //implementation fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
-    implementation fg.deobf('curse.maven:had-enough-items-557549:3862733')
+    compileOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302:api')
+    runtimeOnly fg.deobf('mezz.jei:jei_1.12.2:4.16.1.302')
+    //implementation fg.deobf('curse.maven:had-enough-items-557549:3862733')
 
     compileOnly('zone.rong:mixinbooter:5.0')
     runtimeOnly('zone.rong:mixinbooter:5.0')

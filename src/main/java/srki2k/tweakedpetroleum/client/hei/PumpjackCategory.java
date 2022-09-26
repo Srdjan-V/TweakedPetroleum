@@ -5,13 +5,12 @@ import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.IRecipeCategory;
-import mezz.jei.util.Translator;
 import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.TweakedPetroleum;
 
 @SuppressWarnings("NullableProblems")
 public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
-    public static final String UID = "tweakedpetroleum.pumpjack";
+    public static final String UID = TweakedPetroleum.MODID + ".pumpjack";
 
     @Override
     public String getUid() {
@@ -20,7 +19,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
 
     @Override
     public String getTitle() {
-        return Translator.translateToLocal("tile.immersivepetroleum.metal_multiblock.pumpjack.name");
+        return BaseHEIUtil.translateToLocal("tile.immersivepetroleum.metal_multiblock.pumpjack.name");
     }
 
     @Override

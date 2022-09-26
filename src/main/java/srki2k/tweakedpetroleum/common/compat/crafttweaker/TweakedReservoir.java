@@ -3,7 +3,7 @@ package srki2k.tweakedpetroleum.common.compat.crafttweaker;
 import crafttweaker.CraftTweakerAPI;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
-import srki2k.tweakedlib.common.compat.TweakedPowerTier;
+import srki2k.tweakedlib.api.powertier.PowerTierHandler;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 import srki2k.tweakedpetroleum.util.ReservoirValidation;
@@ -70,7 +70,7 @@ public class TweakedReservoir {
     public static void registerPowerUsage(int tier, int capacity, int rft) {
         //This exists to keep compatibility with old projects
         CraftTweakerAPI.logInfo("You are using 'mods.TweakedPetroleum.TweakedReservoir.registerPowerUsage()' to register power tiers but you should ideally be using 'mods.TweakedLib.TweakedPowerTier.registerPowerUsage()'");
-        TweakedPowerTier.registerPowerUsage(tier, capacity, rft);
+        PowerTierHandler.registerPowerUsage(tier, capacity, rft);
     }
 
 }

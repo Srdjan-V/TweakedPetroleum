@@ -12,34 +12,30 @@ import java.util.List;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.*;
 
-public class TweakedPetroleumErrorLogging implements ICustomLogger {
+public final class TweakedPetroleumErrorLogging implements ICustomLogger {
+
+    private static ICustomLogger customLogger;
 
     public static void register() {
-        if (!disableLogging) {
-            return;
+        if (customLogger == null) {
+            customLogger = new TweakedPetroleumErrorLogging();
+            ErrorLoggingLib.addCustomLogger(customLogger);
         }
-        ErrorLoggingLib.addCustomLogger(new TweakedPetroleumErrorLogging());
     }
+
+    private TweakedPetroleumErrorLogging() {
+    }
+
     List<String> errors = new ArrayList<>();
 
     @Override
     public boolean doCustomCheck() {
-        boolean mark = false;
-
-        if (logMissingContent) {
-            if (reservoirList.isEmpty()) {
-                errors.add("No reservoirs are registered");
-                mark = true;
-            }
-
-        }
-
         if (logMissingPowerTier) {
             missingPowerTiers();
-            mark = true;
+            return true;
         }
 
-        return mark;
+        return false;
     }
 
     @Override
@@ -75,12 +71,10 @@ public class TweakedPetroleumErrorLogging implements ICustomLogger {
 
     @Override
     public String[] getConfigs() {
-        String[] strings = new String[4];
+        String[] strings = new String[2];
 
-        strings[0] = "Disable all checks: " + disableLogging;
-        strings[1] = "Log missing reservoirs: " + logMissingContent;
-        strings[2] = "Log missing reservoirs to players: " + logToPlayers;
-        strings[3] = "Log Missing PowerTiers for on startup: " + logMissingPowerTier;
+        strings[0] = "Log missing reservoirs to players: " + logToPlayers;
+        strings[1] = "Log Missing PowerTiers on startup: " + logMissingPowerTier;
 
         return strings;
     }
