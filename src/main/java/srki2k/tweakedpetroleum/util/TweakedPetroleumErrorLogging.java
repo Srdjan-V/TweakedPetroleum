@@ -10,7 +10,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.*;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.defaultPowerTier;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.logMissingPowerTier;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.logToPlayers;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.defaultReservoirs;
 
 public final class TweakedPetroleumErrorLogging implements ICustomLogger {
 
@@ -71,10 +74,15 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
 
     @Override
     public String[] getConfigs() {
-        String[] strings = new String[2];
+        String[] strings = new String[7];
 
-        strings[0] = "Log missing reservoirs to players: " + logToPlayers;
-        strings[1] = "Log Missing PowerTiers on startup: " + logMissingPowerTier;
+        strings[0] = "Logging:";
+        strings[1] = "Log missing reservoirs to players: " + logToPlayers;
+        strings[2] = "Log Missing PowerTiers on startup: " + logMissingPowerTier;
+
+        strings[3] = "DefaultReservoirs:";
+        strings[4] = "Register Reservoirs: " + defaultReservoirs;
+        strings[6] = "Default Reservoirs PowerTier: " + defaultPowerTier;
 
         return strings;
     }

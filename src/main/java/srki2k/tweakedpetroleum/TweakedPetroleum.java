@@ -7,8 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import srki2k.tweakedpetroleum.common.DefaultReservoirs;
 import srki2k.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
 
 
@@ -22,10 +21,6 @@ public class TweakedPetroleum {
 
     public static final String MODID = "tweakedpetroleum";
     public static final String VERSION = "@VERSION@";
-    public static final Logger LOGGER = LogManager.getLogger(MODID);
-
-    @Mod.Instance(MODID)
-    public static TweakedPetroleum instance;
 
     @SubscribeEvent
     public void onConfigChangedEvent(ConfigChangedEvent.OnConfigChangedEvent event) {
@@ -41,6 +36,7 @@ public class TweakedPetroleum {
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
+        DefaultReservoirs.init();
         TweakedPetroleumErrorLogging.register();
     }
 
