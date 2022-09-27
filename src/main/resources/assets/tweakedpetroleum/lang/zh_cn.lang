@@ -1,23 +1,23 @@
-jei.pumpjack.reservoir.max_size= 储层最大储量：%d mb
-jei.pumpjack.reservoir.min_size= 储层最小储量：%d mb
-jei.pumpjack.reservoir.replenishRate= 储层补给速率 %d mb/t
-jei.pumpjack.reservoir.speed= 储层抽取速率 %d mb/t
+tweakedpetroleum.jei.reservoir.max_size= 储层最大储量：%d mb
+tweakedpetroleum.jei.reservoir.min_size= 储层最小储量：%d mb
+tweakedpetroleum.jei.reservoir.replenishRate= 储层补给速率 %d mb/t
+tweakedpetroleum.jei.reservoir.speed= 储层抽取速率 %d mb/t
 
-jei.pumpjack.reservoir.weight=储层生成权重 %d
+tweakedpetroleum.jei.reservoir.weight=储层生成权重 %d
 
-jei.pumpjack.reservoir.biomes=生物群系
-jei.pumpjack.reservoir.biome_whitelist= 生物群系白名单：%d
-jei.pumpjack.reservoir.biome_blacklist= 生物群系黑名单：%d
+tweakedpetroleum.jei.reservoir.biomes=生物群系
+tweakedpetroleum.jei.reservoir.biome_whitelist= 生物群系白名单：%d
+tweakedpetroleum.jei.reservoir.biome_blacklist= 生物群系黑名单：%d
 
-jei.pumpjack.reservoir.dimensions=维度
-jei.pumpjack.reservoir.dimension_whitelist= 维度白名单：%d
-jei.pumpjack.reservoir.dimension_blacklist= 维度黑名单：%d
+tweakedpetroleum.jei.reservoir.dimensions=维度
+tweakedpetroleum.jei.reservoir.dimension_whitelist= 维度白名单：%d
+tweakedpetroleum.jei.reservoir.dimension_blacklist= 维度黑名单：%d
 
-jei.pumpjack.reservoir.power_tier=储层能量等级：%d
-jei.pumpjack.reservoir.power_capacity= 储层所需能量：%d RF
-jei.pumpjack.reservoir.power_usage= 储存消耗能量速率：%d RF/t
+tweakedpetroleum.jei.reservoir.power_tier=储层能量等级：%d
+tweakedpetroleum.jei.reservoir.power_capacity= 储层所需能量：%d RF
+tweakedpetroleum.jei.reservoir.power_usage= 储存消耗能量速率：%d RF/t
 
-jei.pumpjack.reservoir.lshift=按住LSHIFT查看更多信息
+tweakedpetroleum.jei.reservoir.lshift=按住LSHIFT查看更多信息
 
-jei.pumpjack.reservoir.req_pipes=采油机需要将IE管道建到基岩层
-jei.pumpjack.reservoir.draw_chance=该储层有 %d% 的几率从区块中流失，这使得该储液槽实际上增大 %d%
+tweakedpetroleum.jei.reservoir.req_pipes=采油机需要将IE管道建到基岩层
+tweakedpetroleum.jei.reservoir.draw_chance=该储层有 %d% 的几率从区块中流失，这使得该储液槽实际上增大 %d%

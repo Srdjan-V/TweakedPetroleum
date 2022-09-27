@@ -51,12 +51,12 @@ public class PumpjackWrapper implements IRecipeWrapper {
         String[][] strings = new String[2][];
 
         if (reservoir.getDrainChance() != 1f) {
-            strings[0] = new String[]{"jei.pumpjack.reservoir.draw_chance",
+            strings[0] = new String[]{"tweakedpetroleum.jei.reservoir.draw_chance",
                     String.valueOf(reservoir.getDrainChance() * 100),
                     String.valueOf(100f - (reservoir.getDrainChance() * 100))};
         }
         if (Config.IPConfig.Extraction.req_pipes) {
-            strings[1] = new String[]{"jei.pumpjack.reservoir.req_pipes"};
+            strings[1] = new String[]{"tweakedpetroleum.jei.reservoir.req_pipes"};
         }
 
         return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);

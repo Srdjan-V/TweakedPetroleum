@@ -18,8 +18,8 @@ public class HEIPumpjackUtil {
                 List<String> list = new ArrayList<>();
 
                 list.add(BaseHEIUtil.formatString(reservoir.getName()));
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
 
                 return list;
             }
@@ -27,8 +27,8 @@ public class HEIPumpjackUtil {
             if (mouseX > 37 && mouseX < 50) {
                 List<String> list = new ArrayList<>();
 
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
 
                 return list;
             }
@@ -36,12 +36,12 @@ public class HEIPumpjackUtil {
             if (mouseX > 61 && mouseX < 74) {
                 List<String> list = new ArrayList<>();
 
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
                 list.add("");
 
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.biomes"));
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("jei.pumpjack.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biomes"));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
+                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
 
                 BaseHEIUtil.dimensionListData(list, reservoir.getDimensionWhitelist(), reservoir.getDimensionBlacklist());
 
