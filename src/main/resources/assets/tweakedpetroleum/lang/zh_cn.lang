@@ -1,7 +1,7 @@
 tweakedpetroleum.jei.reservoir.max_size= 储层最大储量：%d mb
 tweakedpetroleum.jei.reservoir.min_size= 储层最小储量：%d mb
-tweakedpetroleum.jei.reservoir.replenishRate= 储层补给速率 %d mb/t
-tweakedpetroleum.jei.reservoir.speed= 储层抽取速率 %d mb/t
+tweakedpetroleum.jei.reservoir.replenishRate=储层补给速率 %d mb/t
+tweakedpetroleum.jei.reservoir.speed=储层抽取速率 %d mb/t
 
 tweakedpetroleum.jei.reservoir.weight=储层生成权重 %d
 

@@ -1,7 +1,7 @@
 tweakedpetroleum.jei.reservoir.max_size= Reservoir Max Size: %d mb
 tweakedpetroleum.jei.reservoir.min_size= Reservoir Min Size: %d mb
-tweakedpetroleum.jei.reservoir.replenishRate= Reservoir Replenish Rate %d mb/t
-tweakedpetroleum.jei.reservoir.speed= Reservoir Pump Speed %d mb/t
+tweakedpetroleum.jei.reservoir.replenishRate=Reservoir Replenish Rate %d mb/t
+tweakedpetroleum.jei.reservoir.speed=Reservoir Pump Speed %d mb/t
 
 tweakedpetroleum.jei.reservoir.weight=Reservoir Spawn Weight %d
 
