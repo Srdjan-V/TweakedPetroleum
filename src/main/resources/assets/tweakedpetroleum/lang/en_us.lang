@@ -5,6 +5,7 @@ tweakedpetroleum.jei.reservoir.speed= §7Reservoir Pump Speed: %d mB/t
 
 tweakedpetroleum.jei.reservoir.average= §7Average reservoir yield: %d mB
 tweakedpetroleum.jei.reservoir.average.time= §7Average time for the reservoir to deplete in minecraft days: %d
+tweakedpetroleum.jei.reservoir.contents= §7This reservoir contains: %d
 
 tweakedpetroleum.jei.reservoir.weight=Reservoir Spawn Weight %d
 

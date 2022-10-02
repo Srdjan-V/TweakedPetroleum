@@ -77,8 +77,8 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
         }
 
         if (warningCount > 0) {
-            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 58, 8);
-            minecraft.fontRenderer.drawString(String.valueOf(warningCount), 58, 8, 16696077);
+            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 55, 8);
+            minecraft.fontRenderer.drawString(String.valueOf(warningCount), 55, 6, 16696077);
         }
     }
 

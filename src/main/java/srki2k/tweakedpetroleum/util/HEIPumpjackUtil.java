@@ -15,12 +15,16 @@ public class HEIPumpjackUtil {
 
     public static void onTooltip(int slotIndex, IReservoirType reservoir, FluidStack ingredient, List<String> tooltip) {
         tooltip.clear();
-        tooltip.add(ingredient.getLocalizedName());
+        tooltip.add(BaseHEIUtil.formatString(reservoir.getName()));
+        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredient.getLocalizedName()));
 
         if (slotIndex == 0) {
+            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
+            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
+
             if (reservoir.getDrainChance() != 1f) {
                 tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
-                        (BaseHEIUtil.numberFormat.format(ingredient.amount) + " * " + (100f - (reservoir.getDrainChance() * 100)))));
+                        (BaseHEIUtil.numberFormat.format(ingredient.amount) + " * " + (100f - (reservoir.getDrainChance() * 100)) + "%")));
                 return;
             }
 
@@ -29,6 +33,8 @@ public class HEIPumpjackUtil {
             return;
         }
 
+        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
+        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
 
         if (reservoir.getDrainChance() != 1f) {
             tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
@@ -43,28 +49,16 @@ public class HEIPumpjackUtil {
 
     public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, IReservoirType reservoir) {
 
-        if (mouseY > 60 && mouseY < 74) {
-            if (mouseX > 14 && mouseX < 25) {
+        if (mouseX > 57 && mouseX < 67) {
+            if (mouseY > 41 && mouseY < 60) {
                 List<String> list = new ArrayList<>();
-
-                list.add(BaseHEIUtil.formatString(reservoir.getName()));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
+                BaseHEIUtil.powerTierListData(list, reservoir.getPowerTier());
 
                 return list;
+
             }
 
-            if (mouseX > 37 && mouseX < 50) {
-                List<String> list = new ArrayList<>();
-
-                list.add(BaseHEIUtil.formatString(reservoir.getName()));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
-
-                return list;
-            }
-
-            if (mouseX > 61 && mouseX < 74) {
+            if (mouseY > 55 && mouseY < 75) {
                 List<String> list = new ArrayList<>();
 
                 list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
@@ -79,17 +73,12 @@ public class HEIPumpjackUtil {
                 BaseHEIUtil.dimensionListData(list, reservoir.getDimensionWhitelist(), reservoir.getDimensionBlacklist());
 
                 return list;
+
             }
+
         }
 
-        if (mouseX > 61 && mouseX < 73 && mouseY > 44 && mouseY < 57) {
-            List<String> list = new ArrayList<>();
-            BaseHEIUtil.powerTierListData(list, reservoir.getPowerTier());
-
-            return list;
-        }
-
-        if (customWarnings != null && mouseX > 58 && mouseX < 75 && mouseY > 8 && mouseY < 25) {
+        if (customWarnings != null && mouseX > 55 && mouseX < 71 && mouseY > 6 && mouseY < 23) {
             List<String> list = new ArrayList<>();
 
             for (String[] s : customWarnings) {
