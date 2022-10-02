@@ -35,6 +35,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, PumpjackWrapper recipeWrapper, IIngredients ingredients) {
         IGuiFluidStackGroup outputGuiFluids = recipeLayout.getFluidStacks();
+        outputGuiFluids.addTooltipCallback(recipeWrapper);
 
         outputGuiFluids.init(0, false, 12, 10, 16, 47, recipeWrapper.getMaxFluid(), false, null);
         outputGuiFluids.set(0, recipeWrapper.getAverageFluid());

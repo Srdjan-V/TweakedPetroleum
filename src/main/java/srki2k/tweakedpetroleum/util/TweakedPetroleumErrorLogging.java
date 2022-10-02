@@ -1,5 +1,6 @@
 package srki2k.tweakedpetroleum.util;
 
+import org.apache.logging.log4j.Logger;
 import srki2k.tweakedlib.api.logging.errorlogginglib.ErrorLoggingLib;
 import srki2k.tweakedlib.api.logging.errorlogginglib.ICustomLogger;
 import srki2k.tweakedlib.api.powertier.PowerTierHandler;
@@ -11,40 +12,32 @@ import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.defaultPowerTier;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.logMissingPowerTier;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.Logging.logToPlayers;
 import static srki2k.tweakedpetroleum.common.Configs.TPConfig.defaultReservoirs;
 
 public final class TweakedPetroleumErrorLogging implements ICustomLogger {
-
-    private static ICustomLogger customLogger;
-
-    public static void register() {
-        if (customLogger == null) {
-            customLogger = new TweakedPetroleumErrorLogging();
-            ErrorLoggingLib.addCustomLogger(customLogger);
-        }
+    private TweakedPetroleumErrorLogging() {
     }
 
-    private TweakedPetroleumErrorLogging() {
+    public static void register() {
+        ErrorLoggingLib.addCustomLogger(new TweakedPetroleumErrorLogging());
     }
 
     List<String> errors = new ArrayList<>();
 
     @Override
-    public boolean doCustomCheck() {
-        if (logMissingPowerTier) {
-            missingPowerTiers();
-            return true;
-        }
-
-        return false;
+    public boolean startupChecks() {
+        return reservoirList.isEmpty();
     }
 
     @Override
-    public boolean handleRuntimeErrors() {
-        //missingPowerTiersLog()
-        missingPowerTiers();
+    public boolean runtimeChecks() {
+        reservoirList.keySet().
+                forEach(tweakedReservoirType -> {
+                    if (PowerTierHandler.getPowerTier(((IReservoirType) tweakedReservoirType).getPowerTier()) == null) {
+                        errors.add("Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier");
+                    }
+                });
+
         return !errors.isEmpty();
     }
 
@@ -54,35 +47,17 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     }
 
     @Override
-    public boolean logErrorToUsersInGameWithCT() {
-        return logToPlayers;
-    }
-
-    private void missingPowerTiers() {
-        reservoirList.keySet().
-                forEach(tweakedReservoirType -> {
-                    if (PowerTierHandler.getPowerTier(((IReservoirType) tweakedReservoirType).getPowerTier()) == null) {
-                        errors.add("Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier");
-                    }
-                });
-    }
-
-    @Override
-    public String getMODID() {
-        return TweakedPetroleum.MODID;
+    public Logger getModLogger() {
+        return TweakedPetroleum.LOGGER;
     }
 
     @Override
     public String[] getConfigs() {
-        String[] strings = new String[7];
+        String[] strings = new String[3];
 
-        strings[0] = "Logging:";
-        strings[1] = "Log missing reservoirs to players: " + logToPlayers;
-        strings[2] = "Log Missing PowerTiers on startup: " + logMissingPowerTier;
-
-        strings[3] = "DefaultReservoirs:";
-        strings[4] = "Register Reservoirs: " + defaultReservoirs;
-        strings[6] = "Default Reservoirs PowerTier: " + defaultPowerTier;
+        strings[0] = "DefaultReservoirs:";
+        strings[1] = "Register Reservoirs: " + defaultReservoirs;
+        strings[2] = "Default Reservoirs PowerTier: " + defaultPowerTier;
 
         return strings;
     }

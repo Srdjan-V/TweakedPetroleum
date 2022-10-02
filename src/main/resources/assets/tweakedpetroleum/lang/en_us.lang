@@ -1,21 +1,20 @@
-tweakedpetroleum.jei.reservoir.max_size= Reservoir Max Size: %d mb
-tweakedpetroleum.jei.reservoir.min_size= Reservoir Min Size: %d mb
-tweakedpetroleum.jei.reservoir.replenishRate=Reservoir Replenish Rate %d mb/t
-tweakedpetroleum.jei.reservoir.speed=Reservoir Pump Speed %d mb/t
+tweakedpetroleum.jei.reservoir.max_size= §7Reservoir Max Size: %d mB
+tweakedpetroleum.jei.reservoir.min_size= §7Reservoir Min Size: %d mB
+tweakedpetroleum.jei.reservoir.replenishRate= §7Reservoir Replenish Rate: %d mB/t
+tweakedpetroleum.jei.reservoir.speed= §7Reservoir Pump Speed: %d mB/t
+
+tweakedpetroleum.jei.reservoir.average= §7Average reservoir yield: %d mB
+tweakedpetroleum.jei.reservoir.average.time= §7Average time for the reservoir to deplete in minecraft days: %d
 
 tweakedpetroleum.jei.reservoir.weight=Reservoir Spawn Weight %d
 
 tweakedpetroleum.jei.reservoir.biomes=Biomes
-tweakedpetroleum.jei.reservoir.biome_whitelist= Biome Whitelist: %d
-tweakedpetroleum.jei.reservoir.biome_blacklist= Biome Blacklist: %d
+tweakedpetroleum.jei.reservoir.biome_whitelist= §7Biome Whitelist: %d
+tweakedpetroleum.jei.reservoir.biome_blacklist= §7Biome Blacklist: %d
 
 tweakedpetroleum.jei.reservoir.dimensions=Dimensions
-tweakedpetroleum.jei.reservoir.dimension_whitelist= Dimension Whitelist: %d
-tweakedpetroleum.jei.reservoir.dimension_blacklist= Dimension Blacklist: %d
-
-tweakedpetroleum.jei.reservoir.power_tier=Reservoir Power Tier: %d
-tweakedpetroleum.jei.reservoir.power_capacity= Reservoir power capacity: %d RF
-tweakedpetroleum.jei.reservoir.power_usage= Reservoir power usage: %d RF/t
+tweakedpetroleum.jei.reservoir.dimension_whitelist= §7Dimension Whitelist: %d
+tweakedpetroleum.jei.reservoir.dimension_blacklist= §7Dimension Blacklist: %d
 
 tweakedpetroleum.jei.reservoir.lshift=Hold LShift for more info
 

@@ -3,6 +3,7 @@ package srki2k.tweakedpetroleum.client.hei;
 import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
+import mezz.jei.api.gui.ITooltipCallback;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.ingredients.VanillaTypes;
 import mezz.jei.api.recipe.IRecipeWrapper;
@@ -15,7 +16,7 @@ import srki2k.tweakedpetroleum.util.HEIPumpjackUtil;
 
 import java.util.List;
 
-public class PumpjackWrapper implements IRecipeWrapper {
+public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidStack> {
     private final IReservoirType reservoir;
     private final Fluid reservoirFluid;
 
@@ -81,4 +82,8 @@ public class PumpjackWrapper implements IRecipeWrapper {
         }
     }
 
+    @Override
+    public void onTooltip(int slotIndex, boolean input, FluidStack ingredient, List<String> tooltip) {
+        HEIPumpjackUtil.onTooltip(slotIndex, reservoir, ingredient, tooltip);
+    }
 }

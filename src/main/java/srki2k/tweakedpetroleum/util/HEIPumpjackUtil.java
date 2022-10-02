@@ -1,6 +1,7 @@
 package srki2k.tweakedpetroleum.util;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
@@ -11,6 +12,35 @@ import java.util.List;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
 public class HEIPumpjackUtil {
+
+    public static void onTooltip(int slotIndex, IReservoirType reservoir, FluidStack ingredient, List<String> tooltip) {
+        tooltip.clear();
+        tooltip.add(ingredient.getLocalizedName());
+
+        if (slotIndex == 0) {
+            if (reservoir.getDrainChance() != 1f) {
+                tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
+                        (BaseHEIUtil.numberFormat.format(ingredient.amount) + " * " + (100f - (reservoir.getDrainChance() * 100)))));
+                return;
+            }
+
+            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
+                    BaseHEIUtil.numberFormat.format(ingredient.amount)));
+            return;
+        }
+
+
+        if (reservoir.getDrainChance() != 1f) {
+            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
+                    (((long) ((reservoir.getMaxSize() + reservoir.getMinSize()) * (100f - (reservoir.getDrainChance() * 100))) / 2) / (reservoir.getPumpSpeed() * 24000L))));
+            return;
+        }
+
+        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
+                (((long) (reservoir.getMaxSize() + reservoir.getMinSize()) / 2) / (reservoir.getPumpSpeed() * 24000L))));
+    }
+
+
     public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, IReservoirType reservoir) {
 
         if (mouseY > 60 && mouseY < 74) {
@@ -27,6 +57,7 @@ public class HEIPumpjackUtil {
             if (mouseX > 37 && mouseX < 50) {
                 List<String> list = new ArrayList<>();
 
+                list.add(BaseHEIUtil.formatString(reservoir.getName()));
                 list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
                 list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
 
