@@ -49,36 +49,31 @@ public class HEIPumpjackUtil {
 
     public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, IReservoirType reservoir) {
 
-        if (mouseX > 57 && mouseX < 67) {
-            if (mouseY > 41 && mouseY < 60) {
-                List<String> list = new ArrayList<>();
-                BaseHEIUtil.powerTierListData(list, reservoir.getPowerTier());
+        if (mouseX > 57 && mouseX < 68 && mouseY > 43 && mouseY < 58) {
+            List<String> list = new ArrayList<>();
+            BaseHEIUtil.powerTierListData(list, reservoir.getPowerTier());
 
-                return list;
-
-            }
-
-            if (mouseY > 55 && mouseY < 75) {
-                List<String> list = new ArrayList<>();
-
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
-                list.add("");
-
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biomes"));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
-                list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
-
-                list.add("");
-
-                BaseHEIUtil.dimensionListData(list, reservoir.getDimensionWhitelist(), reservoir.getDimensionBlacklist());
-
-                return list;
-
-            }
-
+            return list;
         }
 
-        if (customWarnings != null && mouseX > 55 && mouseX < 71 && mouseY > 6 && mouseY < 23) {
+        if (mouseX > 56 && mouseX < 69 && mouseY > 58 && mouseY < 72) {
+            List<String> list = new ArrayList<>();
+
+            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.weight", reservoirList.get((PumpjackHandler.ReservoirType) reservoir)));
+            list.add("");
+
+            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biomes"));
+            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
+            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
+
+            list.add("");
+
+            BaseHEIUtil.dimensionListData(list, reservoir.getDimensionWhitelist(), reservoir.getDimensionBlacklist());
+
+            return list;
+        }
+
+        if (customWarnings != null && mouseX > 54 && mouseX < 71 && mouseY > 7 && mouseY < 23) {
             List<String> list = new ArrayList<>();
 
             for (String[] s : customWarnings) {
