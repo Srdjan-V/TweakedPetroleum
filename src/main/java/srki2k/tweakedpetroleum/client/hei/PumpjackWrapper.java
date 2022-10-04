@@ -84,6 +84,6 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
 
     @Override
     public void onTooltip(int slotIndex, boolean input, FluidStack ingredient, List<String> tooltip) {
-        HEIPumpjackUtil.onTooltip(slotIndex, reservoir, ingredient, tooltip);
+        HEIPumpjackUtil.onTooltip(slotIndex, reservoir, ingredient.amount, ingredient.getLocalizedName(), tooltip);
     }
 }

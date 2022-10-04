@@ -1,7 +1,6 @@
 package srki2k.tweakedpetroleum.util;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
@@ -13,10 +12,10 @@ import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoi
 
 public class HEIPumpjackUtil {
 
-    public static void onTooltip(int slotIndex, IReservoirType reservoir, FluidStack ingredient, List<String> tooltip) {
+    public static void onTooltip(int slotIndex, IReservoirType reservoir, long ingredientAmount, String ingredientLocalizedName, List<String> tooltip) {
         tooltip.clear();
         tooltip.add(BaseHEIUtil.formatString(reservoir.getName()));
-        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredient.getLocalizedName()));
+        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredientLocalizedName));
 
         if (slotIndex == 0) {
             tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
@@ -24,12 +23,12 @@ public class HEIPumpjackUtil {
 
             if (reservoir.getDrainChance() != 1f) {
                 tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
-                        (BaseHEIUtil.numberFormat.format(ingredient.amount) + " * " + (100f - (reservoir.getDrainChance() * 100)) + "%")));
+                        (BaseHEIUtil.numberFormat.format(ingredientAmount) + " * " + (100f - (reservoir.getDrainChance() * 100)) + "%")));
                 return;
             }
 
             tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
-                    BaseHEIUtil.numberFormat.format(ingredient.amount)));
+                    BaseHEIUtil.numberFormat.format(ingredientAmount)));
             return;
         }
 
