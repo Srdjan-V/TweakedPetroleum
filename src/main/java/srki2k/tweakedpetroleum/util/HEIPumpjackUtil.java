@@ -37,12 +37,14 @@ public class HEIPumpjackUtil {
 
         if (reservoir.getDrainChance() != 1f) {
             tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
-                    (((long) ((reservoir.getMaxSize() + reservoir.getMinSize()) * (100f - (reservoir.getDrainChance() * 100))) / 2) / (reservoir.getPumpSpeed() * 24000L))));
+                    Math.max(0, ((long) (((long) reservoir.getMaxSize() + reservoir.getMinSize()) * (100f - (reservoir.getDrainChance() * 100))) / 2)
+                            / (reservoir.getPumpSpeed() * 24000L))));
             return;
         }
 
         tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
-                Math.max(0, (((long) (reservoir.getMaxSize() + reservoir.getMinSize()) / 2) / (reservoir.getPumpSpeed() * 24000L)))));
+                Math.max(0, (((long) reservoir.getMaxSize() + reservoir.getMinSize()) / 2)
+                        / (reservoir.getPumpSpeed() * 24000L))));
     }
 
 
