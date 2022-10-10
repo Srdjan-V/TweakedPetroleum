@@ -13,6 +13,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("unused")
 @ZenClass("mods.TweakedPetroleum.TweakedReservoir")
 @ZenRegister
 public class TweakedReservoir {
@@ -70,7 +71,7 @@ public class TweakedReservoir {
     public static void registerPowerUsage(int tier, int capacity, int rft) {
         //This exists to keep compatibility with old projects
         CraftTweakerAPI.logInfo("You are using 'mods.TweakedPetroleum.TweakedReservoir.registerPowerUsage()' to register power tiers but you should ideally be using 'mods.TweakedLib.TweakedPowerTier.registerPowerUsage()'");
-        PowerTierHandler.registerPowerUsage(tier, capacity, rft);
+        PowerTierHandler.registerPowerTier(tier, capacity, rft);
     }
 
 }

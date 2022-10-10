@@ -33,7 +33,7 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     public boolean runtimeChecks() {
         reservoirList.keySet().
                 forEach(tweakedReservoirType -> {
-                    if (PowerTierHandler.getPowerTier(((IReservoirType) tweakedReservoirType).getPowerTier()) == null) {
+                    if (!PowerTierHandler.powerTierExists(((IReservoirType) tweakedReservoirType).getPowerTier())) {
                         errors.add("Reservoir with the ID (name)" + tweakedReservoirType.name + "has no valid Power tier");
                     }
                 });

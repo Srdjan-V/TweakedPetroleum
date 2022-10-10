@@ -1,17 +1,18 @@
 import mods.TweakedPetroleum.TweakedReservoir;
-
+import mods.TweakedLib.TweakedPowerTier;
 
 /*
-Method Syntax
-TweakedReservoir.registerPowerUsage(int tier, int capacity, int rft)
+By default TweakedLib is registering a powerTier(default id: 0) if it detects that IP is loaded(and if its configuration is enabled see the configs for TweakedLib)
+TweakedPowerTier.registerPowerTier(int tier, int capacity, int rft)
 */
 
     // Power usage
-    TweakedReservoir.registerPowerUsage(0, 16000, 1024);
-
+    TweakedPowerTier.registerPowerTier(0, 16000, 1024);
 
 /*
-Method Syntax
+By default TweakedPetroleum is registering all of the default Reservoirs(aquifer, oil, lava), but registering them again through CT will overwrite them.
+This can be disabled in the TweakedPetroleum configs, and you should if you plan to use CT with it.
+
 TweakedReservoir.registerReservoir(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier,
     int[] dimBlacklist, int[] dimWhitelist, String[] biomeBlacklist, String[] biomeWhitelist)
 */
