@@ -1,7 +1,7 @@
 package srki2k.tweakedpetroleum.common;
 
-import srki2k.tweakedpetroleum.TweakedPetroleum;
 import net.minecraftforge.common.config.Config;
+import srki2k.tweakedpetroleum.TweakedPetroleum;
 
 public class Configs {
 
@@ -17,14 +17,25 @@ public class Configs {
             @Config.RequiresMcRestart
             public static boolean defaultReservoirs = true;
 
-            @Config.Comment({"This will set the power tier of the default IP Reservoirs, default=0"})
-            @Config.Name("Default Reservoirs PowerTier")
-            @Config.RangeInt(min = 0)
-            @Config.RequiresMcRestart
-            public static int defaultPowerTier = 0;
+            @Config.Name("Default Pumpjack Power Tiers")
+            public static DefaultPumpjackPowerTiers defaultPumpjackPowerTiers;
 
+            public static class DefaultPumpjackPowerTiers {
+
+                @Config.Comment({"This will set the capacity of the pumpjack, default=16000"})
+                @Config.Name("Default capacity")
+                @Config.RangeInt(min = 1)
+                @Config.RequiresMcRestart
+                public static int capacity = 16000;
+
+                @Config.Comment({"This will set the power consumption of the pumpjack, default=1024"})
+                @Config.Name("Default consumption")
+                @Config.RangeInt(min = 1)
+                @Config.RequiresMcRestart
+                public static int rft = 1024;
+
+            }
         }
-
     }
 
 }

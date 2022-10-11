@@ -1,6 +1,7 @@
 package srki2k.tweakedpetroleum.common;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import srki2k.tweakedlib.api.powertier.PowerTierHandler;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
@@ -10,7 +11,9 @@ public class DefaultReservoirs {
 
     public static void init() {
         if (Configs.TPConfig.DefaultReservoirs.defaultReservoirs) {
-            int powerTier = Configs.TPConfig.DefaultReservoirs.defaultPowerTier;
+            int powerTier = PowerTierHandler.registerPowerTier(
+                            Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.capacity,
+                            Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.rft);
 
             makeReservoirType("aquifer", "water", 5000000, 10000000, 6, 25, 30, powerTier, new int[]{}, new int[]{0});
             makeReservoirType("oil", "oil", 2500000, 15000000, 6, 25, 40, powerTier, new int[]{1}, new int[]{});

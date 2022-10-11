@@ -46,22 +46,26 @@ public class ReservoirValidation {
             CraftTweakerAPI.logError("Reservoir(" + name + ") powerTier can not be smaller than 0!");
         }
 
-        for (String string : biomeBlacklist) {
-            if (string == null || string.isEmpty()) {
-                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
-                continue;
-            }
+        if (biomeBlacklist != null) {
+            for (String string : biomeBlacklist) {
+                if (string == null || string.isEmpty()) {
+                    CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
+                    continue;
+                }
 
-            biomeBlacklistList.add(string);
+                biomeBlacklistList.add(string);
+            }
         }
 
-        for (String string : biomeWhitelist) {
-            if (string == null || string.isEmpty()) {
-                CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
-                continue;
-            }
+        if (biomeWhitelist != null) {
+            for (String string : biomeWhitelist) {
+                if (string == null || string.isEmpty()) {
+                    CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
+                    continue;
+                }
 
-            biomeWhitelistList.add(string);
+                biomeWhitelistList.add(string);
+            }
         }
 
     }

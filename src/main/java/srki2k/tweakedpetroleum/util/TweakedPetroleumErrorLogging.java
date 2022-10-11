@@ -11,8 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.defaultPowerTier;
-import static srki2k.tweakedpetroleum.common.Configs.TPConfig.defaultReservoirs;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.capacity;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.rft;
+import static srki2k.tweakedpetroleum.common.Configs.TPConfig.DefaultReservoirs.defaultReservoirs;
 
 public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     private TweakedPetroleumErrorLogging() {
@@ -53,11 +54,13 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
 
     @Override
     public String[] getConfigs() {
-        String[] strings = new String[3];
+        String[] strings = new String[5];
 
         strings[0] = "DefaultReservoirs:";
         strings[1] = "Register Reservoirs: " + defaultReservoirs;
-        strings[2] = "Default Reservoirs PowerTier: " + defaultPowerTier;
+        strings[2] = "Default Pumpjack Power Tiers:";
+        strings[3] = "Default capacity:" + capacity;
+        strings[4] = "Default consumption:" + rft;
 
         return strings;
     }
