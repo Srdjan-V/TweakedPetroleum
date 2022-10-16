@@ -60,7 +60,7 @@ public class ReservoirValidation {
         if (biomeWhitelist != null) {
             for (String string : biomeWhitelist) {
                 if (string == null || string.isEmpty()) {
-                    CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeBlacklist is either Empty or Null");
+                    CraftTweakerAPI.logError("Reservoir(" + name + ") String '" + string + "' in biomeWhitelist is either Empty or Null");
                     continue;
                 }
 
