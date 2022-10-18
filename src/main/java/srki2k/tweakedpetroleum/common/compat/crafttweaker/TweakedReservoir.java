@@ -76,9 +76,10 @@ public class TweakedReservoir {
     }
 
     @ZenMethod
+    @Deprecated
     public static void registerPowerUsage(int tier, int capacity, int rft) {
-        // TODO: 11/10/2022 add docs
-        CraftTweakerAPI.logInfo("This method is deprecated 'mods.TweakedPetroleum.TweakedReservoir.registerPowerUsage()");
+        CraftTweakerAPI.logError("This method is deprecated 'mods.TweakedPetroleum.TweakedReservoir.registerPowerUsage()");
+        CraftTweakerAPI.logError("Go see https://github.com/Srdjan-V/TweakedPetroleum/blob/master/examples/examples.zs for the new way of adding Powertiers");
     }
 
 }
