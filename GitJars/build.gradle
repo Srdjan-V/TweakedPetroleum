@@ -1,0 +1,20 @@
+apply {
+    plugin 'java'
+}
+
+sourceCompatibility = targetCompatibility = '1.8'
+compileJava {
+    sourceCompatibility = targetCompatibility = '1.8'
+}
+
+git {
+    def props = new Properties()
+    new File("${project.projectDir}/../gradle.properties").withInputStream { props.load(it) }
+
+    implementation 'https://github.com/Srdjan-V/TweakedLib.git', {
+        name 'TweakedLib'
+        commit "v${props.getProperty('tweaked_lib_version')}"
+    }
+
+}
+

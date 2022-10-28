@@ -47,8 +47,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties*') }}
           restore-keys: ${{ runner.os }}-gradle-
 
-      - name: Build with Gradle
+      - name: Build mod dep with Gradle
         run: |
+          cd ./GitJars
+          chmod +x build.gradle
+          ./build.gradle
+
+      - name: Build mod with Gradle
+        run: |
+          cd ../
           chmod +x gradlew
           ./gradlew build
 
