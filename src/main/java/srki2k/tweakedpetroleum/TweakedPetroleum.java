@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srki2k.tweakedpetroleum.common.DefaultReservoirs;
+import srki2k.tweakedpetroleum.common.compat.groovyscript.TweakedGroovyReservoir;
 import srki2k.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
 
 
@@ -36,6 +37,7 @@ public class TweakedPetroleum {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(this);
+        TweakedGroovyReservoir.init();
     }
 
     @Mod.EventHandler

@@ -30,6 +30,7 @@ fancyGradle {
         coremods
         asm
         codeChickenLib
+        mergetool
     }
 }
 
@@ -131,6 +132,10 @@ dependencies {
     //implementation fg.deobf('curse.maven:GroovyScript-687577:4033033')
     //fg5 compatible version of groovyscript
     implementation fg.deobf (files("/mods/groovyscript-0.0.1.jar"))
+
+    //Mekanism
+    implementation('curse.maven:Mekanism_api-268560:2835176')
+    implementation('curse.maven:Mekanism-268560:2835175')
 
     //AdvancedRocketry
     implementation fg.deobf('curse.maven:AdvancedRocketry-236542:3801020')
