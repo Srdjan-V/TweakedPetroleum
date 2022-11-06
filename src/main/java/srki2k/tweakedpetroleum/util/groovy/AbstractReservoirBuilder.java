@@ -6,6 +6,7 @@ import srki2k.tweakedlib.api.powertier.PowerTier;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public abstract class AbstractReservoirBuilder<T extends AbstractReservoirBuilder<?>> implements IRecipeBuilder<GroovyReservoirWrapper> {
 
     protected String name;

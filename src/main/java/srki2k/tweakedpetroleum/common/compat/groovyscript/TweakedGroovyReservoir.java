@@ -104,6 +104,10 @@ public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirW
                 res.setPumpSpeed(pumpSpeed);
                 res.setPowerTier(powerTier);
 
+                if (!drainChance.isNaN()) {
+                    res.setDrainChance(drainChance);
+                }
+
                 if (dimBlacklist != null) {
                     res.setDimensionBlacklist(dimBlacklist.stream().mapToInt(i -> i).toArray());
                 } else {
