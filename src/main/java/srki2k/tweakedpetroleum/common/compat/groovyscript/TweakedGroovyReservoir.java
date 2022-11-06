@@ -6,7 +6,6 @@ import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import groovyjarjarantlr4.v4.runtime.misc.Nullable;
 import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
@@ -16,6 +15,7 @@ import srki2k.tweakedpetroleum.util.groovy.GroovyReservoirWrapper;
 
 import java.util.Map;
 
+@SuppressWarnings("unused")
 public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirWrapper> {
 
     private static TweakedGroovyReservoir instance;
@@ -97,7 +97,7 @@ public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirW
         }
 
         @Override
-        public @Nullable GroovyReservoirWrapper register() {
+        public GroovyReservoirWrapper register() {
             if (validate()) {
                 IReservoirType res = (IReservoirType) new PumpjackHandler.ReservoirType(name, IngredientHelper.toFluidStack(ingredient).getFluid().getName(), minSize, maxSize, replenishRate);
                 res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);

@@ -50,8 +50,8 @@ jobs:
       - name: Build mod dep with Gradle
         run: |
           cd ./GitJars
-          chmod +x build.gradle
-          ./build.gradle
+          chmod +x gradlew
+          ./gradlew publishToMavenLocal
 
       - name: Build mod with Gradle
         run: |

@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         if (project.use_mixins.toBoolean()) {
-            classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+            classpath 'org.spongepowered:mixingradle:0.7.+'
         }
     }
 }
@@ -20,6 +20,7 @@ plugins {
 apply {
     plugin 'net.minecraftforge.gradle'
     plugin 'org.spongepowered.mixin'
+    plugin "maven-publish"
     plugin 'java'
     plugin 'idea'
 }
@@ -113,25 +114,25 @@ repositories {
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
-    new File("./GitJars/libs").list().collect().forEach { s ->
-        flatDir {
-            dirs "./GitJars/libs/${s}/build/libs"
-        }
-    }
+    mavenLocal()
 }
 
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
+    //Maven local
     implementation "srki2k:TweakedLib:${project.tweaked_lib_version}"
+    implementation("com.cleanroommc:GroovyScriptFg5:${project.groovy_script_version}") {
+        transitive = false
+    }
 
     implementation 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
     implementation fg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
     implementation fg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
 
-    //implementation fg.deobf('curse.maven:GroovyScript-687577:4033033')
+    //compileOnly fg.deobf('curse.maven:GroovyScript-687577:4033033')
     //fg5 compatible version of groovyscript
-    implementation fg.deobf (files("/mods/groovyscript-0.0.1.jar"))
+    //implementation fg.deobf (files("/mods/groovyscript-0.0.1.jar"))
 
     //Mekanism
     implementation('curse.maven:Mekanism_api-268560:2835176')
@@ -264,5 +265,17 @@ artifacts {
     }
     if (project.build_sourceJar.toBoolean()) {
         archives sourcesJar
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourcesJar {
+                classifier "sources"
+            }
+        }
     }
 }

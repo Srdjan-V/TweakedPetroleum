@@ -1,4 +1,5 @@
 apply {
+    plugin "maven-publish"
     plugin 'java'
 }
 
@@ -14,6 +15,11 @@ git {
     implementation 'https://github.com/Srdjan-V/TweakedLib.git', {
         name 'TweakedLib'
         commit "v${props.getProperty('tweaked_lib_version')}"
+    }
+
+    implementation 'https://github.com/Srdjan-V/GroovyScriptFg5.git', {
+        name 'GroovyScriptFg5'
+        commit "v${props.getProperty('groovy_script_version')}"
     }
 
 }
