@@ -10,9 +10,8 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import srki2k.tweakedlib.api.hei.BaseHEIUtil;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
-import srki2k.tweakedpetroleum.util.HEIPumpjackUtil;
+import srki2k.tweakedpetroleum.util.hei.HEIPumpjackUtil;
 
 import java.util.List;
 
@@ -77,7 +76,7 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
         }
 
         if (warningCount > 0) {
-            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 55, 8);
+            HEIPumpjackUtil.getPumpjackWarning().draw(minecraft, 55, 8);
             minecraft.fontRenderer.drawString(String.valueOf(warningCount), 55, 6, 16696077);
         }
     }

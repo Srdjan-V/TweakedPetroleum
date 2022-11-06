@@ -4,37 +4,31 @@ import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
-import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import groovyjarjarantlr4.v4.runtime.misc.Nullable;
-import mekanism.api.gas.GasStack;
 import net.minecraftforge.fluids.FluidStack;
-import srki2k.tweakedlib.api.powertier.PowerTier;
-import srki2k.tweakedlib.common.Constants;
-import srki2k.tweakedlib.common.compat.groovyscript.GroovyScriptCompat;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
-import srki2k.tweakedpetroleum.util.ReservoirValidation;
+import srki2k.tweakedpetroleum.util.groovy.AbstractReservoirBuilder;
+import srki2k.tweakedpetroleum.util.groovy.GroovyReservoirValidator;
+import srki2k.tweakedpetroleum.util.groovy.GroovyReservoirWrapper;
 
-import java.util.List;
 import java.util.Map;
 
 public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirWrapper> {
 
     private static TweakedGroovyReservoir instance;
 
-    public static void init() {
-        if (Constants.isGroovyScriptLoaded() && instance == null) {
-            instance = new TweakedGroovyReservoir();
-            GroovyScriptCompat.getInstance().addRegistry(instance);
-        }
+
+    @GroovyBlacklist
+    static TweakedGroovyReservoir init() {
+        return instance = new TweakedGroovyReservoir();
     }
 
     public TweakedGroovyReservoir() {
         super("FluidReservoir", "fluidReservoir");
     }
-
 
     @Override
     @GroovyBlacklist
@@ -82,109 +76,21 @@ public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirW
         }
     }
 
-    public RecipeBuilder recipeBuilder() {
-        return new RecipeBuilder();
+    public FluidReservoirBuilder recipeBuilder() {
+        return new FluidReservoirBuilder();
     }
 
-    public static class RecipeBuilder implements IRecipeBuilder<GroovyReservoirWrapper> {
+    public static class FluidReservoirBuilder extends AbstractReservoirBuilder<FluidReservoirBuilder> {
 
-        protected String name;
-        protected IIngredient ingredient;
-        protected int minSize;
-        protected int maxSize;
-        protected int replenishRate;
-        protected int pumpSpeed;
-        protected int weight;
-        protected Float drainChance = Float.NaN;
-        protected int powerTier;
-        protected List<Integer> dimBlacklist;
-        protected List<Integer> dimWhitelist;
-        protected List<String> biomeBlacklist;
-        protected List<String> biomeWhitelist;
-
-        public RecipeBuilder() {
-        }
-
-        public RecipeBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public RecipeBuilder fluid(FluidStack fluid) {
+        public FluidReservoirBuilder fluid(FluidStack fluid) {
             ingredient = (IIngredient) fluid;
             return this;
         }
 
-        public RecipeBuilder gas(GasStack gas) {
-            ingredient = (IIngredient) gas;
-            return this;
-        }
-
-        public RecipeBuilder minSize(int minSize) {
-            this.minSize = minSize;
-            return this;
-        }
-
-        public RecipeBuilder maxSize(int maxSize) {
-            this.maxSize = maxSize;
-            return this;
-        }
-
-        public RecipeBuilder replenishRate(int replenishRate) {
-            this.replenishRate = replenishRate;
-            return this;
-        }
-
-        public RecipeBuilder pumpSpeed(int pumpSpeed) {
-            this.pumpSpeed = pumpSpeed;
-            return this;
-        }
-
-        public RecipeBuilder weight(int weight) {
-            this.weight = weight;
-            return this;
-        }
-
-        public RecipeBuilder powerTier(int powerTier) {
-            this.powerTier = powerTier;
-            return this;
-        }
-
-        public RecipeBuilder powerTier(PowerTier powerTier) {
-            this.powerTier = powerTier.hashCode();
-            return this;
-        }
-
-        public RecipeBuilder drainChance(float drainChance) {
-            this.drainChance = drainChance;
-            return this;
-        }
-
-        public RecipeBuilder dimBlacklist(List<Integer> dimBlacklist) {
-            this.dimBlacklist = dimBlacklist;
-            return this;
-        }
-
-        public RecipeBuilder dimWhitelist(List<Integer> dimWhitelist) {
-            this.dimWhitelist = dimWhitelist;
-            return this;
-        }
-
-        public RecipeBuilder biomeBlacklist(List<String> biomeBlacklist) {
-            this.biomeBlacklist = biomeBlacklist;
-            return this;
-        }
-
-        public RecipeBuilder biomeWhitelist(List<String> biomeWhitelist) {
-            this.biomeWhitelist = biomeWhitelist;
-            return this;
-        }
-
-
         @Override
         public boolean validate() {
             GroovyLog.Msg msg = GroovyLog.msg("Error adding custom fluid reservoir").error();
-            ReservoirValidation.validateFluidGrooveReservoir(msg, name, ingredient, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
+            GroovyReservoirValidator.validateFluidGroovyReservoir(msg, name, ingredient, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
                     dimBlacklist, dimWhitelist, biomeBlacklist, biomeWhitelist);
 
             return !msg.postIfNotEmpty();
@@ -229,6 +135,6 @@ public class TweakedGroovyReservoir extends VirtualizedRegistry<GroovyReservoirW
 
             return null;
         }
-    }
 
+    }
 }

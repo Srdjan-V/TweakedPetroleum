@@ -1,4 +1,4 @@
-package srki2k.tweakedpetroleum.common.compat.groovyscript;
+package srki2k.tweakedpetroleum.util.groovy;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
