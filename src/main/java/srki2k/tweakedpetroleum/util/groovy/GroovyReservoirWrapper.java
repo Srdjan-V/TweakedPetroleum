@@ -1,9 +1,12 @@
 package srki2k.tweakedpetroleum.util.groovy;
 
+import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirGetters;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
+
+import java.util.Objects;
 
 public class GroovyReservoirWrapper implements IReservoirGetters {
 
@@ -11,11 +14,13 @@ public class GroovyReservoirWrapper implements IReservoirGetters {
 
     private final int weight;
 
+    @GroovyBlacklist
     public GroovyReservoirWrapper(IReservoirType reservoirType, int weight) {
         this.reservoirType = reservoirType;
         this.weight = weight;
     }
 
+    @GroovyBlacklist
     public GroovyReservoirWrapper(PumpjackHandler.ReservoirType reservoirType, int weight) {
         this.reservoirType = (IReservoirType) reservoirType;
         this.weight = weight;
@@ -93,5 +98,18 @@ public class GroovyReservoirWrapper implements IReservoirGetters {
     @Override
     public TweakedPumpjackHandler.ReservoirContent getReservoirContent() {
         return reservoirType.getReservoirContent();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GroovyReservoirWrapper that = (GroovyReservoirWrapper) o;
+        return reservoirType.getName().equals(that.reservoirType.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(reservoirType.getName());
     }
 }

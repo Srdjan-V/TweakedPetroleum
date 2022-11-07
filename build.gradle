@@ -268,9 +268,16 @@ artifacts {
     }
 }
 
-
-task setGitTag(){
+task setGitTag() {
     def tagName = "v${project.version}"
+    def currentTags = ("git describe --tags --abbrev=0").execute().inputStream.readLines().get(0)
+
+    if (tagName == currentTags) {
+        project.logger.lifecycle('Current project version is the same as the latest tag')
+        return
+    }
+
+    project.logger.lifecycle('Pushing tag{}',tagName)
     ("git tag $tagName").execute()
     ("git push --tags").execute()
 }

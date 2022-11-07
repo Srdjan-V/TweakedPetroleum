@@ -19,7 +19,7 @@ public class GroovyReservoirValidator {
             msg.add("FluidStack can't be null");
         } else {
             msg.add(!(ingredient instanceof FluidStack),
-                    () -> "Reservoir(" + name + "): Has no valid FluidStack");
+                    "Reservoir({}): Has no valid FluidStack", name);
         }
 
         validateGroovyReservoir(msg, name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
@@ -35,7 +35,7 @@ public class GroovyReservoirValidator {
             msg.add("GasStack can't be null");
         } else {
             msg.add(!(ingredient instanceof GasStack),
-                    () -> "Reservoir(" + name + "): Has no valid GasStack");
+                    "Reservoir({}): Has no valid GasStack", name);
         }
         validateGroovyReservoir(msg, name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
                 dimBlacklist, dimWhitelist, biomeBlacklist, biomeWhitelist);
@@ -45,36 +45,36 @@ public class GroovyReservoirValidator {
                                                 List<Integer> dimBlacklist, List<Integer> dimWhitelist, List<String> biomeBlacklist, List<String> biomeWhitelist) {
 
         msg.add(minSize <= 0,
-                () -> "Reservoir(" + name + "): minSize has to be at least 1mb!");
+                "Reservoir({}): minSize has to be at least 1mb!", name);
 
         msg.add(maxSize < minSize,
-                () -> "Reservoir(" + name + "): maxSize can not be smaller than minSize!");
+                "Reservoir({}): maxSize can not be smaller than minSize!", name);
 
         msg.add(weight < 1,
-                () -> "Reservoir(" + name + "): weight has to be greater than or equal to 1!");
+                "Reservoir({}): weight has to be greater than or equal to 1!", name);
 
         msg.add(pumpSpeed <= 0,
-                () -> "Reservoir(" + name + "): Pump Speed has to be at least 1mb/t");
+                "Reservoir({}): Pump Speed has to be at least 1mb/t", name);
 
         msg.add(pumpSpeed < replenishRate,
-                () -> "Reservoir(" + name + "): Pump Speed can not be smaller than Replenish Rate!");
+                "Reservoir({}): Pump Speed can not be smaller than Replenish Rate!", name);
 
         msg.add(powerTier < 0,
-                () -> "Reservoir(" + name + "): powerTier can not be smaller than 0!");
+                "Reservoir({}): powerTier can not be smaller than 0!", name);
 
         if (!drainChance.isNaN()) {
             msg.add(drainChance < 0 || 1 < drainChance,
-                    () -> "Reservoir(" + name + "): drainChance must be between 0 and 1!");
+                    "Reservoir({}): drainChance must be between 0 and 1!", name);
         }
 
         msg.add(!PowerTierHandler.powerTierExists(powerTier),
-                () -> "Reservoir(" + name + "): supplied powerTier is not valid");
+                "Reservoir({}): supplied powerTier is not valid", name);
 
 
         if (dimBlacklist != null) {
             dimBlacklist.forEach(id -> {
                 msg.add(id == null,
-                        () -> "Reservoir(" + name + "): Dim id: '" + id + "' in dimBlacklist is Null");
+                        "Reservoir({}): Dim id: '{}' in dimBlacklist is Null", name, id);
             });
         }
 
@@ -82,14 +82,14 @@ public class GroovyReservoirValidator {
         if (dimWhitelist != null) {
             dimWhitelist.forEach(id -> {
                 msg.add(id == null,
-                        () -> "Reservoir(" + name + "): Dim id: '" + id + "' in dimWhitelist is Null");
+                        "Reservoir({}): Dim id: '{}' in dimWhitelist is Null", name, id);
             });
         }
 
         if (biomeBlacklist != null) {
             biomeBlacklist.forEach(string -> {
                 msg.add(string == null || string.isEmpty(),
-                        () -> "Reservoir(" + name + "): String '" + string + "' in biomeBlacklist is either Empty or Null");
+                        "Reservoir({}): String '{}' in biomeBlacklist is either Empty or Null", string);
             });
 
         }
@@ -97,9 +97,10 @@ public class GroovyReservoirValidator {
         if (biomeWhitelist != null) {
             biomeWhitelist.forEach(string -> {
                 msg.add(string == null || string.isEmpty(),
-                        () -> "Reservoir(" + name + "): String '" + string + "' in biomeWhitelist is either Empty or Null");
+                        "Reservoir({}): String '{}' in biomeWhitelist is either Empty or Null", string);
             });
         }
+
     }
 
 
