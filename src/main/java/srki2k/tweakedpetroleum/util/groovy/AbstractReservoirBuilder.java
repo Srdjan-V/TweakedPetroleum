@@ -3,6 +3,7 @@ package srki2k.tweakedpetroleum.util.groovy;
 import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import srki2k.tweakedlib.api.powertier.PowerTier;
+import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
 
 import java.util.List;
 
@@ -87,6 +88,41 @@ public abstract class AbstractReservoirBuilder<T extends AbstractReservoirBuilde
     public T biomeWhitelist(List<String> biomeWhitelist) {
         this.biomeWhitelist = biomeWhitelist;
         return (T) this;
+    }
+
+
+    protected void commonRegister(IReservoirType res) {
+        res.setPumpSpeed(pumpSpeed);
+        res.setPowerTier(powerTier);
+
+        if (!drainChance.isNaN()) {
+            res.setDrainChance(drainChance);
+        }
+
+        if (dimBlacklist != null) {
+            res.setDimensionBlacklist(dimBlacklist.stream().mapToInt(i -> i).toArray());
+        } else {
+            res.setDimensionBlacklist(new int[0]);
+        }
+
+        if (dimWhitelist != null) {
+            res.setDimensionWhitelist(dimWhitelist.stream().mapToInt(i -> i).toArray());
+        } else {
+            res.setDimensionWhitelist(new int[0]);
+        }
+
+        if (biomeBlacklist != null) {
+            res.setBiomeBlacklist(biomeBlacklist.toArray(new String[0]));
+        } else {
+            res.setBiomeBlacklist(new String[0]);
+        }
+
+        if (biomeWhitelist != null) {
+            res.setBiomeWhitelist(biomeWhitelist.toArray(new String[0]));
+        } else {
+            res.setBiomeWhitelist(new String[0]);
+        }
+
     }
 
 }

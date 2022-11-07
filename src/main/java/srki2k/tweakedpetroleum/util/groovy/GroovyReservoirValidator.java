@@ -2,8 +2,8 @@ package srki2k.tweakedpetroleum.util.groovy;
 
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.api.IIngredient;
-import com.cleanroommc.groovyscript.helper.ingredient.IngredientHelper;
 import mekanism.api.gas.GasStack;
+import net.minecraftforge.fluids.FluidStack;
 import srki2k.tweakedlib.api.powertier.PowerTierHandler;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class GroovyReservoirValidator {
         if (ingredient == null) {
             msg.add("FluidStack can't be null");
         } else {
-            msg.add(!IngredientHelper.isFluid(ingredient),
+            msg.add(!(ingredient instanceof FluidStack),
                     () -> "Reservoir(" + name + "): Has no valid FluidStack");
         }
 
@@ -34,7 +34,7 @@ public class GroovyReservoirValidator {
         if (ingredient == null) {
             msg.add("GasStack can't be null");
         } else {
-            msg.add(ingredient instanceof GasStack,
+            msg.add(!(ingredient instanceof GasStack),
                     () -> "Reservoir(" + name + "): Has no valid GasStack");
         }
         validateGroovyReservoir(msg, name, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
