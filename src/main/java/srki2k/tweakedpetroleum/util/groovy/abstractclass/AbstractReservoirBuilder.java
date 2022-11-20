@@ -1,17 +1,16 @@
-package srki2k.tweakedpetroleum.util.groovy;
+package srki2k.tweakedpetroleum.util.groovy.abstractclass;
 
-import com.cleanroommc.groovyscript.api.IIngredient;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import srki2k.tweakedlib.api.powertier.PowerTier;
 import srki2k.tweakedpetroleum.api.ihelpers.IReservoirType;
+import srki2k.tweakedpetroleum.util.groovy.GroovyFluidReservoirWrapper;
 
 import java.util.List;
 
 @SuppressWarnings("all")
-public abstract class AbstractReservoirBuilder<T extends AbstractReservoirBuilder<?>> implements IRecipeBuilder<GroovyReservoirWrapper> {
+public abstract class AbstractReservoirBuilder<T extends AbstractReservoirBuilder<?>> implements IRecipeBuilder<GroovyFluidReservoirWrapper> {
 
     protected String name;
-    protected IIngredient ingredient;
     protected int minSize;
     protected int maxSize;
     protected int replenishRate;

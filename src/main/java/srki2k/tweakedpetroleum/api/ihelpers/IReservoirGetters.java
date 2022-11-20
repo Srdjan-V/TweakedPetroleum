@@ -1,5 +1,6 @@
 package srki2k.tweakedpetroleum.api.ihelpers;
 
+import net.minecraftforge.fluids.Fluid;
 import srki2k.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 
 public interface IReservoirGetters {
@@ -7,6 +8,8 @@ public interface IReservoirGetters {
     String getName();
 
     String getStringFluid();
+
+    Fluid getFluid();
 
     int getMinSize();
 

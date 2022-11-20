@@ -1,6 +1,7 @@
 package srki2k.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import net.minecraftforge.fluids.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -47,6 +48,13 @@ public abstract class MixinReservoirTypeBase implements IReservoirType {
         return fluid;
     }
 
+    @Shadow
+    @Override
+    public abstract Fluid getFluid();
+
+    @Shadow
+    private Fluid f;
+
     @Unique
     @Override
     public int getMinSize() {
@@ -91,6 +99,36 @@ public abstract class MixinReservoirTypeBase implements IReservoirType {
 
 
     //setter
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void setStringFluid(String fluid) {
+        this.fluid = fluid;
+    }
+
+    @Override
+    public void setFluid(Fluid fluid) {
+        this.f = fluid;
+    }
+
+    @Override
+    public void setMinSize(int minSize) {
+        this.minSize = minSize;
+    }
+
+    @Override
+    public void setMaxSize(int maxSize) {
+        this.maxSize = maxSize;
+    }
+
+    @Override
+    public void setReplenishRate(int replenishRate) {
+        this.replenishRate = replenishRate;
+    }
+
     @Unique
     @Override
     public void setDimensionWhitelist(int[] dimensionWhitelist) {
