@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         if (project.use_mixins.toBoolean()) {
-            classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+            classpath 'org.spongepowered:mixingradle:0.7.+'
         }
     }
 }
@@ -15,10 +15,13 @@ buildscript {
 plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'wtf.gofancy.fancygradle' version '1.1.+'
+    id 'io.github.srdjan-v.local-git-dependency' version '0.1'
 }
 
 apply {
     plugin 'net.minecraftforge.gradle'
+    plugin 'org.spongepowered.mixin'
+    plugin "maven-publish"
     plugin 'java'
     plugin 'idea'
 }
@@ -130,16 +133,12 @@ dependencies {
 
     compileOnly('zone.rong:mixinbooter:5.0')
     runtimeOnly('zone.rong:mixinbooter:5.0')
-
 }
 
-git {
-    def props = new Properties()
-    new File("${project.projectDir}/gradle.properties").withInputStream { props.load(it) }
-
-    implementation 'https://github.com/Srdjan-V/TweakedLib.git', {
+localGitDependency {
+    add 'https://github.com/Srdjan-V/TweakedLib.git', {
         name 'TweakedLib'
-        commit "v${props.getProperty('tweaked_lib_version')}"
+        tag 'v' + project.tweaked_lib_version
     }
 }
 
@@ -148,27 +147,7 @@ sourceSets {
         if (project.use_mixins.toBoolean()) {
             ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
         }
-
-        java {
-            srcDirs = ["src/main/java"]
-        }
-
-        resources {
-            srcDirs = ["src/main/java", "src/main/resources"]
-        }
     }
-
-    test {
-        java {
-            srcDirs = ["src/test/java"]
-        }
-        resources {
-            srcDirs = ["src/test/resources"]
-        }
-    }
-
-    // at compile time, put resources in same directories as classes
-    main.output.setResourcesDir(main.java.classesDirectory)
 }
 
 
@@ -266,5 +245,51 @@ artifacts {
     }
     if (project.build_sourceJar.toBoolean()) {
         archives sourcesJar
+    }
+}
+
+tasks.register('updateGitVersionTag') {
+    doLast {
+        def versionTagArray = new ArrayList<Integer>()
+        for (versionString in project.version.toString().trim().split("\\.")) {
+            versionTagArray.add(Integer.valueOf(versionString))
+        }
+
+        def gitVersionTagArray = new ArrayList<Integer>()
+        def gitStringTag = ("git describe --tags --abbrev=0").execute().inputStream.readLines().get(0)
+        for (versionString in gitStringTag.substring(1, gitStringTag.length()).trim().split("\\.")) {
+            gitVersionTagArray.add(Integer.valueOf(versionString))
+        }
+
+        def invalid = true
+        def smallestSizeArray = versionTagArray.size() > gitVersionTagArray.size() ? gitVersionTagArray.size() : versionTagArray.size()
+        for (i in 0..<smallestSizeArray ) {
+            if (versionTagArray.get(i) > gitVersionTagArray.get(i)) {
+                invalid = false
+                break
+            }
+        }
+
+        if (!invalid && versionTagArray.size() > gitVersionTagArray.size()) {
+            invalid = false
+        }
+
+        if (invalid) {
+            project.logger.error("Current project version is the same or lower then the latest tag")
+            return
+        }
+
+        project.logger.lifecycle('Pushing tag {}', project.version)
+        ("git tag v${project.version}").execute()
+        ("git push --tags").execute()
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+        }
     }
 }

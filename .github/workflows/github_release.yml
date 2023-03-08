@@ -38,19 +38,10 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
 
-      - name: Use Cached Gradle Packages
-        uses: actions/cache@v2
+      - name: Setup and execute Gradle 'build' task
+        uses: gradle/gradle-build-action@v2
         with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle.properties*') }}
-          restore-keys: ${{ runner.os }}-gradle-
-
-      - name: Build with Gradle
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+          arguments: build
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
