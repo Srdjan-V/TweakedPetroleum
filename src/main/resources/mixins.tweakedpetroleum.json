@@ -1,6 +1,6 @@
 {
   "minVersion": "0.8",
-  "package": "srki2k.tweakedpetroleum.mixin",
+  "package": "io.github.srdjanv.tweakedpetroleum.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "MixinConfig",
