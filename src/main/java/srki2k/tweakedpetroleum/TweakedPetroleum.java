@@ -18,11 +18,11 @@ import srki2k.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
         name = "Tweaked Petroleum",
         dependencies = "required-after:immersivepetroleum;" +
                 "required-after:crafttweaker;" +
-                "required-after:tweakedlib@[@TWEAKEDLIB@,)")
+                "required-after:tweakedlib@[" + Tags.TWEAKED_LIB_VERSION + ",)")
 public class TweakedPetroleum {
 
     public static final String MODID = "tweakedpetroleum";
-    public static final String VERSION = "@VERSION@";
+    public static final String VERSION = Tags.VERSION;
 
     public static final Logger LOGGER = LogManager.getLogger(MODID);
 
