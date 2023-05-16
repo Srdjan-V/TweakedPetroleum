@@ -15,34 +15,34 @@ public class HEIPumpjackUtil {
     public static void onTooltip(int slotIndex, IReservoirType reservoir, long ingredientAmount, String ingredientLocalizedName, List<String> tooltip) {
         tooltip.clear();
         tooltip.add(BaseHEIUtil.formatString(reservoir.getName()));
-        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredientLocalizedName));
+        tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredientLocalizedName));
 
         if (slotIndex == 0) {
-            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
-            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
+            tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.max_size", BaseHEIUtil.numberFormat.format(reservoir.getMaxSize())));
+            tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.min_size", BaseHEIUtil.numberFormat.format(reservoir.getMinSize())));
 
             if (reservoir.getDrainChance() != 1f) {
-                tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
+                tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
                         (BaseHEIUtil.numberFormat.format(ingredientAmount) + " * " + (100f - (reservoir.getDrainChance() * 100)) + "%")));
                 return;
             }
 
-            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
+            tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average",
                     BaseHEIUtil.numberFormat.format(ingredientAmount)));
             return;
         }
 
-        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
-        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
+        tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", BaseHEIUtil.numberFormat.format(reservoir.getReplenishRate())));
+        tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", BaseHEIUtil.numberFormat.format(reservoir.getPumpSpeed())));
 
         if (reservoir.getDrainChance() != 1f) {
-            tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
+            tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
                     Math.max(0, ((long) (((long) reservoir.getMaxSize() + reservoir.getMinSize()) * (100f - (reservoir.getDrainChance() * 100))) / 2)
                             / (reservoir.getPumpSpeed() * 24000L))));
             return;
         }
 
-        tooltip.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
+        tooltip.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.average.time",
                 Math.max(0, (((long) reservoir.getMaxSize() + reservoir.getMinSize()) / 2)
                         / (reservoir.getPumpSpeed() * 24000L))));
     }
@@ -64,8 +64,8 @@ public class HEIPumpjackUtil {
             list.add("");
 
             list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biomes"));
-            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
-            list.add(BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
+            list.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_whitelist", Arrays.toString(reservoir.getBiomeWhitelist())));
+            list.add(" §7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.biome_blacklist", Arrays.toString(reservoir.getBiomeBlacklist())));
 
             list.add("");
 

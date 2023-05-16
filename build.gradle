@@ -12,6 +12,7 @@ plugins {
     id('io.github.srdjan-v.local-git-dependency') version '0.4.1'
 }
 
+def currentBranch = ("git rev-parse --abbrev-ref HEAD").execute().inputStream.readLines().get(0)
 version = project.mod_version
 group = project.maven_group
 archivesBaseName = project.archives_base_name
@@ -65,6 +66,10 @@ repositories {
             includeGroup "curse.maven"
         }
     }
+    maven { // TOP
+        name 'tterrag maven'
+        url "https://maven.tterrag.com/"
+    }
     maven {
         name 'jared maven'
         url 'https://maven.blamejared.com/'
@@ -86,8 +91,12 @@ configurations {
 }
 
 dependencies {
+    compileOnly "org.jetbrains:annotations:24.0.1"
     //Hwyla
     implementation "curse.maven:hwyla-253449:2568751-sources-2568752-api-2568753"
+    //compileOnly "curse.maven:hwyla-253449:2568751-sources-2568752-api-2568753"
+    //implementation "curse.maven:top-245211:2667280"
+    implementation "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
 
     implementation 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
     implementation rfg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
@@ -130,13 +139,17 @@ localGitDependency {
             map "main", "main"
         })
         if (project.gradle.startParameter.taskNames[0] == 'build') {
-            tag 'v' + project.tweaked_lib_version
+            if (currentBranch == "master") {
+                keepGitUpdated true
+                tag 'v' + project.tweaked_lib_version
+            } else {
+                throw new RuntimeException()
+            }
         } else {
-            def currentBranch = ("git rev-parse --abbrev-ref HEAD").execute().inputStream.readLines().get(0)
             if (currentBranch == "master") {
                 throw new RuntimeException()
             }
-
+            keepGitUpdated false
             branch 'develop'
         }
     })
@@ -152,6 +165,14 @@ localGitDependency {
             include("mezz.jei:HadEnoughItems_1.12.2:4.24.2")
         })
     })
+}
+
+if (currentBranch != "master") {
+    tasks.getByName("runClient").configure {
+        getJavaLauncher().set(javaToolchains.launcherFor({}))
+        //local hotswap jvm
+        setExecutable("C:\\Program Files\\Java\\jdk1.8.0_181\\bin\\java.exe")
+    }
 }
 
 def mixinConfigRefMap = 'mixins.' + project.archives_base_name + '.refmap.json'
@@ -303,13 +324,15 @@ tasks.named("processIdeaSettings").configure {
     dependsOn("injectTags")
 }
 
-configure([tasks.compileJava]) {
-    options.encoding = "UTF-8"
-    sourceCompatibility = 17 // for the IDE support
-    options.release = 8
+afterEvaluate {
+    tasks.withType(JavaCompile.class).configureEach {
+        options.encoding = "UTF-8"
+        sourceCompatibility = 17 // for the IDE support
+        options.release = 8
 
-    javaCompiler = javaToolchains.compilerFor {
-        languageVersion = JavaLanguageVersion.of(17)
+        javaCompiler = javaToolchains.compilerFor {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
     }
 }
 

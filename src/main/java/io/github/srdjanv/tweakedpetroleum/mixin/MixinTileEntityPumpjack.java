@@ -6,6 +6,9 @@ import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockM
 import blusunrize.immersiveengineering.common.util.Utils;
 import flaxbeard.immersivepetroleum.common.Config;
 import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
+import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
+import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
+import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
@@ -22,9 +25,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
-import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
 
 @Mixin(value = TileEntityPumpjack.class, remap = false)
 public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements IPumpjackAddons {
@@ -60,13 +60,16 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     @Shadow
     public abstract void extractOil(int amount);
 
+    @Shadow
+    public abstract TileEntityPumpjack master();
+
     public MixinTileEntityPumpjack(MultiblockHandler.IMultiblock mutliblockInstance, int[] structureDimensions, int energyCapacity, boolean redstoneControl) {
         super(mutliblockInstance, structureDimensions, energyCapacity, redstoneControl);
     }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Unique
-    TweakedPumpjackHandler.ReservoirContent chunkContains = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
+    private TweakedPumpjackHandler.ReservoirContent chunkContains = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
 
     @Unique
     @Override
@@ -124,48 +127,43 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         }
 
         //Tile initialization
-        if (pipeTicks == 0) {
-            if (energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
-                initEnergyStorage();
-            }
-
-            if (chunkContains == TweakedPumpjackHandler.ReservoirContent.DEFAULT) {
-                chunkContains = getChunkContains();
-            }
+        if (energyStorage.getMaxEnergyStored() == Integer.MAX_VALUE) {
+            initEnergyStorage();
         }
 
         boolean active = false;
+        int consumed = energyStorage.getLimitExtract();
 
-        if (chunkContains != TweakedPumpjackHandler.ReservoirContent.EMPTY) {
-            int consumed = energyStorage.getLimitExtract();
+        if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
+            if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
+                lastHadPipes = hasPipes();
+            }
+            if (lastHadPipes) {
+                int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
+                int availableOil = availableOil();
 
-            if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
-                if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
-                    lastHadPipes = hasPipes();
-                }
-                if (lastHadPipes) {
-                    int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
-                    int availableOil = availableOil();
+                if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
+                    int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
 
-                    if (availableOil > 0 || replenishRateAndPumpSpeed[0] > 0) {
-                        int oilAmnt = availableOil <= 0 ? replenishRateAndPumpSpeed[0] : availableOil;
+                    if (chunkContains == TweakedPumpjackHandler.ReservoirContent.DEFAULT) {
+                        chunkContains = getChunkContains();
+                    }
 
-                        switch (chunkContains) {
-                            case LIQUID: {
-                                active = caseLiquid(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
-                                break;
-                            }
-                            case GAS: {
-                                active = caseGas(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
-                            }
-
+                    switch (chunkContains) {
+                        case LIQUID: {
+                            active = caseLiquid(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
+                            break;
+                        }
+                        case GAS: {
+                            active = caseGas(consumed, replenishRateAndPumpSpeed[1], oilAmnt);
                         }
 
-                        activeTicks++;
                     }
+
+                    activeTicks++;
                 }
-                pipeTicks = (pipeTicks + 1) % Config.IPConfig.Extraction.pipe_check_ticks;
             }
+            pipeTicks = (pipeTicks + 1) % Config.IPConfig.Extraction.pipe_check_ticks;
         }
 
         if (active != wasActive) {

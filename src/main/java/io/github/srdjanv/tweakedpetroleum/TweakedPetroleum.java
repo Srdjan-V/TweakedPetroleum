@@ -1,5 +1,9 @@
 package io.github.srdjanv.tweakedpetroleum;
 
+import io.github.srdjanv.tweakedpetroleum.common.DefaultReservoirs;
+import io.github.srdjanv.tweakedpetroleum.common.compat.top.TopCompat;
+import io.github.srdjanv.tweakedpetroleum.common.compat.waila.WailaCompat;
+import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -9,9 +13,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import srki2k.tweakedpetroleum.Tags;
-import io.github.srdjanv.tweakedpetroleum.common.DefaultReservoirs;
-import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumErrorLogging;
 
 
 @Mod(modid = TweakedPetroleum.MODID,
@@ -42,6 +43,8 @@ public class TweakedPetroleum {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         DefaultReservoirs.init();
+        WailaCompat.init();
+        TopCompat.init();
         TweakedPetroleumErrorLogging.register();
     }
 
