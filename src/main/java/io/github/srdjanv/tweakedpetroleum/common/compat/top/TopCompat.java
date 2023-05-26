@@ -33,14 +33,14 @@ public final class TopCompat {
 
             IReservoirType reservoir;
             {
-                var type = info.getType();
-                if (info.getType() == null) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
+                if (Config.IPConfig.Extraction.req_pipes) {
+                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.req_pipes"));
                     return;
                 }
 
-                if (Config.IPConfig.Extraction.req_pipes) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.req_pipes"));
+                var type = info.getType();
+                if (type == null) {
+                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
                     return;
                 }
 

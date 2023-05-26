@@ -32,28 +32,30 @@ public final class WailaCompat {
                 switch (tweakedPetTag.getString("status")) {
                     case "unknown": {
                         toolTip.add(translateToLocalFormatted("tweakedpetroleum.waila.unknown"));
-                        return currenttip;
+                        break;
                     }
                     case "needs_pipes": {
                         toolTip.add(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.req_pipes"));
-                        return currenttip;
+                        break;
                     }
                     case "empty": {
                         toolTip.add(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
-                        return currenttip;
+                        break;
+                    }
+
+                    default: {
+                        toolTip.add(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", tweakedPetTag.getString("contents")));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", tweakedPetTag.getInteger("replenishRate")));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", tweakedPetTag.getInteger("speed")));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_level", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_level"))));
+                        toolTip.add("");
+
+                        toolTip.add(translateToLocalFormatted("tweakedlib.jei.power_tier", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_tier"))));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_capacity", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_capacity"))));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_usage", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_usage"))));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_rfpower", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_rfpower"))));
                     }
                 }
-
-                toolTip.add(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", tweakedPetTag.getString("contents")));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.jei.reservoir.replenishRate", tweakedPetTag.getInteger("replenishRate")));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.jei.reservoir.speed", tweakedPetTag.getInteger("speed")));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_level", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_level"))));
-                toolTip.add("");
-
-                toolTip.add(translateToLocalFormatted("tweakedlib.jei.power_tier", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_tier"))));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_capacity", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_capacity"))));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_usage", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_usage"))));
-                toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_rfpower", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_rfpower"))));
 
                 if (!new HashSet<>(currenttip).containsAll(toolTip)) {
                     currenttip.addAll(toolTip);
@@ -78,14 +80,14 @@ public final class WailaCompat {
 
             IReservoirType reservoir;
             {
-                var type = info.getType();
-                if (info.getType() == null) {
-                    tweakedPetrTag.setString("status", "empty");
+                if (Config.IPConfig.Extraction.req_pipes) {
+                    tweakedPetrTag.setString("status", "needs_pipes");
                     return tag;
                 }
 
-                if (Config.IPConfig.Extraction.req_pipes) {
-                    tweakedPetrTag.setString("status", "needs_pipes");
+                var type = info.getType();
+                if (type == null) {
+                    tweakedPetrTag.setString("status", "empty");
                     return tag;
                 }
 
