@@ -25,4 +25,4 @@ tweakedpetroleum.jei.reservoir.draw_chance=This reservoir has a %d percent chanc
 tweakedpetroleum.waila.unknown=The contents of this reservoir is unknown
 tweakedpetroleum.waila.empty=The reservoir is empty
 tweakedpetroleum.waila.current_level=Current level: %d mB
-tweakedpetroleum.waila.current_rfpower=Current power: %d IF
+tweakedpetroleum.waila.current_rfpower=Current power: %d RF
