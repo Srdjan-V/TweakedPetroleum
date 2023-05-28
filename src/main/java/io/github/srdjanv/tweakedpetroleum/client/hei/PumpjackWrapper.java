@@ -3,6 +3,7 @@ package io.github.srdjanv.tweakedpetroleum.client.hei;
 import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
+import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.HEIPumpjackUtil;
 import mezz.jei.api.gui.ITooltipCallback;
@@ -12,7 +13,6 @@ import mezz.jei.api.recipe.IRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 
 import java.util.List;
 
@@ -38,7 +38,11 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
     }
 
     public FluidStack getAverageFluid() {
-        return new FluidStack(reservoirFluid, (int) (((long) reservoir.getMaxSize() + (long) reservoir.getMinSize()) / 2));
+        return new FluidStack(reservoirFluid, getAverage());
+    }
+
+    public int getAverage() {
+        return (int) (((long) reservoir.getMaxSize() + reservoir.getMinSize()) / 2);
     }
 
     @Override
@@ -46,11 +50,13 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
         ingredients.setOutputs(VanillaTypes.FLUID, Lists.newArrayList(getAverageFluid()));
     }
 
+    private int getStringWidth() {
+        return Math.min(77, Minecraft.getMinecraft().fontRenderer.getStringWidth(reservoir.getName()) + 6);
+    }
+
     @Override
-    @SuppressWarnings("NullableProblems")
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
         String[][] strings = new String[2][];
-
         if (reservoir.getDrainChance() != 1f) {
             strings[0] = new String[]{"tweakedpetroleum.jei.reservoir.draw_chance",
                     String.valueOf(reservoir.getDrainChance() * 100),
@@ -60,7 +66,7 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
             strings[1] = new String[]{"tweakedpetroleum.jei.reservoir.req_pipes"};
         }
 
-        return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, strings, reservoir);
+        return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, strings, reservoir, this::getAverage, this::getStringWidth);
     }
 
     @Override
@@ -77,9 +83,16 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
         }
 
         if (warningCount > 0) {
-            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 55, 8);
-            minecraft.fontRenderer.drawString(String.valueOf(warningCount), 55, 6, 16696077);
+            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 56, 24);
+            minecraft.fontRenderer.drawString(String.valueOf(warningCount), 56, 22, 16696077);
         }
+
+        if (getStringWidth() >= 77) {
+            minecraft.fontRenderer.drawString(minecraft.fontRenderer.trimStringToWidth(
+                    BaseHEIUtil.formatString(reservoir.getName()), 68).concat("..."), 6, 6, 15658734);
+            return;
+        }
+        minecraft.fontRenderer.drawString(BaseHEIUtil.formatString(reservoir.getName()), 6, 6, 15658734);
     }
 
     @Override
