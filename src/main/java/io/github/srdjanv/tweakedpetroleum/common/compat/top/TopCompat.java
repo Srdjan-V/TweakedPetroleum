@@ -32,29 +32,20 @@ public final class TopCompat {
             }
 
             IReservoirType reservoir;
-            {
-                if (Config.IPConfig.Extraction.req_pipes) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.req_pipes"));
-                    return;
-                }
+            if (Config.IPConfig.Extraction.req_pipes) {
+                probeInfo.text(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.req_pipes"));
+                return;
+            }
 
-                var type = info.getType();
-                if (type == null) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
-                    return;
-                }
+            reservoir = (IReservoirType) info.getType();
+            if (reservoir == null) {
+                probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
+                return;
+            }
 
-                if (info.current == info.capacity) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.unknown"));
-                    return;
-                }
-
-                if (info.current == 0) {
-                    probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.empty"));
-                    return;
-                }
-
-                reservoir = (IReservoirType) type;
+            if (info.current == info.capacity) {
+                probeInfo.text(translateToLocalFormatted("tweakedpetroleum.waila.unknown"));
+                return;
             }
 
             probeInfo.text(translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", reservoir.getName()));

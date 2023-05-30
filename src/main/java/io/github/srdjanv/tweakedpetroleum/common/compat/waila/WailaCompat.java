@@ -79,29 +79,20 @@ public final class WailaCompat {
             }
 
             IReservoirType reservoir;
-            {
-                if (Config.IPConfig.Extraction.req_pipes) {
-                    tweakedPetrTag.setString("status", "needs_pipes");
-                    return tag;
-                }
+            if (Config.IPConfig.Extraction.req_pipes) {
+                tweakedPetrTag.setString("status", "needs_pipes");
+                return tag;
+            }
 
-                var type = info.getType();
-                if (type == null) {
-                    tweakedPetrTag.setString("status", "empty");
-                    return tag;
-                }
+            reservoir = (IReservoirType) info.getType();
+            if (reservoir == null) {
+                tweakedPetrTag.setString("status", "empty");
+                return tag;
+            }
 
-                if (info.current == info.capacity) {
-                    tweakedPetrTag.setString("status", "unknown");
-                    return tag;
-                }
-
-                if (info.current == 0) {
-                    tweakedPetrTag.setString("status", "empty");
-                    return tag;
-                }
-
-                reservoir = (IReservoirType) type;
+            if (info.current == info.capacity) {
+                tweakedPetrTag.setString("status", "unknown");
+                return tag;
             }
 
             tweakedPetrTag.setString("contents", reservoir.getName());
