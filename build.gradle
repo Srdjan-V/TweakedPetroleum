@@ -143,7 +143,8 @@ localGitDependency {
                 keepGitUpdated true
                 tag 'v' + project.tweaked_lib_version
             } else {
-                throw new RuntimeException()
+                keepGitUpdated true
+                branch 'develop'
             }
         } else {
             if (currentBranch == "master") {
