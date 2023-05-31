@@ -6,7 +6,7 @@ import org.apache.logging.log4j.Logger;
 import io.github.srdjanv.tweakedlib.api.logging.errorlogginglib.ErrorLoggingLib;
 import io.github.srdjanv.tweakedlib.api.logging.errorlogginglib.ICustomLogger;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 
 import java.util.ArrayList;
 import java.util.List;

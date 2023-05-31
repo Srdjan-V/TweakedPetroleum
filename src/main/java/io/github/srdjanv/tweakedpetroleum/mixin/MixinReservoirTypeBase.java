@@ -1,7 +1,7 @@
 package io.github.srdjanv.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;

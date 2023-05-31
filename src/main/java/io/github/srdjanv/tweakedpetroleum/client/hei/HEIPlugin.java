@@ -7,7 +7,7 @@ import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;

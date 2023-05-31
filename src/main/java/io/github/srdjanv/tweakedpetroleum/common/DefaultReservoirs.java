@@ -3,7 +3,7 @@ package io.github.srdjanv.tweakedpetroleum.common;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 

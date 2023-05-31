@@ -8,7 +8,7 @@ import flaxbeard.immersivepetroleum.common.Config;
 import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IPumpjackAddons;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IPumpjackAddons;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;

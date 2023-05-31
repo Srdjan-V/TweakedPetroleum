@@ -7,7 +7,7 @@ import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedlib.api.waila.WallaOverwriteManager;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.Loader;
 

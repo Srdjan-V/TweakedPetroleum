@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.HEIPumpjackUtil;
 import mezz.jei.api.gui.ITooltipCallback;
 import mezz.jei.api.ingredients.IIngredients;

@@ -2,7 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.util;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 
 import java.util.ArrayList;
 import java.util.Arrays;

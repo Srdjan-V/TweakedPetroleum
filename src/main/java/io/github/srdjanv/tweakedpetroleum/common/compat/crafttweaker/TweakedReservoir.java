@@ -5,7 +5,7 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.ihelpers.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.ReservoirValidation;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
