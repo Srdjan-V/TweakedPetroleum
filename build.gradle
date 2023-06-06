@@ -157,22 +157,21 @@ localGitDependency {
 
     add('https://github.com/CleanroomMC/HadEnoughItems.git', {
         oneTimeStartupTasks("setupCIWorkspace")
-        commit "c9e735d3fdcc1ce89e5cef302f12baccd15339af" //version 4.24.2
+        tag project.hei_version
         configuration({
             configuration("compileOnly")
-            include("mezz.jei:HadEnoughItems_1.12.2:4.24.2-api")
+            include("mezz.jei:HadEnoughItems_1.12.2:${project.hei_version}-api")
         }, {
             configuration("runtimeOnly")
-            include("mezz.jei:HadEnoughItems_1.12.2:4.24.2")
+            include("mezz.jei:HadEnoughItems_1.12.2:${project.hei_version}")
         })
     })
 }
 
-if (currentBranch != "master") {
-    tasks.getByName("runClient").configure {
+if (project.hasProperty("DCEVMJDK")) {
+    configure([tasks.runClient, tasks.runServer]) {
         getJavaLauncher().set(javaToolchains.launcherFor({}))
-        //local hotswap jvm
-        setExecutable("C:\\Program Files\\Java\\jdk1.8.0_181\\bin\\java.exe")
+        setExecutable(project.property("DCEVMJDK"))
     }
 }
 
