@@ -9,7 +9,7 @@ plugins {
     id("eclipse")
     id("com.gtnewhorizons.retrofuturagradle") version "1.3.9"
     id("com.matthewprenger.cursegradle") version "1.4.0"
-    id('io.github.srdjan-v.local-git-dependency') version '0.4.1'
+    id('io.github.srdjan-v.local-git-dependency') version '0.5.0'
 }
 
 def currentBranch = ("git rev-parse --abbrev-ref HEAD").execute().inputStream.readLines().get(0)
@@ -112,6 +112,7 @@ dependencies {
 
     //enables java 17 features on java 8
     annotationProcessor 'com.github.bsideup.jabel:jabel-javac-plugin:1.0.0'
+    annotationProcessor 'net.java.dev.jna:jna-platform:5.13.0'
     compileOnly 'com.github.bsideup.jabel:jabel-javac-plugin:1.0.0'
 
     if (project.use_assetmover.toBoolean()) {
@@ -132,31 +133,31 @@ dependencies {
 
 localGitDependency {
     add('https://github.com/Srdjan-V/TweakedLib.git', {
-        oneTimeStartupTasks("setupCIWorkspace")
+        buildLauncher {
+            startup {
+                mainTasks "setupCIWorkspace"
+            }
+        }
         configuration("runtimeOnly")
         enableIdeSupport true
         mapSourceSets({
             map "main", "main"
         })
-        if (project.gradle.startParameter.taskNames[0] == 'build') {
-            if (currentBranch == "master") {
-                keepGitUpdated true
-                tag 'v' + project.tweaked_lib_version
-            } else {
-                keepGitUpdated true
-                branch 'develop'
-            }
+        if (currentBranch == "master") {
+            keepGitUpdated true
+            tag 'v' + project.tweaked_lib_version
         } else {
-            if (currentBranch == "master") {
-                throw new RuntimeException()
-            }
             keepGitUpdated false
             branch 'develop'
         }
     })
 
     add('https://github.com/CleanroomMC/HadEnoughItems.git', {
-        oneTimeStartupTasks("setupCIWorkspace")
+        buildLauncher {
+            startup {
+                mainTasks "setupCIWorkspace"
+            }
+        }
         tag project.hei_version
         configuration({
             configuration("compileOnly")
