@@ -53,7 +53,7 @@ public final class WailaCompat {
                         toolTip.add(translateToLocalFormatted("tweakedlib.jei.power_tier", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_tier"))));
                         toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_capacity", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_capacity"))));
                         toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.jei.power_usage", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("power_usage"))));
-                        toolTip.add(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_rfpower", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_rfpower"))));
+                        toolTip.add(" §7" + translateToLocalFormatted("tweakedlib.waila.current_rfpower", BaseHEIUtil.numberFormat.format(tweakedPetTag.getInteger("current_rfpower"))));
                     }
                 }
 

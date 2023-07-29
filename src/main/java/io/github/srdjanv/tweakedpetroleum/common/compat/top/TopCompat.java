@@ -58,7 +58,7 @@ public final class TopCompat {
             probeInfo.text(translateToLocalFormatted("tweakedlib.jei.power_tier", BaseHEIUtil.numberFormat.format(PowerTierHandler.getTierOfSpecifiedPowerTier(reservoir.getPowerTier()))));
             probeInfo.text(" §7" + translateToLocalFormatted("tweakedlib.jei.power_capacity", BaseHEIUtil.numberFormat.format(powerTier.getCapacity())));
             probeInfo.text(" §7" + translateToLocalFormatted("tweakedlib.jei.power_usage", BaseHEIUtil.numberFormat.format(powerTier.getRft())));
-            probeInfo.text(" §7" + translateToLocalFormatted("tweakedpetroleum.waila.current_rfpower", BaseHEIUtil.numberFormat.format(((IFluxReceiver) te).getEnergyStored(null))));
+            probeInfo.text(" §7" + translateToLocalFormatted("tweakedlib.waila.current_rfpower", BaseHEIUtil.numberFormat.format(((IFluxReceiver) te).getEnergyStored(null))));
 
         });
     }

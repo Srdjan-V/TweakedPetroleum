@@ -12,7 +12,7 @@ import java.util.function.LongSupplier;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
-public class HEIPumpjackUtil {
+public class HEIPumpjackUtil extends BaseHEIUtil {
 
     public static void onTooltip(int slotIndex, IReservoirType reservoir, long ingredientAmount, String ingredientLocalizedName, List<String> tooltip) {
         tooltip.clear();

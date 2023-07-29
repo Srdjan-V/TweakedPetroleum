@@ -3,8 +3,8 @@ package io.github.srdjanv.tweakedpetroleum.client.hei;
 import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
-import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.common.Configs;
 import io.github.srdjanv.tweakedpetroleum.util.HEIPumpjackUtil;
 import mezz.jei.api.gui.ITooltipCallback;
 import mezz.jei.api.ingredients.IIngredients;
@@ -15,6 +15,8 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
+
+import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
 public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidStack> {
     private final IReservoirType reservoir;
@@ -72,8 +74,10 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
     @Override
     @SuppressWarnings("NullableProblems")
     public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
-        int warningCount = 0;
+        if (Configs.TPConfig.HEIConfig.drawPowerTier) HEIPumpjackUtil.drawPowerTier(minecraft,57, 50, reservoir.getPowerTier());
+        if (Configs.TPConfig.HEIConfig.drawSpawnWeight) HEIPumpjackUtil.drawSpawnWeight(minecraft,57, 70, reservoirList.get((PumpjackHandler.ReservoirType) reservoir));
 
+        int warningCount = 0;
         if (Config.IPConfig.Extraction.req_pipes) {
             warningCount++;
         }
@@ -83,16 +87,16 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
         }
 
         if (warningCount > 0) {
-            BaseHEIUtil.getPumpjackWarning().draw(minecraft, 56, 24);
+            HEIPumpjackUtil.getPumpjackWarning().draw(minecraft, 56, 24);
             minecraft.fontRenderer.drawString(String.valueOf(warningCount), 56, 22, 16696077);
         }
 
         if (getStringWidth() >= 77) {
             minecraft.fontRenderer.drawString(minecraft.fontRenderer.trimStringToWidth(
-                    BaseHEIUtil.formatString(reservoir.getName()), 68).concat("..."), 6, 6, 15658734);
+                    HEIPumpjackUtil.formatString(reservoir.getName()), 68).concat("..."), 6, 6, 15658734);
             return;
         }
-        minecraft.fontRenderer.drawString(BaseHEIUtil.formatString(reservoir.getName()), 6, 6, 15658734);
+        minecraft.fontRenderer.drawString(HEIPumpjackUtil.formatString(reservoir.getName()), 6, 6, 15658734);
     }
 
     @Override

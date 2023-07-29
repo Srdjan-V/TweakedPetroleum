@@ -1,7 +1,7 @@
 package io.github.srdjanv.tweakedpetroleum.client.hei;
 
-import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
+import io.github.srdjanv.tweakedpetroleum.util.HEIPumpjackUtil;
 import mezz.jei.api.gui.IDrawable;
 import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -19,7 +19,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
 
     @Override
     public String getTitle() {
-        return BaseHEIUtil.translateToLocal("tile.immersivepetroleum.metal_multiblock.pumpjack.name");
+        return HEIPumpjackUtil.translateToLocal("tile.immersivepetroleum.metal_multiblock.pumpjack.name");
     }
 
     @Override
@@ -29,7 +29,7 @@ public class PumpjackCategory implements IRecipeCategory<PumpjackWrapper> {
 
     @Override
     public IDrawable getBackground() {
-        return BaseHEIUtil.getPumpjackBackground();
+        return HEIPumpjackUtil.getPumpjackBackground();
     }
 
     @Override

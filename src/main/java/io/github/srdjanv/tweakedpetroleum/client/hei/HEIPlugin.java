@@ -3,8 +3,8 @@ package io.github.srdjanv.tweakedpetroleum.client.hei;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.IPContent;
 import flaxbeard.immersivepetroleum.common.blocks.metal.BlockTypes_IPMetalMultiblock;
-import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
+import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
@@ -26,7 +26,6 @@ public class HEIPlugin implements IModPlugin {
                 TweakedPetroleum.MODID);
         registry.addRecipeCategories(new PumpjackCategory());
     }
-
 
     @Override
     public void register(IModRegistry registry) {
