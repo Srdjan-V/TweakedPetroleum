@@ -49,7 +49,6 @@ public class Configs {
             @Name("Draw PowerTier")
             public static boolean drawPowerTier = true;
 
-            @Comment({"This will Register default IP Reservoirs(Oil, Water, Lava), default=true"})
             @Name("Draw SpawnWeight")
             public static boolean drawSpawnWeight = true;
 
