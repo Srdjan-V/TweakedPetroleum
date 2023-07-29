@@ -6,7 +6,6 @@ import io.github.srdjanv.tweakedlib.api.powertier.PowerTier;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.*;
 
@@ -119,16 +118,6 @@ public class TweakedPumpjackHandler {
         }
 
         return ((IReservoirType) info.getType()).getReservoirContent();
-    }
-
-    @Nullable
-    public static OilWorldInfo getOilWorldInfoWithoutCreation(World world, int chunkX, int chunkZ) {
-        if (world.isRemote) {
-            return null;
-        }
-        int dim = world.provider.getDimension();
-        DimensionChunkCoords coords = new DimensionChunkCoords(dim, chunkX / depositSize, chunkZ / depositSize);
-        return oilCache.get(coords);
     }
 
     public enum ReservoirContent {

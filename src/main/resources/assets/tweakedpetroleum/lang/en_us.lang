@@ -22,6 +22,8 @@ tweakedpetroleum.jei.reservoir.lshift=Hold LShift for more info
 tweakedpetroleum.jei.reservoir.req_pipes=The pumpjack requires IE pipes built down to Bedrock
 tweakedpetroleum.jei.reservoir.draw_chance=This reservoir has a %d percent chance to drain from the chunk, this makes that reservoir effectively %d percent bigger
 
-tweakedpetroleum.waila.unknown=The contents of this reservoir is unknown
-tweakedpetroleum.waila.empty=The reservoir is empty
-tweakedpetroleum.waila.current_level=Current level: %d mB
+tweakedpetroleum.hud.reservoir.name=Reservoir name: %s
+
+tweakedpetroleum.hud.unknown=The contents of this reservoir is unknown
+tweakedpetroleum.hud.empty=The reservoir is empty
+tweakedpetroleum.hud.current_level=Current level: %d mB
