@@ -7,6 +7,7 @@ import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedlib.api.waila.WallaOverwriteManager;
+import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -46,7 +47,7 @@ public final class WailaCompat {
     }
 
     public static void init() {
-        if (!Loader.isModLoaded("waila")) return;
+        if (!Constants.isWailaLoaded()) return;
 
         WallaOverwriteManager manager = WallaOverwriteManager.getInstance();
         manager.registerBodyOverwrite(TileEntityPumpjack.class, WailaCompat::getWailaBody);

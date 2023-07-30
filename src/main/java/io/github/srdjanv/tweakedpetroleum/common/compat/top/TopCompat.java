@@ -7,6 +7,7 @@ import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedlib.api.top.TopOverwriteManager;
+import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
@@ -24,7 +25,7 @@ public final class TopCompat {
     }
 
     public static void init() {
-        if (!Loader.isModLoaded("theoneprobe")) return;
+        if (!Constants.isTheOneProbeLoaded()) return;
 
         TopOverwriteManager manager = TopOverwriteManager.getInstance();
         manager.registerOverwrite(TileEntityPumpjack.class, TopCompat::addProbeInfo);
