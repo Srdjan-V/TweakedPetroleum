@@ -9,6 +9,7 @@ import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedlib.api.top.TopOverwriteManager;
 import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumInitializer;
 import mcjty.theoneprobe.api.IProbeHitData;
 import mcjty.theoneprobe.api.IProbeInfo;
 import mcjty.theoneprobe.api.ProbeMode;
@@ -17,16 +18,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import static io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil.translateToLocalFormatted;
 
-public final class TopCompat {
-    private TopCompat() {
+public final class TopCompat implements TweakedPetroleumInitializer {
+    @Override public boolean shouldRun() {
+        return Constants.isTheOneProbeLoaded();
     }
 
-    public static void init() {
-        if (!Constants.isTheOneProbeLoaded()) return;
-
+    @Override public void preInit(FMLPreInitializationEvent event) {
         TopOverwriteManager manager = TopOverwriteManager.getInstance();
         manager.registerOverwrite(TileEntityPumpjack.class, TopCompat::addProbeInfo);
     }

@@ -9,6 +9,7 @@ import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedlib.api.waila.WallaOverwriteManager;
 import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumInitializer;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -18,6 +19,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,7 +27,7 @@ import java.util.List;
 
 import static io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil.translateToLocalFormatted;
 
-public final class WailaCompat {
+public final class WailaCompat implements TweakedPetroleumInitializer {
     private static final String nbtTag = "tweakedPetrTag";
     private static final String statusKey = "status";
     private static final String statusUnknown = "unknown";
@@ -42,13 +44,11 @@ public final class WailaCompat {
     private static final String POWER_USAGE = "power_usage";
     private static final String CURRENT_RFPOWER = "current_rfpower";
 
-
-    private WailaCompat() {
+    @Override public boolean shouldRun() {
+        return Constants.isWailaLoaded();
     }
 
-    public static void init() {
-        if (!Constants.isWailaLoaded()) return;
-
+    @Override public void preInit(FMLPreInitializationEvent event) {
         WallaOverwriteManager manager = WallaOverwriteManager.getInstance();
         manager.registerBodyOverwrite(TileEntityPumpjack.class, WailaCompat::getWailaBody);
         manager.registerNBTDataOverwrite(TileEntityPumpjack.class, WailaCompat::getNBTData);

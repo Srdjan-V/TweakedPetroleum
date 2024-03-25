@@ -20,7 +20,7 @@ public class TweakedReservoir {
     public static void registerReservoir(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier,
                                          @Optional int[] dimBlacklist, @Optional int[] dimWhitelist, @Optional String[] biomeBlacklist, @Optional String[] biomeWhitelist) {
         IReservoirType res;
-        if (ReservoirValidation.validateReservoir(name, TweakedPumpjackHandler.ReservoirContent.LIQUID, fluid,
+        if (ReservoirValidation.validateReservoir(CraftTweakerAPI::logError, name, fluid,
                 minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
                 biomeBlacklist, biomeWhitelist)) {
             res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);
@@ -46,7 +46,7 @@ public class TweakedReservoir {
                                                         @Optional int[] dimBlacklist, @Optional int[] dimWhitelist, @Optional String[] biomeBlacklist, @Optional String[] biomeWhitelist) {
 
         IReservoirType res;
-        if (ReservoirValidation.validateReservoir(name, TweakedPumpjackHandler.ReservoirContent.LIQUID, fluid,
+        if (ReservoirValidation.validateReservoir(CraftTweakerAPI::logError, name, fluid,
                 minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
                 biomeBlacklist, biomeWhitelist)) {
             res = TweakedPumpjackHandler.addTweakedReservoir(name, fluid.getName(), minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier);

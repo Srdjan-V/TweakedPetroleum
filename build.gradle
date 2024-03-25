@@ -7,7 +7,7 @@ plugins {
     id("maven-publish")
     id("org.jetbrains.gradle.plugin.idea-ext") version "1.1.7"
     id("eclipse")
-    id("com.gtnewhorizons.retrofuturagradle") version "1.3.9"
+    id("com.gtnewhorizons.retrofuturagradle") version "1.3.27"
     id("com.matthewprenger.cursegradle") version "1.4.0"
     id('io.github.srdjan-v.local-git-dependency') version '0.5.2'
 }
@@ -99,6 +99,12 @@ dependencies {
     implementation "mcjty.theoneprobe:TheOneProbe-1.12:1.12-1.4.28-17"
 
     implementation 'CraftTweaker2:CraftTweaker2-MC1120-Main:1.12-4.1.20.679'
+    implementation ("com.cleanroommc:groovyscript:${project.groovy_script_version}") {
+        exclude group: 'mezz.jei', module: 'jei_1.12.2'
+        exclude group: 'curse.maven', module: 'top-245211'
+        exclude group: 'zone.rong', module: 'mixinbooter'
+    }
+
     implementation rfg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')
     implementation rfg.deobf('curse.maven:ImmersivePetroleum-268250:3382321')
 
@@ -120,12 +126,12 @@ dependencies {
     }
 
     if (project.use_mixins.toBoolean()) {
-        implementation 'zone.rong:mixinbooter:7.0'
-        api("org.spongepowered:mixin:0.8.3") { transitive = false }
         annotationProcessor 'org.ow2.asm:asm-debug-all:5.2'
-        annotationProcessor 'com.google.guava:guava:24.1.1-jre'
-        annotationProcessor 'com.google.code.gson:gson:2.8.6'
-        annotationProcessor("org.spongepowered:mixin:0.8.3") { transitive = false }
+        annotationProcessor 'com.google.guava:guava:32.1.2-jre'
+        annotationProcessor 'com.google.code.gson:gson:2.8.9'
+        String mixinBooter = modUtils.enableMixins('zone.rong:mixinbooter:8.9')
+        api (mixinBooter) {transitive = false}
+        annotationProcessor (mixinBooter) {transitive = false}
     }
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
@@ -170,13 +176,6 @@ localGitDependency {
             include("mezz.jei:HadEnoughItems_1.12.2:${project.hei_version}")
         })
     })
-}
-
-if (project.hasProperty("DCEVMJDK")) {
-    configure([tasks.runClient, tasks.runServer]) {
-        getJavaLauncher().set(javaToolchains.launcherFor({}))
-        setExecutable(project.property("DCEVMJDK"))
-    }
 }
 
 def mixinConfigRefMap = 'mixins.' + project.archives_base_name + '.refmap.json'
