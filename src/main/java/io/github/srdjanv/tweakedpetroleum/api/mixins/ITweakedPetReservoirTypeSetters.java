@@ -2,7 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.api.mixins;
 
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 
-public interface IReservoirTypeSetters {
+public interface ITweakedPetReservoirTypeSetters {
     void setDimensionWhitelist(int[] dimWhitelist);
 
     void setDimensionBlacklist(int[] biomeBlacklistList);

@@ -4,7 +4,7 @@ import blusunrize.immersiveengineering.api.DimensionChunkCoords;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTier;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import net.minecraft.world.World;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.*;
@@ -27,7 +27,7 @@ public class TweakedPumpjackHandler {
             return PowerTierHandler.getFallbackPowerTier();
         }
 
-        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
+        ITweakedPetReservoirType tweakedReservoirType = (ITweakedPetReservoirType) info.getType();
         return PowerTierHandler.getPowerTier(tweakedReservoirType.getPowerTier());
     }
 
@@ -44,11 +44,11 @@ public class TweakedPumpjackHandler {
      * @param powerTier     The tier of power usage
      * @return The created TweakedReservoirType
      */
-    public static IReservoirType addTweakedReservoir(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier) {
+    public static ITweakedPetReservoirType addTweakedReservoir(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier) {
         ReservoirType mix = new ReservoirType(name, fluid, minSize, maxSize, replenishRate);
         reservoirList.put(mix, weight);
 
-        IReservoirType iMix = (IReservoirType) mix;
+        ITweakedPetReservoirType iMix = (ITweakedPetReservoirType) mix;
         iMix.setPumpSpeed(pumpSpeed);
         iMix.setPowerTier(powerTier);
 
@@ -71,7 +71,7 @@ public class TweakedPumpjackHandler {
             return replenishRateAndPumpSpeed;
         }
 
-        IReservoirType tweakedReservoirType = (IReservoirType) info.getType();
+        ITweakedPetReservoirType tweakedReservoirType = (ITweakedPetReservoirType) info.getType();
 
         if (tweakedReservoirType.getPumpSpeed() == 0) {
             return replenishRateAndPumpSpeed;
@@ -117,7 +117,7 @@ public class TweakedPumpjackHandler {
             return ReservoirContent.EMPTY;
         }
 
-        return ((IReservoirType) info.getType()).getReservoirContent();
+        return ((ITweakedPetReservoirType) info.getType()).getReservoirContent();
     }
 
     public enum ReservoirContent {

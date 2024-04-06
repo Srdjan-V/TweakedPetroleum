@@ -3,10 +3,9 @@ package io.github.srdjanv.tweakedpetroleum.util;
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
 import io.github.srdjanv.tweakedpetroleum.common.Configs;
 import org.apache.logging.log4j.Logger;
-import io.github.srdjanv.tweakedlib.api.logging.errorlogginglib.ErrorLoggingLib;
 import io.github.srdjanv.tweakedlib.api.logging.errorlogginglib.ICustomLogger;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     public boolean runtimeChecks() {
         reservoirList.keySet().
                 forEach(tweakedReservoirType -> {
-                    if (!PowerTierHandler.powerTierExists(((IReservoirType) tweakedReservoirType).getPowerTier())) {
+                    if (!PowerTierHandler.powerTierExists(((ITweakedPetReservoirType) tweakedReservoirType).getPowerTier())) {
                         errors.add("Reservoir with the ID (name) " + tweakedReservoirType.name + "has no valid Power tier");
                     }
                 });

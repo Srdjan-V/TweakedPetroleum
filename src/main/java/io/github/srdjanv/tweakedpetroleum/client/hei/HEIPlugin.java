@@ -7,7 +7,7 @@ import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
 import io.github.srdjanv.tweakedlib.common.Constants;
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.IModRegistry;
 import mezz.jei.api.recipe.IRecipeCategoryRegistration;
@@ -37,7 +37,7 @@ public class HEIPlugin implements IModPlugin {
     private Collection<PumpjackHandler.ReservoirType> getRecipes() {
         if (Constants.isTweakedPetroleumGasLoaded()) {
             return PumpjackHandler.reservoirList.keySet().stream().
-                    filter(reservoirType -> ((IReservoirType) reservoirType).getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID).
+                    filter(reservoirType -> ((ITweakedPetReservoirType) reservoirType).getReservoirContent() == TweakedPumpjackHandler.ReservoirContent.LIQUID).
                     collect(Collectors.toList());
         }
 

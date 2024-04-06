@@ -1,6 +1,5 @@
 package io.github.srdjanv.tweakedpetroleum.common.compat.groovy;
 
-import blusunrize.immersiveengineering.api.tool.ExcavatorHandler;
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
@@ -8,8 +7,8 @@ import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTier;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirTypeGetters;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirTypeGetters;
 
 import java.util.*;
 import java.util.function.BiFunction;
@@ -18,7 +17,7 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("rawtypes")
 public abstract class VirtualizedReservoirRegistry<
-        T extends IReservoirType,
+        T extends ITweakedPetReservoirType,
         B extends VirtualizedReservoirRegistry.ReservoirBuilder<W>,
         W extends VirtualizedReservoirRegistry.ReservoirWrapper> extends VirtualizedRegistry<W> {
 
@@ -93,7 +92,7 @@ public abstract class VirtualizedReservoirRegistry<
 
     public abstract B recipeBuilder();
 
-    public abstract static class ReservoirWrapper<T extends IReservoirType, B extends VirtualizedReservoirRegistry.ReservoirBuilder<?>> implements IReservoirTypeGetters {
+    public abstract static class ReservoirWrapper<T extends ITweakedPetReservoirType, B extends VirtualizedReservoirRegistry.ReservoirBuilder<?>> implements ITweakedPetReservoirTypeGetters {
         private final Supplier<B> builderSupplier;
         private final PumpjackHandler.ReservoirType reservoirType;
         private final int weight;

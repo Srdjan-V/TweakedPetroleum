@@ -3,7 +3,7 @@ package io.github.srdjanv.tweakedpetroleum.client.hei;
 import com.google.common.collect.Lists;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import flaxbeard.immersivepetroleum.common.Config;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.common.Configs;
 import io.github.srdjanv.tweakedpetroleum.util.HEIPumpjackUtil;
 import mezz.jei.api.gui.ITooltipCallback;
@@ -19,11 +19,11 @@ import java.util.List;
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
 public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidStack> {
-    private final IReservoirType reservoir;
+    private final ITweakedPetReservoirType reservoir;
     private final Fluid reservoirFluid;
 
     public PumpjackWrapper(PumpjackHandler.ReservoirType reservoir) {
-        this.reservoir = (IReservoirType) reservoir;
+        this.reservoir = (ITweakedPetReservoirType) reservoir;
         reservoirFluid = reservoir.getFluid();
     }
 

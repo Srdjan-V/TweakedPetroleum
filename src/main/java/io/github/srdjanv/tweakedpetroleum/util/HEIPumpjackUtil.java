@@ -2,7 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.util;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.hei.BaseHEIUtil;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +14,7 @@ import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoi
 
 public class HEIPumpjackUtil extends BaseHEIUtil {
 
-    public static void onTooltip(int slotIndex, IReservoirType reservoir, long ingredientAmount, String ingredientLocalizedName, List<String> tooltip) {
+    public static void onTooltip(int slotIndex, ITweakedPetReservoirType reservoir, long ingredientAmount, String ingredientLocalizedName, List<String> tooltip) {
         tooltip.clear();
         tooltip.add("§7" + BaseHEIUtil.translateToLocalFormatted("tweakedpetroleum.jei.reservoir.contents", ingredientLocalizedName));
 
@@ -25,7 +25,7 @@ public class HEIPumpjackUtil extends BaseHEIUtil {
         speedData(reservoir, tooltip, true);
     }
 
-    public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, IReservoirType reservoir,
+    public static List<String> tooltipStrings(int mouseX, int mouseY, String[][] customWarnings, ITweakedPetReservoirType reservoir,
                                               LongSupplier ingredientAmountSupplier, IntSupplier getStringWidthSupplier) {
 
         if (mouseY >= 6 & mouseY <= 12 && mouseX >= 6 && mouseX <= getStringWidthSupplier.getAsInt()) {
@@ -93,7 +93,7 @@ public class HEIPumpjackUtil extends BaseHEIUtil {
     }
 
 
-    private static void sizeData(IReservoirType reservoir, long ingredientAmount, List<String> tooltip, boolean nested) {
+    private static void sizeData(ITweakedPetReservoirType reservoir, long ingredientAmount, List<String> tooltip, boolean nested) {
         final String prefix;
         if (nested) {
             prefix = " §7";
@@ -114,7 +114,7 @@ public class HEIPumpjackUtil extends BaseHEIUtil {
                 BaseHEIUtil.numberFormat.format(ingredientAmount)));
     }
 
-    private static void speedData(IReservoirType reservoir, List<String> tooltip, boolean nested) {
+    private static void speedData(ITweakedPetReservoirType reservoir, List<String> tooltip, boolean nested) {
         final String prefix;
         if (nested) {
             prefix = " §7";

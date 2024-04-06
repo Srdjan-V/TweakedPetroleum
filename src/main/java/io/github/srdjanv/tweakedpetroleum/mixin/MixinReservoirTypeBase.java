@@ -1,7 +1,7 @@
 package io.github.srdjanv.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -10,7 +10,7 @@ import java.util.Objects;
 
 
 @Mixin(value = PumpjackHandler.ReservoirType.class, remap = false)
-public abstract class MixinReservoirTypeBase implements IReservoirType {
+public abstract class MixinReservoirTypeBase implements ITweakedPetReservoirType {
 
     @Shadow
     public String name;
@@ -122,7 +122,7 @@ public abstract class MixinReservoirTypeBase implements IReservoirType {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IReservoirType that = (IReservoirType) o;
+        ITweakedPetReservoirType that = (ITweakedPetReservoirType) o;
         return name.equals(that.getName());
     }
 

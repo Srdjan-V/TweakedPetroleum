@@ -2,7 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import net.minecraft.nbt.NBTTagCompound;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(value = PumpjackHandler.ReservoirType.class, remap = false)
-public abstract class MixinReservoirTypeAddons implements IReservoirType {
+public abstract class MixinReservoirTypeAddons implements ITweakedPetReservoirType {
 
     @Unique
     TweakedPumpjackHandler.ReservoirContent reservoirContent = TweakedPumpjackHandler.ReservoirContent.DEFAULT;
@@ -73,7 +73,7 @@ public abstract class MixinReservoirTypeAddons implements IReservoirType {
 
     @Inject(method = "readFromNBT", at = @At("RETURN"))
     private static void onReadFromNBT(NBTTagCompound tag, CallbackInfoReturnable<PumpjackHandler.ReservoirType> cir) {
-        IReservoirType mix = (IReservoirType) cir.getReturnValue();
+        ITweakedPetReservoirType mix = (ITweakedPetReservoirType) cir.getReturnValue();
         mix.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.values()[tag.getByte("reservoirContent")]);
         mix.setPumpSpeed(tag.getInteger("pumpSpeed"));
         mix.setPowerTier(tag.getInteger("powerTier"));

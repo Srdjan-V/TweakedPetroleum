@@ -3,7 +3,7 @@ package io.github.srdjanv.tweakedpetroleum.common;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumInitializer;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -34,7 +34,7 @@ public class DefaultReservoirs implements TweakedPetroleumInitializer {
 
         reservoirList.put(mix, weight);
 
-        IReservoirType iMix = (IReservoirType) mix;
+        ITweakedPetReservoirType iMix = (ITweakedPetReservoirType) mix;
         iMix.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
         iMix.setPumpSpeed(pumpSpeed);
         iMix.setPowerTier(powerTier);

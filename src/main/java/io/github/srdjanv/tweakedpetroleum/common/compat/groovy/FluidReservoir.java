@@ -3,18 +3,15 @@ package io.github.srdjanv.tweakedpetroleum.common.compat.groovy;
 import com.cleanroommc.groovyscript.api.GroovyLog;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirTypeGetters;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.ReservoirValidation;
-import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Arrays;
 import java.util.function.BiFunction;
-import java.util.function.Consumer;
 
 public class FluidReservoir extends VirtualizedReservoirRegistry<
-        IReservoirType,
+        ITweakedPetReservoirType,
         FluidReservoir.FluidReservoirBuilder,
         FluidReservoir.FluidReservoirWrapper> {
 
@@ -52,7 +49,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
         @Override
         public FluidReservoirWrapper register() {
             if (validate()) {
-                IReservoirType res = (IReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
+                ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
 
                 res.setPumpSpeed(pumpSpeed);
                 res.setPowerTier(powerTier);
@@ -72,20 +69,20 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
 
     }
 
-    public class FluidReservoirWrapper extends ReservoirWrapper<IReservoirType, FluidReservoirBuilder> {
-        private final IReservoirType reservoirType;
+    public class FluidReservoirWrapper extends ReservoirWrapper<ITweakedPetReservoirType, FluidReservoirBuilder> {
+        private final ITweakedPetReservoirType reservoirType;
 
-        public FluidReservoirWrapper(IReservoirType reservoirType, int weight) {
+        public FluidReservoirWrapper(ITweakedPetReservoirType reservoirType, int weight) {
             this((PumpjackHandler.ReservoirType) reservoirType, weight);
         }
 
         public FluidReservoirWrapper(PumpjackHandler.ReservoirType reservoirType, int weight) {
             super(FluidReservoir.this::recipeBuilder, reservoirType, weight);
-            this.reservoirType = (IReservoirType) reservoirType;
+            this.reservoirType = (ITweakedPetReservoirType) reservoirType;
         }
 
         @Override
-        public IReservoirType getRealReservoirType() {
+        public ITweakedPetReservoirType getRealReservoirType() {
             return reservoirType;
         }
 

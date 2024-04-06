@@ -5,7 +5,7 @@ import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.liquid.ILiquidStack;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IReservoirType;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.ReservoirValidation;
 import stanhebben.zenscript.annotations.Optional;
 import stanhebben.zenscript.annotations.ZenClass;
@@ -19,7 +19,7 @@ public class TweakedReservoir {
     @ZenMethod
     public static void registerReservoir(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier,
                                          @Optional int[] dimBlacklist, @Optional int[] dimWhitelist, @Optional String[] biomeBlacklist, @Optional String[] biomeWhitelist) {
-        IReservoirType res;
+        ITweakedPetReservoirType res;
         if (ReservoirValidation.validateReservoir(CraftTweakerAPI::logError, name, fluid,
                 minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
                 biomeBlacklist, biomeWhitelist)) {
@@ -45,7 +45,7 @@ public class TweakedReservoir {
     public static void registerReservoirWithDrainChance(String name, ILiquidStack fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, float drainChance, int weight, int powerTier,
                                                         @Optional int[] dimBlacklist, @Optional int[] dimWhitelist, @Optional String[] biomeBlacklist, @Optional String[] biomeWhitelist) {
 
-        IReservoirType res;
+        ITweakedPetReservoirType res;
         if (ReservoirValidation.validateReservoir(CraftTweakerAPI::logError, name, fluid,
                 minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
                 biomeBlacklist, biomeWhitelist)) {

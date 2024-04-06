@@ -8,7 +8,7 @@ import flaxbeard.immersivepetroleum.common.Config;
 import flaxbeard.immersivepetroleum.common.blocks.metal.TileEntityPumpjack;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
-import io.github.srdjanv.tweakedpetroleum.api.mixins.IPumpjackAddons;
+import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetPumpjackAddons;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumFacing;
@@ -26,8 +26,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 @Mixin(value = TileEntityPumpjack.class, remap = false)
-public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements IPumpjackAddons {
+public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<TileEntityPumpjack, IMultiblockRecipe> implements ITweakedPetPumpjackAddons {
 
     //Shadow Variables
     @Shadow
@@ -99,6 +101,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
     private void onConstructed(CallbackInfo ci) {
         energyStorage.setCapacity(Integer.MAX_VALUE);
         energyStorage.setLimitTransfer(0);
+        pipeTicks = ThreadLocalRandom.current().nextInt(90);
     }
 
     /**
@@ -135,9 +138,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         int consumed = energyStorage.getLimitExtract();
 
         if (energyStorage.extractEnergy(consumed, true) >= consumed && canExtract() && !this.isRSDisabled()) {
-            if ((getPos().getX() + getPos().getZ()) % Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) {
-                lastHadPipes = hasPipes();
-            }
+            if (Config.IPConfig.Extraction.pipe_check_ticks == pipeTicks) lastHadPipes = hasPipes();
             if (lastHadPipes) {
                 int[] replenishRateAndPumpSpeed = getReplenishRateAndPumpSpeed();
                 int availableOil = availableOil();
@@ -163,7 +164,7 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
                     activeTicks++;
                 }
             }
-            pipeTicks = (pipeTicks + 1) % Config.IPConfig.Extraction.pipe_check_ticks;
+            pipeTicks = (pipeTicks + 1) % (Config.IPConfig.Extraction.pipe_check_ticks + 1);
         }
 
         if (active != wasActive) {
@@ -172,7 +173,6 @@ public abstract class MixinTileEntityPumpjack extends TileEntityMultiblockMetal<
         }
 
         wasActive = active;
-
     }
 
     @Unique
