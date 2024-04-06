@@ -15,6 +15,7 @@ import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
@@ -58,17 +59,18 @@ public class PumpjackWrapper implements IRecipeWrapper, ITooltipCallback<FluidSt
 
     @Override
     public List<String> getTooltipStrings(int mouseX, int mouseY) {
-        String[][] strings = new String[2][];
+        Consumer<List<String>> customWarnings = null;
         if (reservoir.getDrainChance() != 1f) {
-            strings[0] = new String[]{"tweakedpetroleum.jei.reservoir.draw_chance",
-                    String.valueOf(reservoir.getDrainChance() * 100),
-                    String.valueOf(100f - (reservoir.getDrainChance() * 100))};
+            customWarnings = list-> list.add(HEIPumpjackUtil.translateToLocal("tweakedpetroleum.jei.reservoir.draw_chance1") + " " + reservoir.getDrainChance() * 100 +
+                    HEIPumpjackUtil.translateToLocal("tweakedpetroleum.jei.reservoir.draw_chance2") + " " + (100f - (reservoir.getDrainChance() * 100)) +
+                    HEIPumpjackUtil.translateToLocal("tweakedpetroleum.jei.reservoir.draw_chance3")
+            );
         }
         if (Config.IPConfig.Extraction.req_pipes) {
-            strings[1] = new String[]{"tweakedpetroleum.jei.reservoir.req_pipes"};
+            customWarnings = list -> list.add(HEIPumpjackUtil.translateToLocal("tweakedpetroleum.jei.reservoir.req_pipes"));
         }
 
-        return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, strings, reservoir, this::getAverage, this::getStringWidth);
+        return HEIPumpjackUtil.tooltipStrings(mouseX, mouseY, customWarnings, reservoir, this::getAverage, this::getStringWidth);
     }
 
     @Override
