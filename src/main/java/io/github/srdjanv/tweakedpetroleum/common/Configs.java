@@ -16,10 +16,10 @@ public class Configs {
         public static DefaultReservoirs defaultReservoirs;
 
         public static class DefaultReservoirs {
-            @Comment({"This will Register default IP Reservoirs(Oil, Water, Lava), default=true"})
-            @Name("Register Reservoirs")
+            @Comment({"This will enable reservoir registration from IP's configs, default=true"})
+            @Name("Register Reservoirs From Config")
             @RequiresMcRestart
-            public static boolean defaultReservoirs = true;
+            public static boolean enableIPConfigReservoirRegistration = true;
 
             @Name("Default Pumpjack Power Tiers")
             public static DefaultPumpjackPowerTiers defaultPumpjackPowerTiers;
@@ -38,6 +38,11 @@ public class Configs {
                 @RequiresMcRestart
                 public static int rft = 1024;
 
+                @Comment({"This will set the pump speed of the pumpjack, default=25"})
+                @Name("Default pump speed")
+                @RangeInt(min = 1)
+                @RequiresMcRestart
+                public static int pump_speed = 25;
             }
         }
 

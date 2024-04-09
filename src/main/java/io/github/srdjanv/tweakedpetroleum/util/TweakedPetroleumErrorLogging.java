@@ -50,7 +50,7 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
         String[] strings = new String[5];
 
         strings[0] = "DefaultReservoirs:";
-        strings[1] = "Register Reservoirs: " + Configs.TPConfig.DefaultReservoirs.defaultReservoirs;
+        strings[1] = "Register Reservoirs: " + Configs.TPConfig.DefaultReservoirs.enableIPConfigReservoirRegistration;
         strings[2] = "Default Pumpjack Power Tiers:";
         strings[3] = "Default capacity:" + Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.capacity;
         strings[4] = "Default consumption:" + Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.rft;

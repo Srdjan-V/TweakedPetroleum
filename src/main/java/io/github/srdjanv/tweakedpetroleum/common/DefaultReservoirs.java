@@ -7,40 +7,38 @@ import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.TweakedPetroleumInitializer;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.util.Objects;
+
 import static flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler.reservoirList;
 
 public class DefaultReservoirs implements TweakedPetroleumInitializer {
+    private static DefaultReservoirs instance;
+
+    public static DefaultReservoirs getInstance() {
+        return Objects.requireNonNull(instance);
+    }
+
+    public DefaultReservoirs() {
+        instance = this;
+    }
 
     @Override public boolean shouldRun() {
-        return Configs.TPConfig.DefaultReservoirs.defaultReservoirs;
+        return Configs.TPConfig.DefaultReservoirs.enableIPConfigReservoirRegistration;
     }
+
+    private int powerTier;
 
     @Override public void preInit(FMLPreInitializationEvent event) {
-        int powerTier = PowerTierHandler.registerPowerTier(
+        powerTier = PowerTierHandler.registerPowerTier(
                 Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.capacity,
                 Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.rft);
-
-        makeReservoirType("aquifer", "water", 5000000, 10000000, 6, 25, 30, powerTier, new int[]{}, new int[]{0});
-        makeReservoirType("oil", "oil", 2500000, 15000000, 6, 25, 40, powerTier, new int[]{1}, new int[]{});
-        makeReservoirType("lava", "lava", 250000, 1000000, 0, 25, 30, powerTier, new int[]{1}, new int[]{});
     }
 
-    private static void makeReservoirType(String name, String fluid, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier, int[] dimBlacklist, int[] dimWhitelist) {
-        PumpjackHandler.ReservoirType mix = new PumpjackHandler.ReservoirType(name, fluid, minSize, maxSize, replenishRate);
-
-        if (reservoirList.containsKey(mix)) {
-            return;
-        }
-
-        reservoirList.put(mix, weight);
-
-        ITweakedPetReservoirType iMix = (ITweakedPetReservoirType) mix;
-        iMix.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
-        iMix.setPumpSpeed(pumpSpeed);
-        iMix.setPowerTier(powerTier);
-        iMix.setDimensionBlacklist(dimBlacklist);
-        iMix.setDimensionWhitelist(dimWhitelist);
-
+    public int defaultPowerTier() {
+        return powerTier;
     }
 
+    public int defaultPumpSpeed() {
+        return Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.pump_speed;
+    }
 }
