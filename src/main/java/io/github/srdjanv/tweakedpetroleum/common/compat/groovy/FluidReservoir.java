@@ -41,30 +41,27 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
         public boolean validate() {
             GroovyLog.Msg msg = GroovyLog.msg("Error adding custom fluid reservoir").error();
             ReservoirValidation.validateReservoir(msg::add, name, fluid, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
-                    biomeBlacklist.toArray(new String[]{}), biomeWhitelist.toArray(new String[]{}));
+                    biomeBlacklist == null ? null : biomeBlacklist.toArray(new String[]{}), biomeWhitelist == null ? null : biomeWhitelist.toArray(new String[]{}));
 
             return !msg.postIfNotEmpty();
         }
 
-        @Override
+        @SuppressWarnings("UnreachableCode") @Override
         public FluidReservoirWrapper register() {
-            if (validate()) {
-                ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
+            if (!validate()) return null;
+            ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
 
-                res.setPumpSpeed(pumpSpeed);
-                res.setPowerTier(powerTier);
-                res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
-                if (dimBlacklist != null) res.setDimensionBlacklist(dimBlacklist.stream().mapToInt(Integer::intValue).toArray());
-                if (dimWhitelist != null) res.setDimensionWhitelist(dimWhitelist.stream().mapToInt(Integer::intValue).toArray());
-                if (biomeBlacklist != null) res.setBiomeBlacklist(biomeBlacklist.toArray(new String[]{}));
-                if (biomeWhitelist != null) res.setBiomeWhitelist(biomeWhitelist.toArray(new String[]{}));
-                
-                FluidReservoirWrapper wrapper = new FluidReservoirWrapper(res, weight);
-                add(wrapper);
-                return wrapper;
-            }
+            res.setPumpSpeed(pumpSpeed);
+            res.setPowerTier(powerTier);
+            res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
+            if (dimBlacklist != null) res.setDimensionBlacklist(dimBlacklist.stream().mapToInt(Integer::intValue).toArray());
+            if (dimWhitelist != null) res.setDimensionWhitelist(dimWhitelist.stream().mapToInt(Integer::intValue).toArray());
+            if (biomeBlacklist != null) res.setBiomeBlacklist(biomeBlacklist.toArray(new String[]{}));
+            if (biomeWhitelist != null) res.setBiomeWhitelist(biomeWhitelist.toArray(new String[]{}));
 
-            return null;
+            FluidReservoirWrapper wrapper = new FluidReservoirWrapper(res, weight);
+            add(wrapper);
+            return wrapper;
         }
 
     }

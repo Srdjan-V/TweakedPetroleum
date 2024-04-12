@@ -7,7 +7,7 @@ import java.util.function.Consumer;
 
 public class ReservoirValidation {
 
-    public static boolean validateReservoir(Consumer<String> errorMassageBuilder, String name, Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier, float drainChance,
+    public static boolean validateReservoir(Consumer<String> errorMassageBuilder, String name, Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, Integer powerTier, float drainChance,
                                             String[] biomeBlacklist, String[] biomeWhitelist) {
 
         MessageBuilder messageBuilder = new MessageBuilder(errorMassageBuilder);
@@ -19,7 +19,7 @@ public class ReservoirValidation {
         return messageBuilder.isValid();
     }
 
-    public static boolean validateReservoir(Consumer<String> errorMassageBuilder, String name,  Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier,
+    public static boolean validateReservoir(Consumer<String> errorMassageBuilder, String name,  Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, Integer powerTier,
                                             String[] biomeBlacklist, String[] biomeWhitelist) {
         MessageBuilder messageBuilder = new MessageBuilder(errorMassageBuilder);
         validateReservoir(messageBuilder, name, content, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier,
@@ -27,7 +27,7 @@ public class ReservoirValidation {
         return messageBuilder.isValid();
     }
 
-    public static void validateReservoir(MessageBuilder messageBuilder, String name, Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, int powerTier,
+    public static void validateReservoir(MessageBuilder messageBuilder, String name, Object content, int minSize, int maxSize, int replenishRate, int pumpSpeed, int weight, Integer powerTier,
                                           String[] biomeBlacklist, String[] biomeWhitelist) {
 
         messageBuilder.runCheck(name.isEmpty(), "Reservoir name can not be a empty string!");
@@ -37,7 +37,7 @@ public class ReservoirValidation {
         messageBuilder.runCheck(weight < 1, String.format("Reservoir(%s) weight has to be greater than or equal to 1!", name));
         messageBuilder.runCheck(pumpSpeed <= 0, String.format("Reservoir(%s) Pump Speed has to be at least 1mb/t", name));
         messageBuilder.runCheck(pumpSpeed < replenishRate, String.format("Reservoir(%s) Pump Speed can not be smaller than Replenish Rate!", name));
-        messageBuilder.runCheck(powerTier < 0, String.format("Reservoir(%s) powerTier can not be smaller than 0!", name));
+        messageBuilder.runCheck(powerTier == null, String.format("Reservoir(%s) powerTier is not specified", name));
 
         if (biomeBlacklist != null)
             for (String string : biomeBlacklist)

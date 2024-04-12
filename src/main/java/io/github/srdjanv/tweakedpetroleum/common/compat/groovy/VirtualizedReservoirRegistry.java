@@ -208,7 +208,7 @@ public abstract class VirtualizedReservoirRegistry<
         protected int replenishRate;
         protected int pumpSpeed;
         protected float drainChance;
-        protected int powerTier;
+        protected Integer powerTier;
         protected List<Integer> dimBlacklist;
         protected List<Integer> dimWhitelist;
         protected List<String> biomeWhitelist;
