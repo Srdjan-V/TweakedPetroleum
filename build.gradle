@@ -103,6 +103,7 @@ dependencies {
         exclude group: 'mezz.jei', module: 'jei_1.12.2'
         exclude group: 'curse.maven', module: 'top-245211'
         exclude group: 'zone.rong', module: 'mixinbooter'
+        exclude group: 'codechicken', module:'codechickenlib'
     }
 
     implementation rfg.deobf('curse.maven:ImmersiveEngineering-231951:2974106')

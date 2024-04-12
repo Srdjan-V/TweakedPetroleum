@@ -2,6 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.util;
 
 import io.github.srdjanv.tweakedpetroleum.TweakedPetroleum;
 import io.github.srdjanv.tweakedpetroleum.common.Configs;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import org.apache.logging.log4j.Logger;
 import io.github.srdjanv.tweakedlib.api.logging.errorlogginglib.ICustomLogger;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTierHandler;
@@ -16,7 +17,7 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     private TweakedPetroleumErrorLogging() {
     }
 
-    private final List<String> errors = new ArrayList<>();
+    private final List<String> errors = new ObjectArrayList<>();
 
     @Override
     public boolean startupChecks() {
@@ -28,7 +29,7 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
         reservoirList.keySet().
                 forEach(tweakedReservoirType -> {
                     if (!PowerTierHandler.powerTierExists(((ITweakedPetReservoirType) tweakedReservoirType).getPowerTier())) {
-                        errors.add("Reservoir with the ID (name) " + tweakedReservoirType.name + "has no valid Power tier");
+                        errors.add("Reservoir with the ID (name) " + tweakedReservoirType.name + " has no valid Power tier");
                     }
                 });
 
@@ -43,19 +44,6 @@ public final class TweakedPetroleumErrorLogging implements ICustomLogger {
     @Override
     public Logger getModLogger() {
         return TweakedPetroleum.LOGGER;
-    }
-
-    @Override
-    public String[] getConfigs() {
-        String[] strings = new String[5];
-
-        strings[0] = "DefaultReservoirs:";
-        strings[1] = "Register Reservoirs: " + Configs.TPConfig.DefaultReservoirs.enableIPConfigReservoirRegistration;
-        strings[2] = "Default Pumpjack Power Tiers:";
-        strings[3] = "Default capacity:" + Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.capacity;
-        strings[4] = "Default consumption:" + Configs.TPConfig.DefaultReservoirs.DefaultPumpjackPowerTiers.rft;
-
-        return strings;
     }
 
     @Override
