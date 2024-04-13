@@ -51,6 +51,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
             if (!validate()) return null;
             ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
 
+            res.setDrainChance(drainChance);
             res.setPumpSpeed(pumpSpeed);
             res.setPowerTier(powerTier);
             res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);

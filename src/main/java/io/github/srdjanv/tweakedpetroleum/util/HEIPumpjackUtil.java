@@ -94,7 +94,7 @@ public class HEIPumpjackUtil extends BaseHEIUtil {
 
         if (reservoir.getDrainChance() != 1f) {
             tooltip.add(prefix + translateToLocal("tweakedpetroleum.jei.reservoir.average") + " " +
-                    (numberFormat.format(ingredientAmount) + " * " + (100f - (reservoir.getDrainChance() * 100)) + "%"));
+                    (numberFormat.format(ingredientAmount) + " * " + (100f + (reservoir.getDrainChance() * 100)) + "%"));
             return;
         }
 

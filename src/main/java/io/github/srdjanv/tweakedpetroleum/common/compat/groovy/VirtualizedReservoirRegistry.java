@@ -177,6 +177,7 @@ public abstract class VirtualizedReservoirRegistry<
             builder.minSize(getMinSize());
             builder.maxSize(getMaxSize());
             builder.replenishRate(getReplenishRate());
+            builder.drainChance(getDrainChance());
             builder.pumpSpeed(getPumpSpeed());
             builder.powerTier(getPowerTier());
             builder.dimBlacklist(Arrays.stream(getDimensionBlacklist()).boxed().collect(Collectors.toList()));
