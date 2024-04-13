@@ -208,7 +208,7 @@ public abstract class VirtualizedReservoirRegistry<
         protected int maxSize;
         protected int replenishRate;
         protected int pumpSpeed;
-        protected float drainChance;
+        protected float drainChance = 1f;
         protected Integer powerTier;
         protected List<Integer> dimBlacklist;
         protected List<Integer> dimWhitelist;
