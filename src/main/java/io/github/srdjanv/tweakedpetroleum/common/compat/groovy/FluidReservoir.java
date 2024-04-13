@@ -22,7 +22,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
     }
 
     public FluidReservoir() {
-        super(Arrays.asList("FluidReservoir", "fluidReservoir", "fluidreservoir"));
+        super("Fluid");
     }
 
     @Override public FluidReservoirBuilder recipeBuilder() {

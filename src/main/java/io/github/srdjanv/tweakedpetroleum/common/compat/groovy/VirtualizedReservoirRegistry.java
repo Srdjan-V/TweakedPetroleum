@@ -2,6 +2,7 @@ package io.github.srdjanv.tweakedpetroleum.common.compat.groovy;
 
 import com.cleanroommc.groovyscript.api.GroovyBlacklist;
 import com.cleanroommc.groovyscript.api.GroovyLog;
+import com.cleanroommc.groovyscript.helper.Alias;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
@@ -21,8 +22,8 @@ public abstract class VirtualizedReservoirRegistry<
         B extends VirtualizedReservoirRegistry.ReservoirBuilder<W>,
         W extends VirtualizedReservoirRegistry.ReservoirWrapper> extends VirtualizedRegistry<W> {
 
-    public VirtualizedReservoirRegistry(Collection<String> aliases) {
-        super(aliases);
+    public VirtualizedReservoirRegistry(String reservoirType) {
+        super(Alias.generateOf(reservoirType + "Reservoir"));
     }
 
     protected abstract BiFunction<PumpjackHandler.ReservoirType, Integer, W> getReservoirTypeWrapperFunction();
