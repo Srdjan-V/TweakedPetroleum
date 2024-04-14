@@ -40,7 +40,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
         @Override
         public boolean validate() {
             GroovyLog.Msg msg = GroovyLog.msg("Error adding custom fluid reservoir").error();
-            ReservoirValidation.validateReservoir(msg::add, name, fluid, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance,
+            ReservoirValidation.validateReservoir(msg::add, name, fluid, minSize, maxSize, replenishRate, pumpSpeed, weight, powerTier, drainChance.floatValue(),
                     biomeBlacklist == null ? null : biomeBlacklist.toArray(new String[]{}), biomeWhitelist == null ? null : biomeWhitelist.toArray(new String[]{}));
 
             return !msg.postIfNotEmpty();
@@ -51,12 +51,12 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
             if (!validate()) return null;
             ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
 
-            res.setDrainChance(drainChance);
+            res.setDrainChance(drainChance.floatValue());
             res.setPumpSpeed(pumpSpeed);
             res.setPowerTier(powerTier);
             res.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
-            if (dimBlacklist != null) res.setDimensionBlacklist(dimBlacklist.stream().mapToInt(Integer::intValue).toArray());
-            if (dimWhitelist != null) res.setDimensionWhitelist(dimWhitelist.stream().mapToInt(Integer::intValue).toArray());
+            if (dimBlacklist != null) res.setDimensionBlacklist(dimBlacklist.toIntArray());
+            if (dimWhitelist != null) res.setDimensionWhitelist(dimWhitelist.toIntArray());
             if (biomeBlacklist != null) res.setBiomeBlacklist(biomeBlacklist.toArray(new String[]{}));
             if (biomeWhitelist != null) res.setBiomeWhitelist(biomeWhitelist.toArray(new String[]{}));
 

@@ -6,11 +6,16 @@ import com.cleanroommc.groovyscript.helper.Alias;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import groovyjarjarantlr4.v4.runtime.misc.IntegerList;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTier;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirTypeGetters;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -178,7 +183,7 @@ public abstract class VirtualizedReservoirRegistry<
             builder.minSize(getMinSize());
             builder.maxSize(getMaxSize());
             builder.replenishRate(getReplenishRate());
-            builder.drainChance(getDrainChance());
+            builder.drainChance(BigDecimal.valueOf(getDrainChance()));
             builder.pumpSpeed(getPumpSpeed());
             builder.powerTier(getPowerTier());
             builder.dimBlacklist(Arrays.stream(getDimensionBlacklist()).boxed().collect(Collectors.toList()));
@@ -209,10 +214,10 @@ public abstract class VirtualizedReservoirRegistry<
         protected int maxSize;
         protected int replenishRate;
         protected int pumpSpeed;
-        protected float drainChance = 1f;
+        protected BigDecimal drainChance = BigDecimal.valueOf(1f);
         protected Integer powerTier;
-        protected List<Integer> dimBlacklist;
-        protected List<Integer> dimWhitelist;
+        protected IntList dimBlacklist;
+        protected IntList dimWhitelist;
         protected List<String> biomeWhitelist;
         protected List<String> biomeBlacklist;
 
@@ -257,27 +262,31 @@ public abstract class VirtualizedReservoirRegistry<
         }
 
         public ReservoirBuilder<T> dimBlacklist(List<Integer> dimBlacklist) {
-            this.dimBlacklist = dimBlacklist;
+            if (Objects.isNull(this.dimBlacklist)) this.dimBlacklist = new IntArrayList();
+            this.dimBlacklist.addAll(dimBlacklist);
             return this;
         }
 
         public ReservoirBuilder<T> dimWhitelist(List<Integer> dimWhitelist) {
-            this.dimWhitelist = dimWhitelist;
+            if (Objects.isNull(this.dimWhitelist)) this.dimWhitelist = new IntArrayList();
+            this.dimWhitelist.addAll(dimWhitelist);
             return this;
         }
 
-        public ReservoirBuilder<T> drainChance(float chance) {
+        public ReservoirBuilder<T> drainChance(BigDecimal chance) {
             this.drainChance = chance;
             return this;
         }
 
         public ReservoirBuilder<T> biomeBlacklist(List<String> blacklist) {
-            this.biomeBlacklist = blacklist;
+            if (Objects.isNull(this.biomeBlacklist)) this.biomeBlacklist = new ObjectArrayList<>();
+            this.biomeBlacklist.addAll(blacklist);
             return this;
         }
 
         public ReservoirBuilder<T> biomeWhitelist(List<String> whitelist) {
-            this.biomeWhitelist = whitelist;
+            if (Objects.isNull(this.biomeWhitelist)) this.biomeWhitelist = new ObjectArrayList<>();
+            this.biomeWhitelist.addAll(whitelist);
             return this;
         }
 
