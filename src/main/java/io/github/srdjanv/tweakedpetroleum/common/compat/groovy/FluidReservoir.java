@@ -5,6 +5,7 @@ import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.util.ReservoirValidation;
+import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Arrays;
@@ -30,9 +31,19 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
     }
 
     public class FluidReservoirBuilder extends ReservoirBuilder<FluidReservoirWrapper> {
-        protected FluidStack fluid;
+        protected String fluid;
 
         public FluidReservoirBuilder fluid(FluidStack fluid) {
+            fluid(fluid.getFluid());
+            return this;
+        }
+
+        public FluidReservoirBuilder fluid(Fluid fluid) {
+            fluid(fluid.getName());
+            return this;
+        }
+
+        public FluidReservoirBuilder fluid(String fluid) {
             this.fluid = fluid;
             return this;
         }
@@ -49,7 +60,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
         @SuppressWarnings("UnreachableCode") @Override
         public FluidReservoirWrapper register() {
             if (!validate()) return null;
-            ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid.getFluid().getName(), minSize, maxSize, replenishRate);
+            ITweakedPetReservoirType res = (ITweakedPetReservoirType) new PumpjackHandler.ReservoirType(name, fluid, minSize, maxSize, replenishRate);
 
             res.setDrainChance(drainChance.floatValue());
             res.setPumpSpeed(pumpSpeed);
@@ -87,7 +98,7 @@ public class FluidReservoir extends VirtualizedReservoirRegistry<
         @Override public FluidReservoirBuilder toBuilder() {
             remove(this);
             FluidReservoirBuilder builder = super.toBuilder();
-            builder.fluid(new FluidStack(getReservoirType().getFluid(), 1000));
+            builder.fluid(getStringFluid());
             return builder;
         }
 
