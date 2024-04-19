@@ -1,21 +1,21 @@
-tweakedpetroleum.jei.reservoir.max_size= §7储层最大储量：%d mB
-tweakedpetroleum.jei.reservoir.min_size= §7储层最小储量：%d mB
-tweakedpetroleum.jei.reservoir.replenishRate= §7储层补给速率: %d mB/t
-tweakedpetroleum.jei.reservoir.speed= §7储层抽取速率: %d mB/t
+tweakedpetroleum.jei.reservoir.max_size=储层最大储量：%d mB
+tweakedpetroleum.jei.reservoir.min_size=储层最小储量：%d mB
+tweakedpetroleum.jei.reservoir.replenishRate=储层补给速率: %d mB/t
+tweakedpetroleum.jei.reservoir.speed=储层抽取速率: %d mB/t
 
-tweakedpetroleum.jei.reservoir.average= §7储层平均产量：%d mB
-tweakedpetroleum.jei.reservoir.average.time= §7储层将会在平均多少minecraft天耗尽：%d
-tweakedpetroleum.jei.reservoir.contents= §7这个储层包含：%d
+tweakedpetroleum.jei.reservoir.average=储层平均产量：%d mB
+tweakedpetroleum.jei.reservoir.average.time=储层将会在平均多少minecraft天耗尽：%d
+tweakedpetroleum.jei.reservoir.contents=这个储层包含：%d
 
 tweakedpetroleum.jei.reservoir.weight=储层生成权重 %d
 
 tweakedpetroleum.jei.reservoir.biomes=生物群系
-tweakedpetroleum.jei.reservoir.biome_whitelist= §7生物群系白名单：%d
-tweakedpetroleum.jei.reservoir.biome_blacklist= §7生物群系黑名单：%d
+tweakedpetroleum.jei.reservoir.biome_whitelist=生物群系白名单：%d
+tweakedpetroleum.jei.reservoir.biome_blacklist=生物群系黑名单：%d
 
 tweakedpetroleum.jei.reservoir.dimensions=维度
-tweakedpetroleum.jei.reservoir.dimension_whitelist= §7维度白名单：%d
-tweakedpetroleum.jei.reservoir.dimension_blacklist= §7维度黑名单：%d
+tweakedpetroleum.jei.reservoir.dimension_whitelist=维度白名单：%d
+tweakedpetroleum.jei.reservoir.dimension_blacklist=维度黑名单：%d
 
 tweakedpetroleum.jei.reservoir.lshift=按住LSHIFT查看更多信息
 
