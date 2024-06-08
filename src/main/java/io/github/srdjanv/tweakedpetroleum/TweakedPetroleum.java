@@ -19,8 +19,9 @@ import org.apache.logging.log4j.Logger;
         version = TweakedPetroleum.VERSION,
         name = "Tweaked Petroleum",
         dependencies = "required-after:immersivepetroleum;" +
-                "required-after:crafttweaker;" +
-                "required-after:tweakedlib@[" + Tags.TWEAKED_LIB_VERSION + ",)")
+                       "after:crafttweaker;" +
+                       "after:groovyscript;" +
+                       "required-after:tweakedlib@[" + Tags.TWEAKED_LIB_VERSION + ",)")
 public class TweakedPetroleum {
 
     public static final String MODID = "tweakedpetroleum";
