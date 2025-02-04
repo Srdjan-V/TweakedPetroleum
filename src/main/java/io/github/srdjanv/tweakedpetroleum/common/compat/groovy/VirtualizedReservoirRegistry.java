@@ -6,7 +6,6 @@ import com.cleanroommc.groovyscript.helper.Alias;
 import com.cleanroommc.groovyscript.helper.recipe.IRecipeBuilder;
 import com.cleanroommc.groovyscript.registry.VirtualizedRegistry;
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
-import groovyjarjarantlr4.v4.runtime.misc.IntegerList;
 import io.github.srdjanv.tweakedlib.api.powertier.PowerTier;
 import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
