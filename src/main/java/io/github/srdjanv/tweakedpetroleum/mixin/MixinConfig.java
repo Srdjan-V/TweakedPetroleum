@@ -1,6 +1,7 @@
 package io.github.srdjanv.tweakedpetroleum.mixin;
 
 import flaxbeard.immersivepetroleum.api.crafting.PumpjackHandler;
+import io.github.srdjanv.tweakedpetroleum.api.crafting.TweakedPumpjackHandler;
 import io.github.srdjanv.tweakedpetroleum.api.mixins.ITweakedPetReservoirType;
 import io.github.srdjanv.tweakedpetroleum.common.Configs;
 import io.github.srdjanv.tweakedpetroleum.common.DefaultReservoirs;
@@ -27,6 +28,7 @@ public abstract class MixinConfig {
         final DefaultReservoirs instance = DefaultReservoirs.getInstance();
         tweakedPetReservoirType.setPowerTier(instance.defaultPowerTier());
         tweakedPetReservoirType.setPumpSpeed(instance.defaultPumpSpeed());
+        tweakedPetReservoirType.setReservoirContent(TweakedPumpjackHandler.ReservoirContent.LIQUID);
         return res;
     }
 }
